@@ -1,10 +1,10 @@
 // src/components/navbar/NavigationMenu.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { NavItem } from '@/types';
-import Dropdown from './Dropdown';
+import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { NavItem } from "@/types";
+import Dropdown from "./Dropdown";
 
 interface NavigationMenuProps {
   items: NavItem[];
@@ -23,20 +23,22 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
   onDropdownClose,
   isMobile = false,
   onMobileMenuClose,
-  clickedDropdown
+  clickedDropdown,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleItemClick = (item: NavItem, event: React.MouseEvent) => {
-    if (item.hasDropdown) {
-      event.preventDefault(); // Prevent navigation
-      event.stopPropagation(); // Prevent event bubbling
+    if (item.hasDropdown && isMobile) {
+      event.preventDefault();
+      event.stopPropagation();
       onDropdownToggle(item.label);
-    } else if (isMobile && onMobileMenuClose) {
+    } else if (!item.hasDropdown && isMobile && onMobileMenuClose) {
       onMobileMenuClose();
     }
   };
 
   const handleDropdownItemClick = () => {
-    // Close dropdown when any internal option is selected
     onDropdownClose();
     if (isMobile && onMobileMenuClose) {
       onMobileMenuClose();
@@ -44,172 +46,250 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
   };
 
   const handleMouseEnter = (item: NavItem) => {
-    // Only auto-open on hover if it's not already clicked open
-    if (item.hasDropdown && clickedDropdown !== item.label) {
+    if (!isMobile && item.hasDropdown) {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      setHoveredItem(item.label);
       onDropdownToggle(item.label);
     }
   };
 
   const handleMouseLeave = (item: NavItem) => {
-    // Only auto-close on mouse leave if it was opened by hover, not click
-    if (item.hasDropdown && clickedDropdown !== item.label) {
-      setTimeout(() => onDropdownClose(), 150);
+    if (!isMobile && item.hasDropdown) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredItem(null);
+        onDropdownClose();
+      }, 150);
     }
   };
 
-  const getCyberLinkClasses = (item: NavItem) => {
-    const isSpecialItem = item.label === 'Services' || item.label === 'Popular';
-    const isActive = activeDropdown === item.label;
-    
-    if (isMobile) {
-      return `flex-1 font-medium py-3 px-4 rounded-lg transition-all duration-300 ${
-        isSpecialItem 
-          ? `text-cyan-400 hover:text-cyan-300 hover:bg-cyan-400/10 ${isActive ? 'bg-cyan-400/20 text-cyan-300' : ''}` 
-          : `text-penta-cream hover:text-penta-gold hover:bg-penta-gold/10 ${isActive ? 'bg-penta-gold/20 text-penta-gold' : ''}`
-      }`;
+  const handleDropdownMouseEnter = () => {
+    if (!isMobile && hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
     }
-    
-    return `flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 relative group cursor-pointer ${
-      isSpecialItem 
-        ? `text-cyan-400 hover:text-cyan-300 ${isActive ? 'text-cyan-300 bg-cyan-400/10' : ''}` 
-        : `text-penta-cream hover:text-penta-gold ${isActive ? 'text-penta-gold bg-penta-gold/10' : ''}`
-    }`;
+  };
+
+  const handleDropdownMouseLeave = () => {
+    if (!isMobile) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredItem(null);
+        onDropdownClose();
+      }, 150);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const getNavItemClasses = (item: NavItem) => {
+    const isActive = activeDropdown === item.label || hoveredItem === item.label;
+    const isSpecialItem = item.label === "Services" || item.label === "Popular";
+
+    if (isMobile) {
+      return `
+        flex items-center justify-between w-full 
+        font-medium py-4 px-5 rounded-xl 
+        transition-all duration-300 transform hover:scale-[1.02] 
+        border border-transparent
+        ${isSpecialItem
+          ? `text-cyan-300 bg-gradient-to-r from-cyan-500/20 to-cyan-400/20 
+             hover:from-cyan-500/30 hover:to-cyan-400/30 hover:text-cyan-200
+             border-cyan-400/30 shadow-lg shadow-cyan-500/20
+             ${isActive ? "from-cyan-500/40 to-cyan-400/40 text-cyan-100 border-cyan-300/50" : ""}`
+          : `text-yellow-200 bg-gradient-to-r from-yellow-500/20 to-yellow-400/20 
+             hover:from-yellow-500/30 hover:to-yellow-400/30 hover:text-yellow-100
+             border-yellow-400/30 shadow-lg shadow-yellow-500/20
+             ${isActive ? "from-yellow-500/40 to-yellow-400/40 text-yellow-50 border-yellow-300/50" : ""}`
+        }
+      `.replace(/\s+/g, ' ').trim();
+    }
+
+    return `
+      flex items-center space-x-2 px-5 py-3 rounded-xl 
+      font-medium transition-all duration-300 relative group cursor-pointer 
+      transform hover:scale-105 border border-transparent
+      ${isSpecialItem
+        ? `text-cyan-300 hover:text-cyan-200 
+           hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-cyan-400/20
+           hover:border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-500/25
+           ${isActive 
+             ? "text-cyan-200 bg-gradient-to-r from-cyan-500/30 to-cyan-400/30 border-cyan-400/40 shadow-lg shadow-cyan-400/30" 
+             : ""
+           }`
+        : `text-yellow-200 hover:text-yellow-100 
+           hover:bg-gradient-to-r hover:from-yellow-500/20 hover:to-yellow-400/20
+           hover:border-yellow-400/30 hover:shadow-lg hover:shadow-yellow-500/25
+           ${isActive 
+             ? "text-yellow-100 bg-gradient-to-r from-yellow-500/30 to-yellow-400/30 border-yellow-400/40 shadow-lg shadow-yellow-400/30" 
+             : ""
+           }`
+      }
+    `.replace(/\s+/g, ' ').trim();
   };
 
   if (isMobile) {
     return (
-      <div className="px-4 py-6 space-y-3">
-        {items.map((item) => (
-          <div key={item.label} className="space-y-2">
-            <div className="flex items-center justify-between bg-penta-charcoal/30 rounded-lg p-1">
-              {item.hasDropdown ? (
-                <button
-                  className={getCyberLinkClasses(item)}
-                  onClick={(e) => handleItemClick(item, e)}
-                  type="button"
-                >
-                  <div className="flex items-center space-x-2">
-                    {item.icon && (
-                      <span className="text-sm opacity-80">{item.icon}</span>
-                    )}
-                    <span>{item.label}</span>
-                  </div>
-                </button>
-              ) : (
-                <Link
-                  href={item.href}
-                  className={getCyberLinkClasses(item)}
-                  onClick={(e) => handleItemClick(item, e)}
-                >
-                  <div className="flex items-center space-x-2">
-                    {item.icon && (
-                      <span className="text-sm opacity-80">{item.icon}</span>
-                    )}
-                    <span>{item.label}</span>
-                  </div>
-                </Link>
-              )}
-              
-              {item.hasDropdown && (
-                <button
-                  onClick={(e) => handleItemClick(item, e)}
-                  className="p-2 text-penta-cream hover:text-penta-gold rounded-lg hover:bg-penta-gold/10 transition-all duration-300"
-                  aria-label={`Toggle ${item.label} submenu`}
-                  type="button"
-                >
-                  <svg
-                    className={`w-4 h-4 transition-transform duration-300 ${
-                      activeDropdown === item.label ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+      <div className="w-full h-full bg-gray-900/95 backdrop-blur-md">
+        <div className="px-6 py-8 space-y-4 max-h-screen overflow-y-auto">
+          {items.map((item) => (
+            <div key={item.label} className="space-y-3">
+              <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-3 border border-gray-700/50 shadow-xl">
+                {item.hasDropdown ? (
+                  <button
+                    className={getNavItemClasses(item)}
+                    onClick={(e) => handleItemClick(item, e)}
+                    type="button"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                    <div className="flex items-center space-x-3">
+                      {item.icon && (
+                        <span className="text-xl opacity-90 group-hover:opacity-100 transition-opacity">
+                          {item.icon}
+                        </span>
+                      )}
+                      <span className="text-lg font-semibold">{item.label}</span>
+                    </div>
+                    <svg
+                      className={`w-5 h-5 transition-all duration-300 ${
+                        activeDropdown === item.label ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={getNavItemClasses(item)}
+                    onClick={(e) => handleItemClick(item, e)}
+                  >
+                    <div className="flex items-center space-x-3">
+                      {item.icon && (
+                        <span className="text-xl opacity-90 group-hover:opacity-100 transition-opacity">
+                          {item.icon}
+                        </span>
+                      )}
+                      <span className="text-lg font-semibold">{item.label}</span>
+                    </div>
+                  </Link>
+                )}
+              </div>
+
+              {/* Mobile Dropdown */}
+              {item.hasDropdown && (
+                <div className={`
+                  transition-all duration-300 overflow-hidden
+                  ${activeDropdown === item.label 
+                    ? 'max-h-96 opacity-100' 
+                    : 'max-h-0 opacity-0'
+                  }
+                `}>
+                  <Dropdown
+                    item={item}
+                    isOpen={activeDropdown === item.label}
+                    onClose={handleDropdownItemClick}
+                    isMobile={true}
+                  />
+                </div>
               )}
             </div>
-            
-            <Dropdown
-              item={item}
-              isOpen={activeDropdown === item.label}
-              onClose={handleDropdownItemClick}
-              isMobile={true}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   }
 
+  // Desktop Navigation
   return (
-    <div className="hidden lg:flex items-center space-x-1">
+    <div className="hidden lg:flex items-center space-x-2">
       {items.map((item) => (
         <div
           key={item.label}
-          className="relative dropdown-container"
+          className="relative"
           onMouseEnter={() => handleMouseEnter(item)}
           onMouseLeave={() => handleMouseLeave(item)}
         >
           {item.hasDropdown ? (
             <button
-              className={getCyberLinkClasses(item)}
-              onClick={(e) => handleItemClick(item, e)}
-              data-dropdown={item.label}
+              className={getNavItemClasses(item)}
               type="button"
               aria-expanded={activeDropdown === item.label}
               aria-haspopup="true"
             >
-              {/* Background glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-penta-gold/0 via-penta-gold/5 to-penta-gold/0 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
-              
+              {/* Premium glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm" />
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-yellow-400/10 to-yellow-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
               <div className="flex items-center space-x-2 relative z-10">
                 {item.icon && (
-                  <span className="text-sm opacity-80 group-hover:opacity-100 transition-opacity">
+                  <span className="text-sm opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
                     {item.icon}
                   </span>
                 )}
-                <span>{item.label}</span>
+                <span className="font-semibold">{item.label}</span>
               </div>
-              
+
               <svg
                 className={`w-4 h-4 transition-all duration-300 relative z-10 ${
-                  activeDropdown === item.label ? 'rotate-180 text-penta-gold' : ''
+                  activeDropdown === item.label
+                    ? "rotate-180 text-yellow-300"
+                    : ""
                 }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
           ) : (
-            <Link
-              href={item.href}
-              className={getCyberLinkClasses(item)}
-            >
-              {/* Background glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-penta-gold/0 via-penta-gold/5 to-penta-gold/0 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
-              
+            <Link href={item.href} className={getNavItemClasses(item)}>
+              {/* Premium glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm" />
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-yellow-400/10 to-yellow-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
               <div className="flex items-center space-x-2 relative z-10">
                 {item.icon && (
-                  <span className="text-sm opacity-80 group-hover:opacity-100 transition-opacity">
+                  <span className="text-sm opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
                     {item.icon}
                   </span>
                 )}
-                <span>{item.label}</span>
+                <span className="font-semibold">{item.label}</span>
               </div>
             </Link>
           )}
 
-          <Dropdown
-            item={item}
-            isOpen={activeDropdown === item.label}
-            onClose={handleDropdownItemClick}
-            isMobile={false}
-            isClickedOpen={clickedDropdown === item.label}
-          />
+          {/* Desktop Dropdown */}
+          <div
+            onMouseEnter={handleDropdownMouseEnter}
+            onMouseLeave={handleDropdownMouseLeave}
+          >
+            <Dropdown
+              item={item}
+              isOpen={activeDropdown === item.label}
+              onClose={handleDropdownItemClick}
+              isMobile={false}
+              isClickedOpen={clickedDropdown === item.label}
+            />
+          </div>
         </div>
       ))}
     </div>
