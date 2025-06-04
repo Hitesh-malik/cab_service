@@ -7,6 +7,8 @@ import { ThemedInput } from '@/components/UI/ThemedInput';
 import { ThemedSelect } from '@/components/UI/ThemedSelect';
 import { BookingFormData } from '@/types/booking';
 import { CITIES, PACKAGES } from '@/constants/booking';
+import { ThemedTimePicker } from '../UI/ThemedTimePicker';
+import { ThemedDatePicker } from '../UI/ThemedDatePicker';
 
 interface LocalFormProps {
   bookingData: BookingFormData;
@@ -86,7 +88,7 @@ export const LocalForm: React.FC<LocalFormProps> = ({
         >
           DATE 📅
         </label>
-        <ThemedInput
+        <ThemedDatePicker
           value={bookingData.date}
           onChange={(e) => onInputChange('date', e.target.value)}
           error={errors.date}
@@ -103,7 +105,7 @@ export const LocalForm: React.FC<LocalFormProps> = ({
         >
           TIME ⏰
         </label>
-        <ThemedInput
+        <ThemedTimePicker
           value={bookingData.time}
           onChange={(e) => onInputChange('time', e.target.value)}
           error={errors.time}

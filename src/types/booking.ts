@@ -1,4 +1,4 @@
-// src/types/booking.ts
+// src/types/booking.ts (Updated to include return date)
 export type ServiceType = 'OUTSTATION' | 'LOCAL' | 'AIRPORT';
 export type TripType = 'ONEWAY' | 'ROUNDWAY';
 export type PickupDropType = 'PICKUP' | 'DROP';
@@ -16,11 +16,5 @@ export interface BookingFormData {
   date: string;
   time: string;
   pickupTime: string;
-}
-
-export interface QuickInquiryData {
-  name: string;
-  mobile: string;
-  email: string;
-  message: string;
+  returnDate?: string; // New field for round trip return date
 }
