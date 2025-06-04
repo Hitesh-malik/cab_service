@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { theme, themeVariants } from '@/styles/theme';
 
 type ServiceType = 'OUTSTATION' | 'LOCAL' | 'AIRPORT';
 type TripType = 'ONEWAY' | 'ROUNDWAY';
@@ -163,17 +164,137 @@ const BookingWidget: React.FC = () => {
     }
   };
 
+  // Styled input component using theme
+  const ThemedInput = ({ 
+    type = 'text', 
+    placeholder, 
+    value, 
+    onChange, 
+    error,
+    className = ''
+  }: {
+    type?: string;
+    placeholder?: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error?: string;
+    className?: string;
+  }) => (
+    <div className={className}>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full p-3 rounded-lg transition-all duration-300 outline-none"
+        style={{
+          backgroundColor: theme.colors.background.card,
+          color: theme.colors.text.primary,
+          border: `2px solid ${error ? theme.colors.status.error : theme.colors.border.muted}`,
+          fontFamily: theme.typography.fontFamily.sans.join(', '),
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = theme.colors.accent.gold;
+          e.currentTarget.style.boxShadow = `0 0 0 3px ${theme.colors.border.goldLight}`;
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = error ? theme.colors.status.error : theme.colors.border.muted;
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      />
+      {error && (
+        <p 
+          className="text-sm mt-1"
+          style={{ color: theme.colors.status.error }}
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+
+  // Styled select component using theme
+  const ThemedSelect = ({ 
+    value, 
+    onChange, 
+    options, 
+    placeholder, 
+    error,
+    className = ''
+  }: {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    options: string[];
+    placeholder: string;
+    error?: string;
+    className?: string;
+  }) => (
+    <div className={className}>
+      <select
+        value={value}
+        onChange={onChange}
+        className="w-full p-3 rounded-lg transition-all duration-300 outline-none"
+        style={{
+          backgroundColor: theme.colors.background.card,
+          color: theme.colors.text.primary,
+          border: `2px solid ${error ? theme.colors.status.error : theme.colors.border.muted}`,
+          fontFamily: theme.typography.fontFamily.sans.join(', '),
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = theme.colors.accent.gold;
+          e.currentTarget.style.boxShadow = `0 0 0 3px ${theme.colors.border.goldLight}`;
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = error ? theme.colors.status.error : theme.colors.border.muted;
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+      {error && (
+        <p 
+          className="text-sm mt-1"
+          style={{ color: theme.colors.status.error }}
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+
+  // Service tabs component
   const renderServiceTabs = () => (
-    <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
+    <div 
+      className="flex rounded-lg p-1 mb-6"
+      style={{
+        backgroundColor: theme.colors.background.secondary,
+      }}
+    >
       {(['OUTSTATION', 'LOCAL', 'AIRPORT'] as ServiceType[]).map((service) => (
         <button
           key={service}
           onClick={() => setActiveService(service)}
-          className={`flex-1 py-3 px-4 rounded-md font-semibold transition-all duration-300 ${
-            activeService === service
-              ? 'bg-cyan-500 text-white shadow-md'
-              : 'text-gray-600 hover:text-gray-800'
-          }`}
+          className="flex-1 py-3 px-4 rounded-md font-semibold transition-all duration-300"
+          style={{
+            backgroundColor: activeService === service ? theme.colors.accent.gold : 'transparent',
+            color: activeService === service ? theme.colors.primary.black : theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.semibold,
+            boxShadow: activeService === service ? `0 4px 12px ${theme.colors.shadow.gold}` : 'none',
+          }}
+          onMouseEnter={(e) => {
+            if (activeService !== service) {
+              e.currentTarget.style.color = theme.colors.text.primary;
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeService !== service) {
+              e.currentTarget.style.color = theme.colors.text.secondary;
+            }
+          }}
         >
           {service}
           {service === 'AIRPORT' && <span className="ml-1">✈️</span>}
@@ -182,82 +303,144 @@ const BookingWidget: React.FC = () => {
     </div>
   );
 
+  // Tab component for trip types and pickup/drop
+  const TabGroup = ({ 
+    options, 
+    activeOption, 
+    onOptionChange 
+  }: {
+    options: string[];
+    activeOption: string;
+    onOptionChange: (option: any) => void;
+  }) => (
+    <div 
+      className="flex rounded-lg p-1 mb-4"
+      style={{
+        backgroundColor: theme.colors.background.secondary,
+      }}
+    >
+      {options.map((option) => (
+        <button
+          key={option}
+          onClick={() => onOptionChange(option)}
+          className="flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300"
+          style={{
+            backgroundColor: activeOption === option ? theme.colors.accent.gold : 'transparent',
+            color: activeOption === option ? theme.colors.primary.black : theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.semibold,
+          }}
+          onMouseEnter={(e) => {
+            if (activeOption !== option) {
+              e.currentTarget.style.color = theme.colors.text.primary;
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeOption !== option) {
+              e.currentTarget.style.color = theme.colors.text.secondary;
+            }
+          }}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+
   const renderAirportForm = () => (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 className="font-bold text-gray-800 mb-4">RELIABLE AIRPORT PICKUPS & DROPS</h3>
-        <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
-          {(['PICKUP', 'DROP'] as PickupDropType[]).map((type) => (
-            <button
-              key={type}
-              onClick={() => setActivePickupDrop(type)}
-              className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 ${
-                activePickupDrop === type
-                  ? 'bg-cyan-500 text-white'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
+        <h3 
+          className="font-bold mb-4"
+          style={{
+            color: theme.colors.text.primary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontSize: theme.typography.fontSize.lg,
+            fontWeight: theme.typography.fontWeight.bold,
+          }}
+        >
+          RELIABLE AIRPORT PICKUPS & DROPS
+        </h3>
+        <TabGroup 
+          options={['PICKUP', 'DROP']}
+          activeOption={activePickupDrop}
+          onOptionChange={setActivePickupDrop}
+        />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">AIRPORT</label>
-        <select
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          AIRPORT
+        </label>
+        <ThemedSelect
           value={bookingData.airport}
           onChange={(e) => handleBookingInputChange('airport', e.target.value)}
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-            errors.airport ? 'border-red-500' : 'border-gray-300'
-          }`}
-        >
-          <option value="">Select Airport or City</option>
-          {airports.map((airport) => (
-            <option key={airport} value={airport}>{airport}</option>
-          ))}
-        </select>
-        {errors.airport && <p className="text-red-500 text-sm mt-1">{errors.airport}</p>}
+          options={airports}
+          placeholder="Select Airport or City"
+          error={errors.airport}
+        />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">DROP ADDRESS</label>
-        <input
-          type="text"
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          DROP ADDRESS
+        </label>
+        <ThemedInput
+          placeholder="Select Your Location"
           value={bookingData.dropAddress}
           onChange={(e) => handleBookingInputChange('dropAddress', e.target.value)}
-          placeholder="Select Your Location"
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-            errors.dropAddress ? 'border-red-500' : 'border-gray-300'
-          }`}
+          error={errors.dropAddress}
         />
-        {errors.dropAddress && <p className="text-red-500 text-sm mt-1">{errors.dropAddress}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">DATE 📅</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            DATE 📅
+          </label>
+          <ThemedInput
             value={bookingData.date}
             onChange={(e) => handleBookingInputChange('date', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.date ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.date}
           />
-          {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">TIME ⏰</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            TIME ⏰
+          </label>
+          <ThemedInput
             value={bookingData.time}
             onChange={(e) => handleBookingInputChange('time', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.time ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.time}
           />
-          {errors.time && <p className="text-red-500 text-sm mt-1">{errors.time}</p>}
         </div>
       </div>
     </div>
@@ -266,89 +449,111 @@ const BookingWidget: React.FC = () => {
   const renderOutstationForm = () => (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 className="font-bold text-gray-800 mb-4">INDIA'S PREMIER INTERCITY CABS</h3>
-        <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
-          {(['ONEWAY', 'ROUNDWAY'] as TripType[]).map((type) => (
-            <button
-              key={type}
-              onClick={() => setActiveTripType(type)}
-              className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 ${
-                activeTripType === type
-                  ? 'bg-cyan-500 text-white'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
+        <h3 
+          className="font-bold mb-4"
+          style={{
+            color: theme.colors.text.primary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontSize: theme.typography.fontSize.lg,
+            fontWeight: theme.typography.fontWeight.bold,
+          }}
+        >
+          INDIA'S PREMIER INTERCITY CABS
+        </h3>
+        <TabGroup 
+          options={['ONEWAY', 'ROUNDWAY']}
+          activeOption={activeTripType}
+          onOptionChange={setActiveTripType}
+        />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">FROM</label>
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          FROM
+        </label>
         <div className="relative">
-          <select
+          <ThemedSelect
             value={bookingData.from}
             onChange={(e) => handleBookingInputChange('from', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.from ? 'border-red-500' : 'border-gray-300'
-            }`}
-          >
-            <option value="">Select City</option>
-            {cities.map((city) => (
-              <option key={city} value={city}>{city}</option>
-            ))}
-          </select>
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            options={cities}
+            placeholder="Select City"
+            error={errors.from}
+          />
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+            <svg 
+              className="w-5 h-5" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              style={{ color: theme.colors.text.muted }}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
             </svg>
           </div>
         </div>
-        {errors.from && <p className="text-red-500 text-sm mt-1">{errors.from}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">TO</label>
-        <select
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          TO
+        </label>
+        <ThemedSelect
           value={bookingData.to}
           onChange={(e) => handleBookingInputChange('to', e.target.value)}
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-            errors.to ? 'border-red-500' : 'border-gray-300'
-          }`}
-        >
-          <option value="">Select City</option>
-          {cities.map((city) => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-        {errors.to && <p className="text-red-500 text-sm mt-1">{errors.to}</p>}
+          options={cities}
+          placeholder="Select City"
+          error={errors.to}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">DATE 📅</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            DATE 📅
+          </label>
+          <ThemedInput
             value={bookingData.date}
             onChange={(e) => handleBookingInputChange('date', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.date ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.date}
           />
-          {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">PICKUP TIME ⏰</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            PICKUP TIME ⏰
+          </label>
+          <ThemedInput
             value={bookingData.pickupTime}
             onChange={(e) => handleBookingInputChange('pickupTime', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.pickupTime ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.pickupTime}
           />
-          {errors.pickupTime && <p className="text-red-500 text-sm mt-1">{errors.pickupTime}</p>}
         </div>
       </div>
     </div>
@@ -357,67 +562,93 @@ const BookingWidget: React.FC = () => {
   const renderLocalForm = () => (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 className="font-bold text-gray-800 mb-4">HOURLY RENTALS WITHIN THE CITY</h3>
+        <h3 
+          className="font-bold mb-4"
+          style={{
+            color: theme.colors.text.primary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontSize: theme.typography.fontSize.lg,
+            fontWeight: theme.typography.fontWeight.bold,
+          }}
+        >
+          HOURLY RENTALS WITHIN THE CITY
+        </h3>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">CITY</label>
-        <select
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          CITY
+        </label>
+        <ThemedSelect
           value={bookingData.city}
           onChange={(e) => handleBookingInputChange('city', e.target.value)}
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-            errors.city ? 'border-red-500' : 'border-gray-300'
-          }`}
-        >
-          <option value="">Select City</option>
-          {cities.map((city) => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-        {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+          options={cities}
+          placeholder="Select City"
+          error={errors.city}
+        />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600 mb-2">PACKAGE</label>
-        <select
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.medium,
+          }}
+        >
+          PACKAGE
+        </label>
+        <ThemedSelect
           value={bookingData.package}
           onChange={(e) => handleBookingInputChange('package', e.target.value)}
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-            errors.package ? 'border-red-500' : 'border-gray-300'
-          }`}
-        >
-          <option value="">Select Package</option>
-          {packages.map((pkg) => (
-            <option key={pkg} value={pkg}>{pkg}</option>
-          ))}
-        </select>
-        {errors.package && <p className="text-red-500 text-sm mt-1">{errors.package}</p>}
+          options={packages}
+          placeholder="Select Package"
+          error={errors.package}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">DATE 📅</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            DATE 📅
+          </label>
+          <ThemedInput
             value={bookingData.date}
             onChange={(e) => handleBookingInputChange('date', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.date ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.date}
           />
-          {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">TIME ⏰</label>
-          <input
-            type="text"
+          <label 
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            TIME ⏰
+          </label>
+          <ThemedInput
             value={bookingData.time}
             onChange={(e) => handleBookingInputChange('time', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.time ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.time}
           />
-          {errors.time && <p className="text-red-500 text-sm mt-1">{errors.time}</p>}
         </div>
       </div>
     </div>
@@ -426,7 +657,14 @@ const BookingWidget: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto p-6">
       {/* Booking Form */}
-      <div className="flex-1 bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+      <div 
+        className="flex-1 rounded-2xl p-6 border"
+        style={{
+          backgroundColor: theme.colors.background.card,
+          borderColor: theme.colors.border.goldLight,
+          boxShadow: `0 8px 32px ${theme.colors.shadow.elevated}`,
+        }}
+      >
         {renderServiceTabs()}
         
         {activeService === 'AIRPORT' && renderAirportForm()}
@@ -436,11 +674,36 @@ const BookingWidget: React.FC = () => {
         <button
           onClick={handleSearchCabs}
           disabled={isSubmitting}
-          className="w-full mt-6 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-6 py-4 px-6 rounded-lg font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            background: theme.gradients.gold,
+            color: theme.colors.primary.black,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontWeight: theme.typography.fontWeight.bold,
+            boxShadow: `0 4px 20px ${theme.colors.shadow.gold}`,
+          }}
+          onMouseEnter={(e) => {
+            if (!isSubmitting) {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!isSubmitting) {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.gold}`;
+            }
+          }}
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center space-x-2">
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div 
+                className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"
+                style={{ 
+                  borderColor: theme.colors.primary.black,
+                  borderTopColor: 'transparent'
+                }}
+              />
               <span>Searching...</span>
             </span>
           ) : (
@@ -450,72 +713,134 @@ const BookingWidget: React.FC = () => {
       </div>
 
       {/* Quick Inquiry Form */}
-      <div className="w-full lg:w-80 bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+      <div 
+        className="w-full lg:w-80 rounded-2xl p-6 border"
+        style={{
+          backgroundColor: theme.colors.background.card,
+          borderColor: theme.colors.border.goldLight,
+          boxShadow: `0 8px 32px ${theme.colors.shadow.elevated}`,
+        }}
+      >
         <div className="text-center mb-6">
-          <h3 className="font-bold text-gray-800 mb-2">Quick Inquiry for Booking</h3>
-          <a href="tel:9157576555" className="text-cyan-500 font-bold text-lg hover:text-cyan-600 transition-colors">
+          <h3 
+            className="font-bold mb-2"
+            style={{
+              color: theme.colors.text.primary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.bold,
+            }}
+          >
+            Quick Inquiry for Booking
+          </h3>
+          <a 
+            href="tel:9157576555" 
+            className="font-bold text-lg transition-colors"
+            style={{
+              color: theme.colors.accent.gold,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.bold,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = theme.colors.accent.warmGold;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = theme.colors.accent.gold;
+            }}
+          >
             📞 9157576555
           </a>
         </div>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
-            <input
-              type="text"
+            <ThemedInput
               placeholder="Name"
               value={inquiryData.name}
               onChange={(e) => handleInquiryInputChange('name', e.target.value)}
-              className={`p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-                errors.name ? 'border-red-500' : 'border-gray-300'
-              }`}
+              error={errors.name}
             />
-            <input
+            <ThemedInput
               type="tel"
               placeholder="Mobile"
               value={inquiryData.mobile}
               onChange={(e) => handleInquiryInputChange('mobile', e.target.value)}
-              className={`p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-                errors.mobile ? 'border-red-500' : 'border-gray-300'
-              }`}
+              error={errors.mobile}
             />
           </div>
-          {(errors.name || errors.mobile) && (
-            <div className="text-red-500 text-sm">
-              {errors.name && <p>{errors.name}</p>}
-              {errors.mobile && <p>{errors.mobile}</p>}
-            </div>
-          )}
 
-          <input
+          <ThemedInput
             type="email"
             placeholder="Email Address"
             value={inquiryData.email}
             onChange={(e) => handleInquiryInputChange('email', e.target.value)}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
-              errors.email ? 'border-red-500' : 'border-gray-300'
-            }`}
+            error={errors.email}
           />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-          <textarea
-            placeholder="Message"
-            value={inquiryData.message}
-            onChange={(e) => handleInquiryInputChange('message', e.target.value)}
-            rows={4}
-            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none ${
-              errors.message ? 'border-red-500' : 'border-gray-300'
-            }`}
-          />
-          {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+          <div>
+            <textarea
+              placeholder="Message"
+              value={inquiryData.message}
+              onChange={(e) => handleInquiryInputChange('message', e.target.value)}
+              rows={4}
+              className="w-full p-3 rounded-lg transition-all duration-300 outline-none resize-none"
+              style={{
+                backgroundColor: theme.colors.background.card,
+                color: theme.colors.text.primary,
+                border: `2px solid ${errors.message ? theme.colors.status.error : theme.colors.border.muted}`,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = theme.colors.accent.gold;
+                e.currentTarget.style.boxShadow = `0 0 0 3px ${theme.colors.border.goldLight}`;
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = errors.message ? theme.colors.status.error : theme.colors.border.muted;
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+            {errors.message && (
+              <p 
+                className="text-sm mt-1"
+                style={{ color: theme.colors.status.error }}
+              >
+                {errors.message}
+              </p>
+            )}
+          </div>
 
           <button
             onClick={handleSendInquiry}
             disabled={isSubmitting}
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-6 rounded-lg font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              background: theme.gradients.gold,
+              color: theme.colors.primary.black,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontWeight: theme.typography.fontWeight.bold,
+              boxShadow: `0 4px 20px ${theme.colors.shadow.gold}`,
+            }}
+            onMouseEnter={(e) => {
+              if (!isSubmitting) {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isSubmitting) {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.gold}`;
+              }
+            }}
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center space-x-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div 
+                  className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin"
+                  style={{ 
+                    borderColor: theme.colors.primary.black,
+                    borderTopColor: 'transparent'
+                  }}
+                />
                 <span>Sending...</span>
               </span>
             ) : (

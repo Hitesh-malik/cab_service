@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 // src/app/contact/page.tsx
 'use client';
 import React, { useState } from 'react';
+import { theme } from '@/styles/theme';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +31,7 @@ const ContactPage: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
       setSubmitStatus('success');
       setFormData({ name: '', email: '', mobile: '', message: '' });
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -38,23 +40,35 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-penta-black">
+    <div className="min-h-screen" style={{ backgroundColor: theme.colors.primary.black }}>
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-penta-gold/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-penta-amber/10 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div 
+            className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl animate-pulse"
+            style={{ backgroundColor: theme.colors.accent.gold + '10' }}
+          />
+          <div 
+            className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl animate-pulse delay-1000"
+            style={{ backgroundColor: theme.colors.secondary.amber + '10' }}
+          />
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-penta-cream leading-tight">
-              Let's connect and get to know each other
+            <h1 
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight"
+              style={{ color: theme.colors.text.primary }}
+            >
+              Let&apos;s connect and get to know each other
             </h1>
-            <p className="text-lg md:text-xl text-penta-light-gray max-w-3xl leading-relaxed">
-              We're here to make your journey exceptional. Whether you have questions about our services, 
-              need assistance with bookings, or want to share feedback, we'd love to hear from you.
+            <p 
+              className="text-lg md:text-xl max-w-3xl leading-relaxed"
+              style={{ color: theme.colors.text.secondary }}
+            >
+              We&apos;re here to make your journey exceptional. Whether you have questions about our services, 
+              need assistance with bookings, or want to share feedback, we&apos;d love to hear from you.
             </p>
           </div>
         </div>
@@ -67,21 +81,48 @@ const ContactPage: React.FC = () => {
             
             {/* Call Us */}
             <div className="group text-center animate-fade-in-up">
-              <div className="bg-gradient-dark rounded-2xl p-8 border border-penta-gold/20 hover:border-penta-gold/40 transition-all duration-300 hover:shadow-gold h-full">
+              <div 
+                className="rounded-2xl p-8 border transition-all duration-300 h-full"
+                style={{ 
+                  background: theme.gradients.primary,
+                  borderColor: theme.colors.border.gold + '20'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '40';
+                  e.currentTarget.style.boxShadow = `0 20px 40px ${theme.colors.shadow.gold}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '20';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-penta-cream mb-4 group-hover:text-penta-gold transition-colors duration-300">
+                <h3 
+                  className="text-xl font-bold mb-4 group-hover:opacity-80 transition-colors duration-300"
+                  style={{ color: theme.colors.text.primary }}
+                >
                   Call us
                 </h3>
-                <p className="text-penta-light-gray mb-6 leading-relaxed">
+                <p 
+                  className="mb-6 leading-relaxed"
+                  style={{ color: theme.colors.text.secondary }}
+                >
                   Need immediate assistance? Our customer support team is available 24/7 to help you with bookings and inquiries.
                 </p>
                 <a 
                   href="tel:9157576555"
-                  className="inline-flex items-center space-x-2 text-penta-gold hover:text-penta-warm-gold font-semibold transition-colors duration-300"
+                  className="inline-flex items-center space-x-2 font-semibold transition-colors duration-300"
+                  style={{ color: theme.colors.accent.gold }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.colors.accent.warmGold;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.colors.accent.gold;
+                  }}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
@@ -93,21 +134,48 @@ const ContactPage: React.FC = () => {
 
             {/* Email Us */}
             <div className="group text-center animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-              <div className="bg-gradient-dark rounded-2xl p-8 border border-penta-gold/20 hover:border-penta-gold/40 transition-all duration-300 hover:shadow-gold h-full">
+              <div 
+                className="rounded-2xl p-8 border transition-all duration-300 h-full"
+                style={{ 
+                  background: theme.gradients.primary,
+                  borderColor: theme.colors.border.gold + '20'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '40';
+                  e.currentTarget.style.boxShadow = `0 20px 40px ${theme.colors.shadow.gold}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '20';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-penta-cream mb-4 group-hover:text-penta-gold transition-colors duration-300">
+                <h3 
+                  className="text-xl font-bold mb-4 group-hover:opacity-80 transition-colors duration-300"
+                  style={{ color: theme.colors.text.primary }}
+                >
                   Email us
                 </h3>
-                <p className="text-penta-light-gray mb-6 leading-relaxed">
-                  Send us detailed queries, feedback, or business inquiries. We'll get back to you within 24 hours.
+                <p 
+                  className="mb-6 leading-relaxed"
+                  style={{ color: theme.colors.text.secondary }}
+                >
+                  Send us detailed queries, feedback, or business inquiries. We&apos;ll get back to you within 24 hours.
                 </p>
                 <a 
                   href="mailto:info@pentacab.com"
-                  className="inline-flex items-center space-x-2 text-penta-gold hover:text-penta-warm-gold font-semibold transition-colors duration-300"
+                  className="inline-flex items-center space-x-2 font-semibold transition-colors duration-300"
+                  style={{ color: theme.colors.accent.gold }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.colors.accent.warmGold;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.colors.accent.gold;
+                  }}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -119,16 +187,36 @@ const ContactPage: React.FC = () => {
 
             {/* Social Media */}
             <div className="group text-center animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-              <div className="bg-gradient-dark rounded-2xl p-8 border border-penta-gold/20 hover:border-penta-gold/40 transition-all duration-300 hover:shadow-gold h-full">
+              <div 
+                className="rounded-2xl p-8 border transition-all duration-300 h-full"
+                style={{ 
+                  background: theme.gradients.primary,
+                  borderColor: theme.colors.border.gold + '20'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '40';
+                  e.currentTarget.style.boxShadow = `0 20px 40px ${theme.colors.shadow.gold}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = theme.colors.border.gold + '20';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
                 <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-penta-cream mb-4 group-hover:text-penta-gold transition-colors duration-300">
+                <h3 
+                  className="text-xl font-bold mb-4 group-hover:opacity-80 transition-colors duration-300"
+                  style={{ color: theme.colors.text.primary }}
+                >
                   Social media
                 </h3>
-                <p className="text-penta-light-gray mb-6 leading-relaxed">
+                <p 
+                  className="mb-6 leading-relaxed"
+                  style={{ color: theme.colors.text.secondary }}
+                >
                   Follow us on social media for updates, special offers, and to connect with our community.
                 </p>
                 <div className="flex justify-center space-x-3">
@@ -154,7 +242,8 @@ const ContactPage: React.FC = () => {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-10 h-10 rounded-lg bg-penta-charcoal text-white flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color}`}
+                      className={`w-10 h-10 rounded-lg text-white flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color}`}
+                      style={{ backgroundColor: theme.colors.background.tertiary }}
                       aria-label={`Follow us on ${social.name}`}
                     >
                       {social.icon}
@@ -168,7 +257,10 @@ const ContactPage: React.FC = () => {
       </section>
 
       {/* Address Section */}
-      <section className="py-16 lg:py-24 bg-penta-charcoal/30">
+      <section 
+        className="py-16 lg:py-24"
+        style={{ backgroundColor: theme.colors.background.tertiary + '30' }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -176,13 +268,22 @@ const ContactPage: React.FC = () => {
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
               </svg>
             </div>
-            <h2 className="text-3xl lg:text-4xl font-display font-bold text-penta-cream mb-6">
+            <h2 
+              className="text-3xl lg:text-4xl font-display font-bold mb-6"
+              style={{ color: theme.colors.text.primary }}
+            >
               Address
             </h2>
-            <p className="text-lg text-penta-light-gray mb-4 leading-relaxed max-w-2xl mx-auto">
+            <p 
+              className="text-lg mb-4 leading-relaxed max-w-2xl mx-auto"
+              style={{ color: theme.colors.text.secondary }}
+            >
               A-1102 Kautilya 99, Nr. Taragad Underbridge, Vaishnodevi Circle S P Ring Road Tragad, Ahmedabad City, Ahmedabad, Gujarat, 382470
             </p>
-            <p className="text-penta-gold font-medium">
+            <p 
+              className="font-medium"
+              style={{ color: theme.colors.accent.gold }}
+            >
               Visit us at our office or send mail to this address
             </p>
           </div>
@@ -203,23 +304,45 @@ const ContactPage: React.FC = () => {
                     {Array.from({ length: 16 }).map((_, i) => (
                       <div 
                         key={i} 
-                        className="w-2 h-2 bg-penta-gold rounded-full animate-pulse"
-                        style={{ animationDelay: `${i * 100}ms` }}
+                        className="w-2 h-2 rounded-full animate-pulse"
+                        style={{ 
+                          backgroundColor: theme.colors.accent.gold,
+                          animationDelay: `${i * 100}ms` 
+                        }}
                       />
                     ))}
                   </div>
                 </div>
                 
                 {/* Main illustration placeholder */}
-                <div className="bg-gradient-dark rounded-2xl p-8 lg:p-12 border border-penta-gold/20 text-center">
-                  <div className="w-32 h-32 bg-gradient-gold rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <svg className="w-16 h-16 text-penta-black" fill="currentColor" viewBox="0 0 24 24">
+                <div 
+                  className="rounded-2xl p-8 lg:p-12 border text-center"
+                  style={{ 
+                    background: theme.gradients.primary,
+                    borderColor: theme.colors.border.gold + '20'
+                  }}
+                >
+                  <div 
+                    className="w-32 h-32 rounded-full mx-auto mb-6 flex items-center justify-center"
+                    style={{ background: theme.gradients.gold }}
+                  >
+                    <svg 
+                      className="w-16 h-16" 
+                      fill="currentColor" 
+                      viewBox="0 0 24 24"
+                      style={{ color: theme.colors.primary.black }}
+                    >
                       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-penta-cream mb-4">Ready to Connect?</h3>
-                  <p className="text-penta-light-gray">
-                    We're excited to hear from you and help with all your transportation needs.
+                  <h3 
+                    className="text-2xl font-bold mb-4"
+                    style={{ color: theme.colors.text.primary }}
+                  >
+                    Ready to Connect?
+                  </h3>
+                  <p style={{ color: theme.colors.text.secondary }}>
+                    We&apos;re excited to hear from you and help with all your transportation needs.
                   </p>
                 </div>
               </div>
@@ -227,14 +350,21 @@ const ContactPage: React.FC = () => {
 
             {/* Contact Form */}
             <div className="animate-slide-in-right order-1 lg:order-2">
-              <h2 className="text-3xl lg:text-4xl font-display font-bold text-penta-cream mb-8">
+              <h2 
+                className="text-3xl lg:text-4xl font-display font-bold mb-8"
+                style={{ color: theme.colors.text.primary }}
+              >
                 Send us message
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-penta-cream mb-2">
+                    <label 
+                      htmlFor="name" 
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: theme.colors.text.primary }}
+                    >
                       Your name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -244,13 +374,28 @@ const ContactPage: React.FC = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-penta-charcoal border border-penta-gold/30 rounded-lg text-penta-cream placeholder-penta-light-gray focus:border-penta-gold focus:outline-none transition-colors duration-300"
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none transition-colors duration-300"
+                      style={{ 
+                        backgroundColor: theme.colors.background.tertiary,
+                        borderColor: theme.colors.border.gold + '30',
+                        color: theme.colors.text.primary
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.colors.border.gold;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = theme.colors.border.gold + '30';
+                      }}
                       placeholder="Enter your full name"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-penta-cream mb-2">
+                    <label 
+                      htmlFor="email" 
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: theme.colors.text.primary }}
+                    >
                       Email address <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -260,14 +405,29 @@ const ContactPage: React.FC = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-penta-charcoal border border-penta-gold/30 rounded-lg text-penta-cream placeholder-penta-light-gray focus:border-penta-gold focus:outline-none transition-colors duration-300"
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none transition-colors duration-300"
+                      style={{ 
+                        backgroundColor: theme.colors.background.tertiary,
+                        borderColor: theme.colors.border.gold + '30',
+                        color: theme.colors.text.primary
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.colors.border.gold;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = theme.colors.border.gold + '30';
+                      }}
                       placeholder="Enter your email address"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="mobile" className="block text-sm font-medium text-penta-cream mb-2">
+                  <label 
+                    htmlFor="mobile" 
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.primary }}
+                  >
                     Mobile number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -277,23 +437,18 @@ const ContactPage: React.FC = () => {
                     value={formData.mobile}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-penta-charcoal border border-penta-gold/30 rounded-lg text-penta-cream placeholder-penta-light-gray focus:border-penta-gold focus:outline-none transition-colors duration-300"
-                    placeholder="Enter your mobile number"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-penta-cream mb-2">
-                    Message <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-3 bg-penta-charcoal border border-penta-gold/30 rounded-lg text-penta-cream placeholder-penta-light-gray focus:border-penta-gold focus:outline-none transition-colors duration-300 resize-none"
+                    className="w-full px-4 py-3 border rounded-lg focus:outline-none transition-colors duration-300"
+                    style={{ 
+                      backgroundColor: theme.colors.background.tertiary,
+                      borderColor: theme.colors.border.gold + '30',
+                      color: theme.colors.text.primary
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = theme.colors.border.gold;
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = theme.colors.border.gold + '30';
+                    }}
                     placeholder="Tell us how we can help you..."
                   />
                 </div>
@@ -301,11 +456,29 @@ const ContactPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-gold text-penta-black px-8 py-4 rounded-lg font-bold hover:shadow-gold-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full px-8 py-4 rounded-lg font-bold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  style={{ 
+                    background: theme.gradients.gold,
+                    color: theme.colors.primary.black
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) {
+                      e.currentTarget.style.boxShadow = `0 20px 40px ${theme.colors.shadow.gold}`;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center space-x-2">
-                      <div className="w-5 h-5 border-2 border-penta-black border-t-transparent rounded-full animate-spin" />
+                      <div 
+                        className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"
+                        style={{ 
+                          borderColor: theme.colors.primary.black,
+                          borderTopColor: 'transparent'
+                        }}
+                      />
                       <span>Sending...</span>
                     </span>
                   ) : (
@@ -315,13 +488,27 @@ const ContactPage: React.FC = () => {
 
                 {/* Status Messages */}
                 {submitStatus === 'success' && (
-                  <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-center">
-                    Message sent successfully! We'll get back to you soon.
+                  <div 
+                    className="p-4 border rounded-lg text-center"
+                    style={{ 
+                      backgroundColor: theme.colors.status.success + '20',
+                      borderColor: theme.colors.status.success + '30',
+                      color: '#4ade80'
+                    }}
+                  >
+                    Message sent successfully! We&apos;ll get back to you soon.
                   </div>
                 )}
                 
                 {submitStatus === 'error' && (
-                  <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-center">
+                  <div 
+                    className="p-4 border rounded-lg text-center"
+                    style={{ 
+                      backgroundColor: theme.colors.status.error + '20',
+                      borderColor: theme.colors.status.error + '30',
+                      color: '#f87171'
+                    }}
+                  >
                     Something went wrong. Please try again.
                   </div>
                 )}
@@ -334,4 +521,4 @@ const ContactPage: React.FC = () => {
   );
 };
 
-export default ContactPage;
+export default ContactPage; 
