@@ -3,6 +3,7 @@
 // ==================== NAVIGATION TYPES ====================
 export interface NavItem {
   label: string;
+  description : string;
   href: string;
   hasDropdown?: boolean;
   dropdownItems?: NavItem[];
