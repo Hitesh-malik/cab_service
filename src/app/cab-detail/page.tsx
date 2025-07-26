@@ -94,7 +94,6 @@ const BookingDetailsPage: React.FC = () => {
     remark: "",
     whatsapp: false,
     gstDetails: false,
-    alternativeNumber: false,
   });
   const searchParams = useSearchParams();
 
@@ -130,6 +129,23 @@ const BookingDetailsPage: React.FC = () => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     console.log("Booking data:", bookingData);
+
+    // Combine booking data with form data and send to cab-booking page
+    const combinedData = {
+      ...bookingData,
+      ...formData,
+    };
+
+    // Convert to URL search params
+    const searchParams = new URLSearchParams();
+    Object.entries(combinedData).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== "") {
+        searchParams.append(key, value.toString());
+      }
+    });
+
+    // Navigate to cab-booking page with all data
+    window.location.href = `/cab-booking?${searchParams.toString()}`;
   };
 
   // Helper function to format trip details based on booking data
@@ -601,44 +617,23 @@ const BookingDetailsPage: React.FC = () => {
                     </label>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="gstDetails"
-                        name="gstDetails"
-                        checked={formData.gstDetails}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 rounded"
-                        style={{ accentColor: theme.colors.accent.gold }}
-                      />
-                      <label
-                        htmlFor="gstDetails"
-                        className="text-sm"
-                        style={{ color: theme.colors.text.secondary }}
-                      >
-                        GST Details
-                      </label>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="alternativeNumber"
-                        name="alternativeNumber"
-                        checked={formData.alternativeNumber}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 rounded"
-                        style={{ accentColor: theme.colors.accent.gold }}
-                      />
-                      <label
-                        htmlFor="alternativeNumber"
-                        className="text-sm"
-                        style={{ color: theme.colors.text.secondary }}
-                      >
-                        Alternative Number
-                      </label>
-                    </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="gstDetails"
+                      name="gstDetails"
+                      checked={formData.gstDetails}
+                      onChange={handleInputChange}
+                      className="w-4 h-4 rounded"
+                      style={{ accentColor: theme.colors.accent.gold }}
+                    />
+                    <label
+                      htmlFor="gstDetails"
+                      className="text-sm"
+                      style={{ color: theme.colors.text.secondary }}
+                    >
+                      GST Details
+                    </label>
                   </div>
                 </div>
 
@@ -668,46 +663,6 @@ const BookingDetailsPage: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Proceed to Booking Button */}
-        {bookingData && (
-          <div
-            className={`text-center mt-8 ${
-              isVisible ? "animate-fade-in-up animate-delay-900" : "opacity-0"
-            }`}
-          >
-            <button
-              className="font-bold py-4 px-12 rounded-xl text-lg transition-all duration-500 hover:scale-105 transform relative overflow-hidden group"
-              style={{
-                background: theme.gradients.gold,
-                color: theme.colors.primary.black,
-                fontWeight: theme.typography.fontWeight.bold,
-                boxShadow: `0 20px 60px ${theme.colors.shadow.gold}`,
-                border: `2px solid ${theme.colors.accent.lightGold}`,
-              }}
-              onClick={() => {
-                // Send all booking and cab data to /cab-booking as URL params
-                const searchParams = new URLSearchParams();
-                Object.entries(bookingData).forEach(([key, value]) => {
-                  if (value !== null && value !== undefined && value !== "") {
-                    searchParams.append(key, value.toString());
-                  }
-                });
-                window.location.href = `/cab-booking?${searchParams.toString()}`;
-              }}
-            >
-              {/* Button glow effect */}
-              <div
-                className="absolute inset-0 blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"
-                style={{
-                  background: theme.gradients.gold,
-                  transform: "scale(1.2)",
-                }}
-              />
-              <span className="relative z-10">Proceed to Booking</span>
-            </button>
-          </div>
-        )}
 
         {/* Trip Details Summary */}
         {bookingData && (

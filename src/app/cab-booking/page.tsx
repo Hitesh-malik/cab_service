@@ -684,6 +684,15 @@ const CabBookingPage = () => {
                     label: "Drop Address :",
                     value: bookingData.drop || bookingData.to,
                   },
+                  { label: "Remark :", value: bookingData.remark },
+                  {
+                    label: "WhatsApp :",
+                    value: bookingData.whatsapp === "true" ? "Yes" : "No",
+                  },
+                  {
+                    label: "GST Details :",
+                    value: bookingData.gstDetails === "true" ? "Yes" : "No",
+                  },
                 ]
                   .filter((item) => item.value)
                   .map((item, index) => (
@@ -699,6 +708,121 @@ const CabBookingPage = () => {
                       </span>
                     </div>
                   ))}
+              </div>
+
+              {/* Send Details Buttons */}
+              <div className="mt-6 space-y-3">
+                <h3
+                  className="text-lg font-bold mb-4 text-center"
+                  style={{
+                    color: "#333333",
+                    fontWeight: theme.typography.fontWeight.bold,
+                  }}
+                >
+                  Send Booking Details
+                </h3>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {/* WhatsApp Button */}
+                  <button
+                    onClick={() => {
+                      const message =
+                        `🚗 *Cab Booking Confirmation*\n\n` +
+                        `*Name:* ${bookingData.name}\n` +
+                        `*Mobile:* ${bookingData.mobile}\n` +
+                        `*Email:* ${bookingData.email}\n` +
+                        `*Route:* ${
+                          bookingData.from && bookingData.to
+                            ? `${bookingData.from} >> ${bookingData.to}`
+                            : bookingData.route
+                        }\n` +
+                        `*Date:* ${bookingData.date}\n` +
+                        `*Time:* ${
+                          bookingData.time || bookingData.pickupTime
+                        }\n` +
+                        `*Car:* ${
+                          bookingData.selectedCabName
+                            ? `${bookingData.selectedCabName} or Similar`
+                            : bookingData.car
+                        }\n` +
+                        `*Distance:* ${bookingData.estimatedDistance} Km\n` +
+                        `*Pickup:* ${
+                          bookingData.pickup || bookingData.dropAddress
+                        }\n` +
+                        `*Drop:* ${bookingData.drop || bookingData.to}\n` +
+                        `*Remark:* ${bookingData.remark || "None"}\n\n` +
+                        `*Total Amount:* ₹${
+                          bookingData.selectedCabPrice || "Calculating..."
+                        }\n\n` +
+                        `Thank you for choosing our service! 🎉`;
+
+                      const whatsappUrl = `https://wa.me/919157578555?text=${encodeURIComponent(
+                        message
+                      )}`;
+                      window.open(whatsappUrl, "_blank");
+                    }}
+                    className="flex-1 py-3 px-4 rounded-lg font-semibold text-white transition-all hover:scale-105"
+                    style={{
+                      background: "#25D366",
+                      fontWeight: theme.typography.fontWeight.semibold,
+                    }}
+                  >
+                    📱 Send via WhatsApp
+                  </button>
+
+                  {/* Email Button */}
+                  <button
+                    onClick={() => {
+                      const subject = `Cab Booking Confirmation - ${bookingData.name}`;
+                      const body =
+                        `Dear ${bookingData.name},\n\n` +
+                        `Your cab booking has been confirmed!\n\n` +
+                        `*Booking Details:*\n` +
+                        `- Name: ${bookingData.name}\n` +
+                        `- Mobile: ${bookingData.mobile}\n` +
+                        `- Email: ${bookingData.email}\n` +
+                        `- Route: ${
+                          bookingData.from && bookingData.to
+                            ? `${bookingData.from} >> ${bookingData.to}`
+                            : bookingData.route
+                        }\n` +
+                        `- Date: ${bookingData.date}\n` +
+                        `- Time: ${
+                          bookingData.time || bookingData.pickupTime
+                        }\n` +
+                        `- Car: ${
+                          bookingData.selectedCabName
+                            ? `${bookingData.selectedCabName} or Similar`
+                            : bookingData.car
+                        }\n` +
+                        `- Distance: ${bookingData.estimatedDistance} Km\n` +
+                        `- Pickup: ${
+                          bookingData.pickup || bookingData.dropAddress
+                        }\n` +
+                        `- Drop: ${bookingData.drop || bookingData.to}\n` +
+                        `- Remark: ${bookingData.remark || "None"}\n\n` +
+                        `*Total Amount:* ₹${
+                          bookingData.selectedCabPrice || "Calculating..."
+                        }\n\n` +
+                        `Thank you for choosing our service!\n\n` +
+                        `Best regards,\nMakeMyRide Team\nPhone: 9157578555\nEmail: info@makemyride.com`;
+
+                      const mailtoUrl = `mailto:${
+                        bookingData.email
+                      }?subject=${encodeURIComponent(
+                        subject
+                      )}&body=${encodeURIComponent(body)}`;
+                      window.open(mailtoUrl, "_blank");
+                    }}
+                    className="flex-1 py-3 px-4 rounded-lg font-semibold text-white transition-all hover:scale-105"
+                    style={{
+                      background: "#EA4335",
+                      fontWeight: theme.typography.fontWeight.semibold,
+                    }}
+                  >
+                    📧 Send via Email
+                  </button>
+                </div>
               </div>
             </div>
           </div>
