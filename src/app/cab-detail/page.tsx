@@ -613,7 +613,7 @@ const BookingDetailsPage: React.FC = () => {
                       className="text-sm"
                       style={{ color: theme.colors.text.secondary }}
                     >
-                      Send Details On WhatsApp
+                      Send Details On WhatsApp and Email
                     </label>
                   </div>
 
