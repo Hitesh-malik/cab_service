@@ -132,14 +132,14 @@ const CabListsContent: React.FC = () => {
 
   useEffect(() => {
     // Parse URL parameters to get booking data
-    const data: Partial<BookingFormData> = {};
+    const data: Record<string, string> = {};
 
     // Extract all URL parameters
     searchParams.forEach((value, key) => {
-      data[key as keyof BookingFormData] = value;
+      data[key] = value;
     });
 
-    setBookingData(data as BookingFormData);
+    setBookingData(data as unknown as BookingFormData);
 
     const timer = setTimeout(() => {
       setIsVisible(true);
