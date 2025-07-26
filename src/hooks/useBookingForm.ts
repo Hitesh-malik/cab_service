@@ -4,11 +4,13 @@
 
 import { useState } from 'react';
 import { BookingFormData, ServiceType, TripType, PickupDropType } from '@/types/booking';
+import { useRouter } from 'next/navigation';
 
 export const useBookingForm = () => {
   const [activeService, setActiveService] = useState<ServiceType>('AIRPORT');
   const [activeTripType, setActiveTripType] = useState<TripType>('ONEWAY');
   const [activePickupDrop, setActivePickupDrop] = useState<PickupDropType>('PICKUP');
+  const router = useRouter();
   
   const [bookingData, setBookingData] = useState<BookingFormData>({
     serviceType: 'AIRPORT',
@@ -87,20 +89,28 @@ export const useBookingForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async () => {
-    if (!validateForm()) return;
+ const handleSubmit = async () => {
+  if (!validateForm()) return;
 
-    setIsSubmitting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Booking Data:', bookingData);
-      alert('Searching for available cabs...');
-    } catch (error) {
-      console.error('Error searching cabs:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  setIsSubmitting(true);
+  try {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('Booking Data:', bookingData);
+    
+    // Convert booking data to URL search params
+    const searchParams = new URLSearchParams();
+    Object.entries(bookingData).forEach(([key, value]) => {
+      if (value) searchParams.append(key, value);
+    });
+    
+    router.push(`/cab-lists?${searchParams.toString()}`);
+
+  } catch (error) {
+    console.error('Error searching cabs:', error);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Auto-update service type and trip type when switching
   const handleServiceChange = (service: ServiceType) => {

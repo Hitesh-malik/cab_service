@@ -1,7 +1,11 @@
 // src/app/cab-lists/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Vehicle } from "@/types/index";
+import type { BookingFormData } from "@/types/booking";
+import { useRouter } from "next/navigation";
+
 
 // Theme configuration (matching HeroSection)
 const theme = {
@@ -121,13 +125,130 @@ const cabList: Vehicle[] = [
 const CabListsPage: React.FC = () => {
   const [selectedCab, setSelectedCab] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingFormData | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
+    // Parse URL parameters to get booking data
+    const data: Partial<BookingFormData> = {};
+
+    // Extract all URL parameters
+    searchParams.forEach((value, key) => {
+      data[key as keyof BookingFormData] = value;
+    });
+
+    setBookingData(data as BookingFormData);
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [searchParams]);
+
+  // Helper function to format trip details based on booking data
+  const formatTripDetails = () => {
+    if (!bookingData) return "Loading trip details...";
+
+    const {
+      serviceType,
+      tripType,
+      from,
+      to,
+      airport,
+      dropAddress,
+      city,
+      date,
+      time,
+      pickupTime,
+    } = bookingData;
+
+    let tripText = "";
+
+    if (serviceType === "AIRPORT") {
+      if (bookingData.pickupDropType === "PICKUP") {
+        tripText = `From ${airport} To ${dropAddress}`;
+      } else {
+        tripText = `From ${dropAddress} To ${airport}`;
+      }
+    } else if (serviceType === "OUTSTATION") {
+      tripText = `From ${from} To ${to}`;
+    } else if (serviceType === "LOCAL") {
+      tripText = `Local trip in ${city}`;
+    }
+
+    const displayTime = time || pickupTime || "Not specified";
+    const tripTypeText = tripType === "ROUNDWAY" ? "ROUND TRIP" : "ONEWAY TRIP";
+
+    return `${tripTypeText} | ${tripText} | On ${date} at ${displayTime}`;
+  };
+
+  // Calculate distance (mock calculation - you should replace with actual logic)
+  const calculateDistance = () => {
+    if (!bookingData) return "0";
+
+    // Mock distance calculation based on service type
+    if (bookingData.serviceType === "AIRPORT") return "45";
+    if (bookingData.serviceType === "OUTSTATION") return "535";
+    if (bookingData.serviceType === "LOCAL") return "100";
+
+    return "0";
+  };
+
+  // Calculate dynamic pricing based on booking data
+  const calculatePrice = (baseCab: Vehicle) => {
+    if (!bookingData) return baseCab.basePrice;
+
+    const distance = parseInt(calculateDistance());
+    let calculatedPrice = baseCab.basePrice;
+
+    if (bookingData.serviceType === "OUTSTATION") {
+      calculatedPrice = distance * baseCab.pricePerKm;
+    }
+
+    // Add round trip multiplier
+    if (bookingData.tripType === "ROUNDWAY") {
+      calculatedPrice *= 1.8; // Not exactly double due to potential discounts
+    }
+
+    return Math.floor(calculatedPrice);
+  };
+
+
+    const handleSelectCab = () => {
+      if (!selectedCab || !bookingData) return;
+
+      const selectedCabData = cabList.find((cab) => cab.id === selectedCab);
+      if (!selectedCabData) return;
+
+      // Combine booking data with selected cab information
+      const combinedData = {
+        ...bookingData,
+        selectedCabId: selectedCab,
+        selectedCabName: selectedCabData.name,
+        selectedCabType: selectedCabData.type,
+        selectedCabPrice: calculatePrice(selectedCabData),
+        selectedCabBasePrice: selectedCabData.basePrice,
+        selectedCabPricePerKm: selectedCabData.pricePerKm,
+        selectedCabCapacity: selectedCabData.capacity,
+        selectedCabLuggage: selectedCabData.luggage,
+        selectedCabFeatures: selectedCabData.features.join(","),
+        selectedCabFuelType: selectedCabData.fuelType,
+        selectedCabImage: selectedCabData.images[0],
+        estimatedDistance: calculateDistance(),
+      };
+
+      // Convert to URL search params
+      const searchParams = new URLSearchParams();
+      Object.entries(combinedData).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          searchParams.append(key, value.toString());
+        }
+      });
+
+      // Navigate to booking details page
+      router.push(`/cab-detail?${searchParams.toString()}`);
+    };
 
   return (
     <div
@@ -201,99 +322,103 @@ const CabListsPage: React.FC = () => {
             isVisible ? "animate-fade-in-up animate-delay-300" : "opacity-0"
           }`}
         >
-          {cabList.map((cab, index) => (
-            <div
-              key={cab.id}
-              className={`relative rounded-xl p-6 cursor-pointer transition-all duration-500 hover:scale-105 group ${
-                selectedCab === cab.id
-                  ? "ring-2 ring-opacity-80"
-                  : "hover:ring-1 hover:ring-opacity-50"
-              }`}
-              style={{
-                background:
-                  selectedCab === cab.id
-                    ? `linear-gradient(135deg, ${theme.colors.primary.darkGray} 0%, ${theme.colors.primary.black} 100%)`
-                    : theme.gradients.cardGradient,
-                border:
-                  selectedCab === cab.id
-                    ? `2px solid ${theme.colors.accent.gold}`
-                    : `1px solid ${theme.colors.border.light}`,
-                boxShadow:
-                  selectedCab === cab.id
-                    ? `0 20px 60px ${theme.colors.shadow.gold}, 0 0 0 1px ${theme.colors.accent.gold}30`
-                    : `0 10px 30px ${theme.colors.shadow.elevated}`,
-                ringColor: theme.colors.accent.gold,
-                animationDelay: `${index * 100}ms`,
-              }}
-              onClick={() => setSelectedCab(cab.id)}
-            >
-              {/* Glow effect for selected card */}
-              {selectedCab === cab.id && (
-                <div
-                  className="absolute inset-0 blur-xl opacity-30 animate-pulse rounded-xl"
-                  style={{
-                    background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${theme.colors.accent.gold}60 0%, transparent 70%)`,
-                    transform: "scale(1.2)",
-                    animationDuration: "3s",
-                  }}
-                />
-              )}
+          {cabList.map((cab, index) => {
+            const dynamicPrice = calculatePrice(cab);
 
-              <div className="relative z-10 text-center">
-                {/* Car Image */}
-                <div
-                  className="w-20 h-16 mx-auto mb-4 rounded-lg overflow-hidden group-hover:scale-110 transition-transform duration-300 relative"
-                  style={{
-                    background:
-                      selectedCab === cab.id
-                        ? theme.gradients.gold
-                        : `linear-gradient(135deg, ${theme.colors.border.light} 0%, rgba(255, 255, 255, 0.05) 100%)`,
-                    padding: "4px",
-                  }}
-                >
-                  <img
-                    src={cab.images[0]}
-                    alt={cab.name}
-                    className="w-full h-full object-contain rounded"
+            return (
+              <div
+                key={cab.id}
+                className={`relative rounded-xl p-6 cursor-pointer transition-all duration-500 hover:scale-105 group ${
+                  selectedCab === cab.id
+                    ? "ring-2 ring-opacity-80"
+                    : "hover:ring-1 hover:ring-opacity-50"
+                }`}
+                style={{
+                  background:
+                    selectedCab === cab.id
+                      ? `linear-gradient(135deg, ${theme.colors.primary.darkGray} 0%, ${theme.colors.primary.black} 100%)`
+                      : theme.gradients.cardGradient,
+                  border:
+                    selectedCab === cab.id
+                      ? `2px solid ${theme.colors.accent.gold}`
+                      : `1px solid ${theme.colors.border.light}`,
+                  boxShadow:
+                    selectedCab === cab.id
+                      ? `0 20px 60px ${theme.colors.shadow.gold}, 0 0 0 1px ${theme.colors.accent.gold}30`
+                      : `0 10px 30px ${theme.colors.shadow.elevated}`,
+                  ringColor: theme.colors.accent.gold,
+                  animationDelay: `${index * 100}ms`,
+                }}
+                onClick={() => setSelectedCab(cab.id)}
+              >
+                {/* Glow effect for selected card */}
+                {selectedCab === cab.id && (
+                  <div
+                    className="absolute inset-0 blur-xl opacity-30 animate-pulse rounded-xl"
                     style={{
-                      filter:
-                        selectedCab === cab.id
-                          ? "brightness(1.1)"
-                          : "brightness(0.9)",
+                      background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${theme.colors.accent.gold}60 0%, transparent 70%)`,
+                      transform: "scale(1.2)",
+                      animationDuration: "3s",
                     }}
                   />
+                )}
+
+                <div className="relative z-10 text-center">
+                  {/* Car Image */}
+                  <div
+                    className="w-20 h-16 mx-auto mb-4 rounded-lg overflow-hidden group-hover:scale-110 transition-transform duration-300 relative"
+                    style={{
+                      background:
+                        selectedCab === cab.id
+                          ? theme.gradients.gold
+                          : `linear-gradient(135deg, ${theme.colors.border.light} 0%, rgba(255, 255, 255, 0.05) 100%)`,
+                      padding: "4px",
+                    }}
+                  >
+                    <img
+                      src={cab.images[0]}
+                      alt={cab.name}
+                      className="w-full h-full object-contain rounded"
+                      style={{
+                        filter:
+                          selectedCab === cab.id
+                            ? "brightness(1.1)"
+                            : "brightness(0.9)",
+                      }}
+                    />
+                  </div>
+
+                  {/* Cab Name */}
+                  <h3
+                    className="font-semibold text-lg mb-2"
+                    style={{
+                      color:
+                        selectedCab === cab.id
+                          ? theme.colors.accent.gold
+                          : theme.colors.text.primary,
+                      fontWeight: theme.typography.fontWeight.semibold,
+                    }}
+                  >
+                    {cab.name}
+                  </h3>
+
+                  {/* Price */}
+                  <p
+                    className="text-2xl font-bold"
+                    style={{
+                      color:
+                        selectedCab === cab.id
+                          ? theme.colors.text.primary
+                          : theme.colors.text.secondary,
+                      fontWeight: theme.typography.fontWeight.bold,
+                    }}
+                  >
+                    ₹ {dynamicPrice}
+                  </p>
                 </div>
-
-                {/* Cab Name */}
-                <h3
-                  className="font-semibold text-lg mb-2"
-                  style={{
-                    color:
-                      selectedCab === cab.id
-                        ? theme.colors.accent.gold
-                        : theme.colors.text.primary,
-                    fontWeight: theme.typography.fontWeight.semibold,
-                  }}
-                >
-                  {cab.name}
-                </h3>
-
-                {/* Price */}
-                <p
-                  className="text-2xl font-bold"
-                  style={{
-                    color:
-                      selectedCab === cab.id
-                        ? theme.colors.text.primary
-                        : theme.colors.text.secondary,
-                    fontWeight: theme.typography.fontWeight.bold,
-                  }}
-                >
-                  ₹ {cab.basePrice}
-                </p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Selected Cab Details */}
@@ -311,6 +436,8 @@ const CabListsPage: React.FC = () => {
             {(() => {
               const cab = cabList.find((c) => c.id === selectedCab);
               if (!cab) return null;
+
+              const dynamicPrice = calculatePrice(cab);
 
               return (
                 <div className="flex flex-col lg:flex-row items-center gap-8">
@@ -399,7 +526,7 @@ const CabListsPage: React.FC = () => {
                         className="text-sm"
                         style={{ color: theme.colors.text.muted }}
                       >
-                        Etios or Similar
+                        {cab.name} or Similar
                       </span>
                     </div>
 
@@ -431,7 +558,7 @@ const CabListsPage: React.FC = () => {
                         textShadow: `0 4px 20px ${theme.colors.shadow.gold}`,
                       }}
                     >
-                      ₹{cab.basePrice}
+                      ₹{dynamicPrice}
                     </div>
 
                     {/* Original Price */}
@@ -439,10 +566,8 @@ const CabListsPage: React.FC = () => {
                       className="text-lg line-through mb-4"
                       style={{ color: theme.colors.text.muted }}
                     >
-                      ₹{Math.floor(cab.basePrice * 1.18)}
+                      ₹{Math.floor(dynamicPrice * 1.18)}
                     </div>
-
-                  
                   </div>
                 </div>
               );
@@ -466,6 +591,11 @@ const CabListsPage: React.FC = () => {
                 boxShadow: `0 20px 60px ${theme.colors.shadow.gold}`,
                 border: `2px solid ${theme.colors.accent.lightGold}`,
               }}
+              onClick={() => {
+               
+                handleSelectCab();
+              
+              }}
             >
               {/* Button glow effect */}
               <div
@@ -480,7 +610,7 @@ const CabListsPage: React.FC = () => {
           </div>
         )}
 
-        {/* Trip Details */}
+        {/* Trip Details - Now using actual booking data */}
         <div
           className={`rounded-xl p-6 ${
             isVisible ? "animate-fade-in-up animate-delay-1200" : "opacity-0"
@@ -499,14 +629,16 @@ const CabListsPage: React.FC = () => {
                 border: `1px solid ${theme.colors.border.light}`,
               }}
             >
-              ONEWAY TRIP
+              {bookingData?.tripType === "ROUNDWAY"
+                ? "ROUND TRIP"
+                : "ONEWAY TRIP"}
             </span>
 
             <span
               className="text-center flex-1"
               style={{ color: theme.colors.text.secondary }}
             >
-              From Swarghat To Dweeppura | 535 Km | On 26-07-25 at 02:30 PM
+              {formatTripDetails()} | {calculateDistance()} Km
             </span>
 
             <button
@@ -516,11 +648,25 @@ const CabListsPage: React.FC = () => {
                 color: theme.colors.primary.black,
                 fontWeight: theme.typography.fontWeight.medium,
               }}
+              onClick={() => {
+                // Navigate back to booking form with current data
+                window.history.back();
+              }}
             >
               Modify
             </button>
           </div>
         </div>
+
+        {/* Debug Info (Remove in production) */}
+        {process.env.NODE_ENV === "development" && bookingData && (
+          <div className="mt-8 p-4 bg-gray-800 rounded-lg">
+            <h3 className="text-white mb-2">Debug - Received Booking Data:</h3>
+            <pre className="text-green-400 text-xs overflow-auto">
+              {JSON.stringify(bookingData, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
 
       {/* Bottom decorative line */}
