@@ -1,30 +1,32 @@
 // src/app/page.tsx
-import React from 'react';
-import type { Metadata } from 'next';
-import { theme } from '@/styles/theme';
+import React from "react";
+import type { Metadata } from "next";
+import { theme } from "@/styles/theme";
 
 // Import your themed components
-import StatsSection from '@/components/StatsSection';
-import IntroductionSection from '@/components/IntroductionSection';
-import ServicesSection from '@/components/ServicesSection';
-import BookingCTASection from '@/components/BookingCTASection';
-import BookingWidget from '@/components/BookingWidget';
-import HeroSection from '@/components/HeroSection';
+import StatsSection from "@/components/StatsSection";
+import IntroductionSection from "@/components/IntroductionSection";
+import ServicesSection from "@/components/ServicesSection";
+import BookingCTASection from "@/components/BookingCTASection";
+import BookingWidget from "@/components/BookingWidget";
+import HeroSection from "@/components/HeroSection";
 
 export const metadata: Metadata = {
-  title: "Premium Taxi Service - Book Your Ride Now",
-  description: "Experience luxury transportation with Penta Cab. Professional drivers, premium vehicles, and 24/7 service. Book your taxi now for a comfortable and reliable journey.",
+  title: "Penta Cab",
+  description:
+    "Experience luxury transportation with Penta Cab. Professional drivers, premium vehicles, and 24/7 service. Book your taxi now for a comfortable and reliable journey.",
 };
 
-
-export const ThemedPageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemedPageWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <div
       className="min-h-screen"
       style={{
         backgroundColor: theme.colors.primary.black,
         color: theme.colors.text.primary,
-        fontFamily: theme.typography.fontFamily.sans.join(', '),
+        fontFamily: theme.typography.fontFamily.sans.join(", "),
       }}
     >
       {children}
