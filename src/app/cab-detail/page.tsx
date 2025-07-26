@@ -484,13 +484,13 @@ const BookingDetailsContent: React.FC = () => {
                   </label>
                   <div className="flex gap-2">
                     <select
-                      className="px-3 py-3 rounded-lg text-white focus:outline-none focus:ring-2"
+                      className="w-14 px-1 py-3 rounded-lg text-white focus:outline-none focus:ring-2 text-sm flex-shrink-0"
                       style={{
                         background: theme.colors.primary.black,
                         border: `1px solid ${theme.colors.border.light}`,
                       }}
                     >
-                      <option value="+91">🇮🇳 +91</option>
+                      <option value="+91">+91</option>
                     </select>
                     <input
                       type="tel"
@@ -499,7 +499,7 @@ const BookingDetailsContent: React.FC = () => {
                       value={formData.mobile}
                       onChange={handleInputChange}
                       required
-                      className="flex-1 px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                      className="flex-1 min-w-0 px-3 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
                       style={{
                         background: theme.colors.primary.black,
                         border: `1px solid ${theme.colors.border.light}`,
