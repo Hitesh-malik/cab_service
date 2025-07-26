@@ -1,6 +1,6 @@
 // src/app/cab-detail/page.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import type { BookingFormData } from "@/types/booking";
 
@@ -80,7 +80,8 @@ interface CombinedBookingData extends BookingFormData {
   estimatedDistance?: string;
 }
 
-const BookingDetailsPage: React.FC = () => {
+// Component that uses useSearchParams
+const BookingDetailsContent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [bookingData, setBookingData] = useState<CombinedBookingData | null>(
     null
@@ -830,6 +831,25 @@ const BookingDetailsPage: React.FC = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+// Loading component for Suspense fallback
+const LoadingFallback: React.FC = () => (
+  <div className="min-h-screen flex items-center justify-center" style={{ background: theme.gradients.heroGradient }}>
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
+      <p style={{ color: theme.colors.text.primary }}>Loading booking details...</p>
+    </div>
+  </div>
+);
+
+// Main component with Suspense wrapper
+const BookingDetailsPage: React.FC = () => {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <BookingDetailsContent />
+    </Suspense>
   );
 };
 
