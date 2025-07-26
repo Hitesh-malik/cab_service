@@ -1,6 +1,8 @@
-// src/app/booking-details/page.tsx
+// src/app/cab-detail/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import type { BookingFormData } from "@/types/booking";
 
 // Theme configuration (matching HeroSection and cab-lists)
 const theme = {
@@ -62,8 +64,27 @@ const theme = {
   },
 };
 
+// Extended interface for combined booking and cab data
+interface CombinedBookingData extends BookingFormData {
+  selectedCabId?: string;
+  selectedCabName?: string;
+  selectedCabType?: string;
+  selectedCabPrice?: string;
+  selectedCabBasePrice?: string;
+  selectedCabPricePerKm?: string;
+  selectedCabCapacity?: string;
+  selectedCabLuggage?: string;
+  selectedCabFeatures?: string;
+  selectedCabFuelType?: string;
+  selectedCabImage?: string;
+  estimatedDistance?: string;
+}
+
 const BookingDetailsPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [bookingData, setBookingData] = useState<CombinedBookingData | null>(
+    null
+  );
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -75,14 +96,24 @@ const BookingDetailsPage: React.FC = () => {
     gstDetails: false,
     alternativeNumber: false,
   });
-  const [couponCode, setCouponCode] = useState("");
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    // Parse URL parameters to get booking data
+    const data: Record<string, string> = {};
+
+    // Extract all URL parameters
+    searchParams.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    setBookingData(data as unknown as CombinedBookingData);
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [searchParams]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -98,6 +129,74 @@ const BookingDetailsPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    console.log("Booking data:", bookingData);
+  };
+
+  // Helper function to format trip details based on booking data
+  const formatTripDetails = () => {
+    if (!bookingData) return "Loading trip details...";
+
+    const {
+      serviceType,
+      tripType,
+      from,
+      to,
+      airport,
+      dropAddress,
+      city,
+      date,
+      time,
+      pickupTime,
+    } = bookingData;
+
+    let tripText = "";
+
+    if (serviceType === "AIRPORT") {
+      if (bookingData.pickupDropType === "PICKUP") {
+        tripText = `From ${airport} To ${dropAddress}`;
+      } else {
+        tripText = `From ${dropAddress} To ${airport}`;
+      }
+    } else if (serviceType === "OUTSTATION") {
+      tripText = `From ${from} To ${to}`;
+    } else if (serviceType === "LOCAL") {
+      tripText = `Local trip in ${city}`;
+    }
+
+    const displayTime = time || pickupTime || "Not specified";
+    const tripTypeText = tripType === "ROUNDWAY" ? "ROUND TRIP" : "ONEWAY TRIP";
+
+    return `${tripTypeText} | ${tripText} | On ${date} at ${displayTime}`;
+  };
+
+  // Helper function to get pickup display text
+  const getPickupDisplay = () => {
+    if (!bookingData) return "Loading...";
+
+    const { date, time, pickupTime } = bookingData;
+    const displayTime = time || pickupTime || "Not specified";
+    return `${date} at ${displayTime}`;
+  };
+
+  // Helper function to get route display text
+  const getRouteDisplay = () => {
+    if (!bookingData) return "Loading...";
+
+    const { serviceType, from, to, airport, dropAddress } = bookingData;
+
+    if (serviceType === "AIRPORT") {
+      if (bookingData.pickupDropType === "PICKUP") {
+        return `${airport} >> ${dropAddress}`;
+      } else {
+        return `${dropAddress} >> ${airport}`;
+      }
+    } else if (serviceType === "OUTSTATION") {
+      return `${from} >> ${to}`;
+    } else if (serviceType === "LOCAL") {
+      return `Local trip in ${bookingData.city}`;
+    }
+
+    return "Route not specified";
   };
 
   return (
@@ -164,7 +263,7 @@ const BookingDetailsPage: React.FC = () => {
               isVisible ? "animate-fade-in-up animate-delay-300" : "opacity-0"
             }`}
           >
-            {/* Oneway Booking Details Card */}
+            {/* Booking Details Card */}
             <div
               className="rounded-2xl p-6 mb-6"
               style={{
@@ -180,18 +279,29 @@ const BookingDetailsPage: React.FC = () => {
                   fontWeight: theme.typography.fontWeight.bold,
                 }}
               >
-                Oneway Booking Details
+                {bookingData?.tripType === "ROUNDWAY" ? "Round Trip" : "Oneway"}{" "}
+                Booking Details
               </h2>
 
               <div className="space-y-4">
                 {[
                   {
                     label: "Route :",
-                    value: "Dwaraka Tirumala >> Devarayana Durga",
+                    value: getRouteDisplay(),
                   },
-                  { label: "Pickup :", value: "26-07-25 at 03:30 PM" },
-                  { label: "Car Type :", value: "Etios or Similar" },
-                  { label: "Distance :", value: "533 Km" },
+                  { label: "Pickup :", value: getPickupDisplay() },
+                  {
+                    label: "Car Type :",
+                    value: bookingData?.selectedCabName
+                      ? `${bookingData.selectedCabName} or Similar`
+                      : "Not selected",
+                  },
+                  {
+                    label: "Distance :",
+                    value: bookingData?.estimatedDistance
+                      ? `${bookingData.estimatedDistance} Km`
+                      : "Calculating...",
+                  },
                 ].map((item, index) => (
                   <div
                     key={index}
@@ -230,14 +340,73 @@ const BookingDetailsPage: React.FC = () => {
                         textShadow: `0 2px 10px ${theme.colors.shadow.gold}`,
                       }}
                     >
-                      ₹ 13118
+                      ₹ {bookingData?.selectedCabPrice || "Calculating..."}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-          
+            {/* Selected Cab Details */}
+            {bookingData?.selectedCabImage && (
+              <div
+                className="rounded-2xl p-6 mb-6"
+                style={{
+                  background: theme.gradients.cardGradient,
+                  border: `1px solid ${theme.colors.border.light}`,
+                }}
+              >
+                <h3
+                  className="text-lg font-bold mb-4 text-center"
+                  style={{
+                    color: theme.colors.accent.gold,
+                    fontWeight: theme.typography.fontWeight.bold,
+                  }}
+                >
+                  Selected Vehicle
+                </h3>
+
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-20 h-16 rounded-lg overflow-hidden"
+                    style={{
+                      background: theme.gradients.gold,
+                      padding: "2px",
+                    }}
+                  >
+                    <img
+                      src={bookingData.selectedCabImage}
+                      alt={bookingData.selectedCabName || "Selected Cab"}
+                      className="w-full h-full object-contain rounded"
+                    />
+                  </div>
+
+                  <div className="flex-1">
+                    <h4
+                      className="font-semibold text-lg mb-2"
+                      style={{
+                        color: theme.colors.text.primary,
+                        fontWeight: theme.typography.fontWeight.semibold,
+                      }}
+                    >
+                      {bookingData.selectedCabName}
+                    </h4>
+
+                    <div className="flex items-center gap-4 text-sm">
+                      <span style={{ color: theme.colors.text.secondary }}>
+                        👤 {bookingData.selectedCabCapacity} Seats
+                      </span>
+                      <span style={{ color: theme.colors.text.secondary }}>
+                        🧳 {bookingData.selectedCabLuggage} Bags
+                      </span>
+                      <span style={{ color: theme.colors.text.secondary }}>
+                        ❄️ AC
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right Column - Traveller Information */}
@@ -284,7 +453,6 @@ const BookingDetailsPage: React.FC = () => {
                     style={{
                       background: theme.colors.primary.black,
                       border: `1px solid ${theme.colors.border.light}`,
-                      focusRingColor: theme.colors.accent.gold,
                     }}
                   />
                 </div>
@@ -303,7 +471,6 @@ const BookingDetailsPage: React.FC = () => {
                       style={{
                         background: theme.colors.primary.black,
                         border: `1px solid ${theme.colors.border.light}`,
-                        focusRingColor: theme.colors.accent.gold,
                       }}
                     >
                       <option value="+91">🇮🇳 +91</option>
@@ -319,7 +486,6 @@ const BookingDetailsPage: React.FC = () => {
                       style={{
                         background: theme.colors.primary.black,
                         border: `1px solid ${theme.colors.border.light}`,
-                        focusRingColor: theme.colors.accent.gold,
                       }}
                     />
                   </div>
@@ -344,7 +510,6 @@ const BookingDetailsPage: React.FC = () => {
                     style={{
                       background: theme.colors.primary.black,
                       border: `1px solid ${theme.colors.border.light}`,
-                      focusRingColor: theme.colors.accent.gold,
                     }}
                   />
                 </div>
@@ -367,7 +532,6 @@ const BookingDetailsPage: React.FC = () => {
                     style={{
                       background: theme.colors.primary.black,
                       border: `1px solid ${theme.colors.border.light}`,
-                      focusRingColor: theme.colors.accent.gold,
                     }}
                   />
                 </div>
@@ -390,7 +554,6 @@ const BookingDetailsPage: React.FC = () => {
                     style={{
                       background: theme.colors.primary.black,
                       border: `1px solid ${theme.colors.border.light}`,
-                      focusRingColor: theme.colors.accent.gold,
                     }}
                   />
                 </div>
@@ -413,7 +576,6 @@ const BookingDetailsPage: React.FC = () => {
                     style={{
                       background: theme.colors.primary.black,
                       border: `1px solid ${theme.colors.border.light}`,
-                      focusRingColor: theme.colors.accent.gold,
                     }}
                   />
                 </div>
@@ -435,7 +597,7 @@ const BookingDetailsPage: React.FC = () => {
                       className="text-sm"
                       style={{ color: theme.colors.text.secondary }}
                     >
-                      Send Details On What's App
+                      Send Details On WhatsApp
                     </label>
                   </div>
 
@@ -507,10 +669,61 @@ const BookingDetailsPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Trip Details Summary */}
+        {bookingData && (
+          <div
+            className={`mt-8 rounded-xl p-6 ${
+              isVisible ? "animate-fade-in-up animate-delay-900" : "opacity-0"
+            }`}
+            style={{
+              background: theme.colors.primary.darkGray,
+              border: `1px solid ${theme.colors.border.light}`,
+            }}
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+              <span
+                className="px-4 py-2 rounded-full font-medium"
+                style={{
+                  backgroundColor: theme.colors.primary.black,
+                  color: theme.colors.text.secondary,
+                  border: `1px solid ${theme.colors.border.light}`,
+                }}
+              >
+                {bookingData.tripType === "ROUNDWAY"
+                  ? "ROUND TRIP"
+                  : "ONEWAY TRIP"}
+              </span>
+
+              <span
+                className="text-center flex-1"
+                style={{ color: theme.colors.text.secondary }}
+              >
+                {formatTripDetails()} | {bookingData.estimatedDistance || "0"}{" "}
+                Km
+              </span>
+
+              <button
+                className="px-4 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300"
+                style={{
+                  background: theme.gradients.gold,
+                  color: theme.colors.primary.black,
+                  fontWeight: theme.typography.fontWeight.medium,
+                }}
+                onClick={() => {
+                  // Navigate back to booking form with current data
+                  window.history.back();
+                }}
+              >
+                Modify
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Safety Guidelines Section */}
         <div
           className={`mt-12 rounded-2xl overflow-hidden ${
-            isVisible ? "animate-fade-in-up animate-delay-900" : "opacity-0"
+            isVisible ? "animate-fade-in-up animate-delay-1200" : "opacity-0"
           }`}
           style={{
             background: theme.colors.background.lightTeal,
@@ -557,6 +770,16 @@ const BookingDetailsPage: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Debug Info (Remove in production) */}
+        {process.env.NODE_ENV === "development" && bookingData && (
+          <div className="mt-8 p-4 bg-gray-800 rounded-lg">
+            <h3 className="text-white mb-2">Debug - Received Booking Data:</h3>
+            <pre className="text-green-400 text-xs overflow-auto">
+              {JSON.stringify(bookingData, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
 
       {/* Bottom decorative line */}
@@ -594,6 +817,10 @@ const BookingDetailsPage: React.FC = () => {
 
         .animate-delay-900 {
           animation-delay: 900ms;
+        }
+
+        .animate-delay-1200 {
+          animation-delay: 1200ms;
         }
 
         input::placeholder,
