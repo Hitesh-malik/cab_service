@@ -9,6 +9,7 @@ import IntroductionSection from '@/components/IntroductionSection';
 import ServicesSection from '@/components/ServicesSection';
 import BookingCTASection from '@/components/BookingCTASection';
 import BookingWidget from '@/components/BookingWidget';
+import HeroSection from '@/components/HeroSection';
 
 export const metadata: Metadata = {
   title: "Premium Taxi Service - Book Your Ride Now",
@@ -36,9 +37,13 @@ export const ThemedPageWrapper: React.FC<{ children: React.ReactNode }> = ({ chi
 export default function HomePage() {
   return (
     <ThemedPageWrapper>
-      <StatsSection />
+      <HeroSection />
 
-      <section className="py-16 lg:py-20" style={{ background: theme.gradients.heroGradient }}>
+      <StatsSection />
+      <section
+        className="py-16 lg:py-20"
+        style={{ background: theme.gradients.heroGradient }}
+      >
         <BookingWidget />
       </section>
 
