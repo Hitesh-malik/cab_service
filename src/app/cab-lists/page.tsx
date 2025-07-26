@@ -1,6 +1,6 @@
 // src/app/cab-lists/page.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Vehicle } from "@/types/index";
 import type { BookingFormData } from "@/types/booking";
@@ -122,7 +122,8 @@ const cabList: Vehicle[] = [
   },
 ];
 
-const CabListsPage: React.FC = () => {
+// Move the main logic to a child component
+const CabListsContent: React.FC = () => {
   const [selectedCab, setSelectedCab] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [bookingData, setBookingData] = useState<BookingFormData | null>(null);
@@ -214,41 +215,40 @@ const CabListsPage: React.FC = () => {
     return Math.floor(calculatedPrice);
   };
 
+  const handleSelectCab = () => {
+    if (!selectedCab || !bookingData) return;
 
-    const handleSelectCab = () => {
-      if (!selectedCab || !bookingData) return;
+    const selectedCabData = cabList.find((cab) => cab.id === selectedCab);
+    if (!selectedCabData) return;
 
-      const selectedCabData = cabList.find((cab) => cab.id === selectedCab);
-      if (!selectedCabData) return;
-
-      // Combine booking data with selected cab information
-      const combinedData = {
-        ...bookingData,
-        selectedCabId: selectedCab,
-        selectedCabName: selectedCabData.name,
-        selectedCabType: selectedCabData.type,
-        selectedCabPrice: calculatePrice(selectedCabData),
-        selectedCabBasePrice: selectedCabData.basePrice,
-        selectedCabPricePerKm: selectedCabData.pricePerKm,
-        selectedCabCapacity: selectedCabData.capacity,
-        selectedCabLuggage: selectedCabData.luggage,
-        selectedCabFeatures: selectedCabData.features.join(","),
-        selectedCabFuelType: selectedCabData.fuelType,
-        selectedCabImage: selectedCabData.images[0],
-        estimatedDistance: calculateDistance(),
-      };
-
-      // Convert to URL search params
-      const searchParams = new URLSearchParams();
-      Object.entries(combinedData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined && value !== "") {
-          searchParams.append(key, value.toString());
-        }
-      });
-
-      // Navigate to booking details page
-      router.push(`/cab-detail?${searchParams.toString()}`);
+    // Combine booking data with selected cab information
+    const combinedData = {
+      ...bookingData,
+      selectedCabId: selectedCab,
+      selectedCabName: selectedCabData.name,
+      selectedCabType: selectedCabData.type,
+      selectedCabPrice: calculatePrice(selectedCabData),
+      selectedCabBasePrice: selectedCabData.basePrice,
+      selectedCabPricePerKm: selectedCabData.pricePerKm,
+      selectedCabCapacity: selectedCabData.capacity,
+      selectedCabLuggage: selectedCabData.luggage,
+      selectedCabFeatures: selectedCabData.features.join(","),
+      selectedCabFuelType: selectedCabData.fuelType,
+      selectedCabImage: selectedCabData.images[0],
+      estimatedDistance: calculateDistance(),
     };
+
+    // Convert to URL search params
+    const searchParams = new URLSearchParams();
+    Object.entries(combinedData).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== "") {
+        searchParams.append(key, value.toString());
+      }
+    });
+
+    // Navigate to booking details page
+    router.push(`/cab-detail?${searchParams.toString()}`);
+  };
 
   return (
     <div
@@ -346,7 +346,6 @@ const CabListsPage: React.FC = () => {
                     selectedCab === cab.id
                       ? `0 20px 60px ${theme.colors.shadow.gold}, 0 0 0 1px ${theme.colors.accent.gold}30`
                       : `0 10px 30px ${theme.colors.shadow.elevated}`,
-                  ringColor: theme.colors.accent.gold,
                   animationDelay: `${index * 100}ms`,
                 }}
                 onClick={() => setSelectedCab(cab.id)}
@@ -711,6 +710,25 @@ const CabListsPage: React.FC = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+// Loading fallback for Suspense
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
+      <p style={{ color: theme.colors.text.primary }}>Loading cab selection...</p>
+    </div>
+  </div>
+);
+
+// Main export with Suspense
+const CabListsPage: React.FC = () => {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CabListsContent />
+    </Suspense>
   );
 };
 

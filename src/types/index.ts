@@ -90,6 +90,7 @@ export interface Vehicle {
   features: string[];
   pricePerKm: number;
   pricePerHour?: number;
+  basePrice: number;
   images: string[];
   available: boolean;
   fuelType: 'petrol' | 'diesel' | 'cng' | 'electric' | 'hybrid';
@@ -104,7 +105,9 @@ export type VehicleType =
   | 'luxury' 
   | 'van' 
   | 'bus' 
-  | 'tempo';
+  | 'tempo'
+  | 'innova'
+  | 'innovacrystal';
 
 // ==================== BOOKING TYPES ====================
 export interface BookingFormData {
