@@ -1,0 +1,614 @@
+// src/app/booking-details/page.tsx
+"use client";
+import React, { useState, useEffect } from "react";
+
+// Theme configuration (matching HeroSection and cab-lists)
+const theme = {
+  colors: {
+    primary: {
+      black: "#000000",
+      darkGray: "#1a1a1a",
+    },
+    accent: {
+      gold: "#FFD700",
+      lightGold: "#FFF700",
+    },
+    secondary: {
+      amber: "#FFA500",
+      warmYellow: "#FFB84D",
+      lightAmber: "#FFCC80",
+      teal: "#20B2AA",
+      darkTeal: "#008B8B",
+    },
+    text: {
+      primary: "#FFFFFF",
+      secondary: "#E5E5E5",
+      muted: "#B0B0B0",
+    },
+    background: {
+      primary: "#000000",
+      dark: "#0a0a0a",
+      gradient:
+        "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)",
+      lightTeal: "#E0F7FA",
+    },
+    border: {
+      gold: "#FFD700",
+      goldLight: "#FFF700",
+      light: "rgba(255, 255, 255, 0.1)",
+    },
+    shadow: {
+      gold: "rgba(255, 215, 0, 0.4)",
+      primary: "rgba(0, 0, 0, 0.8)",
+      elevated: "rgba(0, 0, 0, 0.6)",
+    },
+  },
+  gradients: {
+    heroGradient:
+      "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%)",
+    gold: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+    cardGradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
+    teal: "linear-gradient(135deg, #20B2AA 0%, #008B8B 100%)",
+  },
+  typography: {
+    fontFamily: {
+      sans: ["Inter", "system-ui", "sans-serif"],
+    },
+    fontWeight: {
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+    },
+  },
+};
+
+const BookingDetailsPage: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+    pickup: "",
+    drop: "",
+    remark: "",
+    whatsapp: false,
+    gstDetails: false,
+    alternativeNumber: false,
+  });
+  const [couponCode, setCouponCode] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
+  return (
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: theme.gradients.heroGradient,
+        fontFamily: theme.typography.fontFamily.sans.join(", "),
+      }}
+    >
+      {/* Background decorative elements */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.5) 70%, #000000 100%)`,
+          }}
+        />
+
+        {/* Animated background particles */}
+        <div
+          className="absolute top-1/4 left-1/6 w-24 h-24 rounded-full blur-2xl animate-pulse"
+          style={{
+            backgroundColor: theme.colors.accent.gold,
+            opacity: 0.1,
+            animationDuration: "3s",
+          }}
+        />
+        <div
+          className="absolute top-2/3 right-1/4 w-32 h-32 rounded-full blur-3xl animate-pulse"
+          style={{
+            backgroundColor: theme.colors.secondary.amber,
+            opacity: 0.08,
+            animationDelay: "1.5s",
+            animationDuration: "4s",
+          }}
+        />
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div
+          className={`text-center mb-8 ${
+            isVisible ? "animate-fade-in-up" : "opacity-0"
+          }`}
+        >
+          <h1
+            className="text-3xl lg:text-4xl font-bold mb-4"
+            style={{
+              color: theme.colors.accent.gold,
+              textShadow: `0 4px 20px ${theme.colors.shadow.gold}`,
+              fontWeight: theme.typography.fontWeight.bold,
+            }}
+          >
+            Complete Your Booking
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column - Booking Details */}
+          <div
+            className={`${
+              isVisible ? "animate-fade-in-up animate-delay-300" : "opacity-0"
+            }`}
+          >
+            {/* Oneway Booking Details Card */}
+            <div
+              className="rounded-2xl p-6 mb-6"
+              style={{
+                background: theme.gradients.cardGradient,
+                border: `2px solid ${theme.colors.accent.gold}`,
+                boxShadow: `0 20px 60px ${theme.colors.shadow.elevated}, 0 0 0 1px ${theme.colors.accent.gold}30`,
+              }}
+            >
+              <h2
+                className="text-xl font-bold mb-6 text-center"
+                style={{
+                  color: theme.colors.accent.gold,
+                  fontWeight: theme.typography.fontWeight.bold,
+                }}
+              >
+                Oneway Booking Details
+              </h2>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    label: "Route :",
+                    value: "Dwaraka Tirumala >> Devarayana Durga",
+                  },
+                  { label: "Pickup :", value: "26-07-25 at 03:30 PM" },
+                  { label: "Car Type :", value: "Etios or Similar" },
+                  { label: "Distance :", value: "533 Km" },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center"
+                  >
+                    <span
+                      className="font-medium"
+                      style={{ color: theme.colors.text.secondary }}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className="font-semibold"
+                      style={{ color: theme.colors.text.primary }}
+                    >
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+
+                <div
+                  className="border-t pt-4 mt-6"
+                  style={{ borderColor: theme.colors.border.light }}
+                >
+                  <div className="flex justify-between items-center">
+                    <span
+                      className="text-lg font-bold"
+                      style={{ color: theme.colors.text.secondary }}
+                    >
+                      Estimated Amount :
+                    </span>
+                    <span
+                      className="text-2xl font-bold"
+                      style={{
+                        color: theme.colors.accent.gold,
+                        textShadow: `0 2px 10px ${theme.colors.shadow.gold}`,
+                      }}
+                    >
+                      ₹ 13118
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          
+          </div>
+
+          {/* Right Column - Traveller Information */}
+          <div
+            className={`${
+              isVisible ? "animate-fade-in-up animate-delay-600" : "opacity-0"
+            }`}
+          >
+            <div
+              className="rounded-2xl p-6"
+              style={{
+                background: theme.gradients.cardGradient,
+                border: `2px solid ${theme.colors.accent.gold}`,
+                boxShadow: `0 20px 60px ${theme.colors.shadow.elevated}, 0 0 0 1px ${theme.colors.accent.gold}30`,
+              }}
+            >
+              <h2
+                className="text-xl font-bold mb-6 text-center"
+                style={{
+                  color: theme.colors.accent.gold,
+                  fontWeight: theme.typography.fontWeight.bold,
+                }}
+              >
+                Traveller Information
+              </h2>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Name Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Name <span style={{ color: "#FF4444" }}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                    style={{
+                      background: theme.colors.primary.black,
+                      border: `1px solid ${theme.colors.border.light}`,
+                      focusRingColor: theme.colors.accent.gold,
+                    }}
+                  />
+                </div>
+
+                {/* Mobile Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Mobile <span style={{ color: "#FF4444" }}>*</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <select
+                      className="px-3 py-3 rounded-lg text-white focus:outline-none focus:ring-2"
+                      style={{
+                        background: theme.colors.primary.black,
+                        border: `1px solid ${theme.colors.border.light}`,
+                        focusRingColor: theme.colors.accent.gold,
+                      }}
+                    >
+                      <option value="+91">🇮🇳 +91</option>
+                    </select>
+                    <input
+                      type="tel"
+                      name="mobile"
+                      placeholder="Enter number"
+                      value={formData.mobile}
+                      onChange={handleInputChange}
+                      required
+                      className="flex-1 px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                      style={{
+                        background: theme.colors.primary.black,
+                        border: `1px solid ${theme.colors.border.light}`,
+                        focusRingColor: theme.colors.accent.gold,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Email Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Email <span style={{ color: "#FF4444" }}>*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                    style={{
+                      background: theme.colors.primary.black,
+                      border: `1px solid ${theme.colors.border.light}`,
+                      focusRingColor: theme.colors.accent.gold,
+                    }}
+                  />
+                </div>
+
+                {/* Pickup Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Pickup
+                  </label>
+                  <input
+                    type="text"
+                    name="pickup"
+                    placeholder="Pickup Address"
+                    value={formData.pickup}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                    style={{
+                      background: theme.colors.primary.black,
+                      border: `1px solid ${theme.colors.border.light}`,
+                      focusRingColor: theme.colors.accent.gold,
+                    }}
+                  />
+                </div>
+
+                {/* Drop Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Drop
+                  </label>
+                  <input
+                    type="text"
+                    name="drop"
+                    placeholder="Drop Address"
+                    value={formData.drop}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                    style={{
+                      background: theme.colors.primary.black,
+                      border: `1px solid ${theme.colors.border.light}`,
+                      focusRingColor: theme.colors.accent.gold,
+                    }}
+                  />
+                </div>
+
+                {/* Remark Field */}
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    Remark
+                  </label>
+                  <textarea
+                    name="remark"
+                    placeholder="Remark for the Driver"
+                    value={formData.remark}
+                    onChange={handleInputChange}
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300 resize-none"
+                    style={{
+                      background: theme.colors.primary.black,
+                      border: `1px solid ${theme.colors.border.light}`,
+                      focusRingColor: theme.colors.accent.gold,
+                    }}
+                  />
+                </div>
+
+                {/* Checkboxes */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="whatsapp"
+                      name="whatsapp"
+                      checked={formData.whatsapp}
+                      onChange={handleInputChange}
+                      className="w-4 h-4 rounded"
+                      style={{ accentColor: theme.colors.accent.gold }}
+                    />
+                    <label
+                      htmlFor="whatsapp"
+                      className="text-sm"
+                      style={{ color: theme.colors.text.secondary }}
+                    >
+                      Send Details On What's App
+                    </label>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="gstDetails"
+                        name="gstDetails"
+                        checked={formData.gstDetails}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 rounded"
+                        style={{ accentColor: theme.colors.accent.gold }}
+                      />
+                      <label
+                        htmlFor="gstDetails"
+                        className="text-sm"
+                        style={{ color: theme.colors.text.secondary }}
+                      >
+                        GST Details
+                      </label>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="alternativeNumber"
+                        name="alternativeNumber"
+                        checked={formData.alternativeNumber}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 rounded"
+                        style={{ accentColor: theme.colors.accent.gold }}
+                      />
+                      <label
+                        htmlFor="alternativeNumber"
+                        className="text-sm"
+                        style={{ color: theme.colors.text.secondary }}
+                      >
+                        Alternative Number
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full font-bold py-4 rounded-xl text-lg transition-all duration-500 hover:scale-105 transform relative overflow-hidden group"
+                  style={{
+                    background: theme.gradients.gold,
+                    color: theme.colors.primary.black,
+                    fontWeight: theme.typography.fontWeight.bold,
+                    boxShadow: `0 20px 60px ${theme.colors.shadow.gold}`,
+                    border: `2px solid ${theme.colors.accent.lightGold}`,
+                  }}
+                >
+                  {/* Button glow effect */}
+                  <div
+                    className="absolute inset-0 blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"
+                    style={{
+                      background: theme.gradients.gold,
+                      transform: "scale(1.2)",
+                    }}
+                  />
+                  <span className="relative z-10">PROCEED</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Safety Guidelines Section */}
+        <div
+          className={`mt-12 rounded-2xl overflow-hidden ${
+            isVisible ? "animate-fade-in-up animate-delay-900" : "opacity-0"
+          }`}
+          style={{
+            background: theme.colors.background.lightTeal,
+            border: `2px solid ${theme.colors.accent.gold}`,
+          }}
+        >
+          <div
+            className="py-4 px-6"
+            style={{
+              background: theme.gradients.gold,
+              color: theme.colors.primary.black,
+            }}
+          >
+            <h3
+              className="text-xl font-bold"
+              style={{ fontWeight: theme.typography.fontWeight.bold }}
+            >
+              Safety Guidelines
+            </h3>
+          </div>
+
+          <div className="p-6 space-y-4" style={{ color: "#333" }}>
+            {[
+              "If you have Booking Confirmation, rest assured you will get cab. We ensure cab arrives on time at your pick-up destination.",
+              "Makemyride provide you best taxi services with Experienced and professional Drivers everytime. Working from last 10+ Years. Our company has more than 1500+ Trusted Customers and 750+ Comfortable rides.",
+              "Your safety is our top priority. All our vehicles undergo regular maintenance and adhere to strict safety standards.",
+              "We believe in transparency, and our pricing reflects that. You'll always know what you're paying for, with no hidden charges or surprises.",
+              "To know more about Terms and Conditions you can read your cancellation policy and refund policy. We are available for you 24/7, with the best service in the travel marketplace.",
+              "Our Email Address info@makemyride.com",
+              "Our Contact Number 9157578555",
+            ].map((guideline, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <div
+                  className="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1 flex-shrink-0"
+                  style={{
+                    background: theme.gradients.gold,
+                    color: theme.colors.primary.black,
+                  }}
+                >
+                  ✓
+                </div>
+                <p className="text-sm leading-relaxed">{guideline}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom decorative line */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px opacity-60"
+        style={{
+          background: theme.gradients.gold,
+        }}
+      />
+
+      {/* Custom CSS Animations */}
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 1s ease-out forwards;
+        }
+
+        .animate-delay-300 {
+          animation-delay: 300ms;
+        }
+
+        .animate-delay-600 {
+          animation-delay: 600ms;
+        }
+
+        .animate-delay-900 {
+          animation-delay: 900ms;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+          color: #888;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+          ring: 2px solid ${theme.colors.accent.gold};
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default BookingDetailsPage;
