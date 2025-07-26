@@ -669,6 +669,46 @@ const BookingDetailsPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Proceed to Booking Button */}
+        {bookingData && (
+          <div
+            className={`text-center mt-8 ${
+              isVisible ? "animate-fade-in-up animate-delay-900" : "opacity-0"
+            }`}
+          >
+            <button
+              className="font-bold py-4 px-12 rounded-xl text-lg transition-all duration-500 hover:scale-105 transform relative overflow-hidden group"
+              style={{
+                background: theme.gradients.gold,
+                color: theme.colors.primary.black,
+                fontWeight: theme.typography.fontWeight.bold,
+                boxShadow: `0 20px 60px ${theme.colors.shadow.gold}`,
+                border: `2px solid ${theme.colors.accent.lightGold}`,
+              }}
+              onClick={() => {
+                // Send all booking and cab data to /cab-booking as URL params
+                const searchParams = new URLSearchParams();
+                Object.entries(bookingData).forEach(([key, value]) => {
+                  if (value !== null && value !== undefined && value !== "") {
+                    searchParams.append(key, value.toString());
+                  }
+                });
+                window.location.href = `/cab-booking?${searchParams.toString()}`;
+              }}
+            >
+              {/* Button glow effect */}
+              <div
+                className="absolute inset-0 blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"
+                style={{
+                  background: theme.gradients.gold,
+                  transform: "scale(1.2)",
+                }}
+              />
+              <span className="relative z-10">Proceed to Booking</span>
+            </button>
+          </div>
+        )}
+
         {/* Trip Details Summary */}
         {bookingData && (
           <div

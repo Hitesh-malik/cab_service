@@ -1,6 +1,7 @@
 // src/app/cab-booking/page.jsx
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 // Theme configuration (matching cab-lists)
 const theme = {
@@ -67,15 +68,15 @@ const theme = {
 
 // Payment Gateway Modal Component
 const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
-  const [paymentMethod, setPaymentMethod] = useState('upi');
+  const [paymentMethod, setPaymentMethod] = useState("upi");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showQR, setShowQR] = useState(false);
 
   const handlePayment = async () => {
     setIsProcessing(true);
-    
+
     try {
-      if (paymentMethod === 'upi') {
+      if (paymentMethod === "upi") {
         setShowQR(true);
         // Simulate payment processing
         setTimeout(() => {
@@ -93,7 +94,7 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
         }, 2000);
       }
     } catch (error) {
-      console.error('Payment failed:', error);
+      console.error("Payment failed:", error);
       setIsProcessing(false);
     }
   };
@@ -102,7 +103,7 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div 
+      <div
         className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
         style={{ fontFamily: theme.typography.fontFamily.sans.join(", ") }}
       >
@@ -114,7 +115,7 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
             </div>
             <span className="font-semibold text-gray-800">makemyride</span>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-xl font-bold"
           >
@@ -133,22 +134,29 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
                 </div>
                 <span className="font-medium">Show QR Code</span>
               </div>
-              <p className="text-sm text-gray-600 mb-4">Scan with any UPI app</p>
-              
+              <p className="text-sm text-gray-600 mb-4">
+                Scan with any UPI app
+              </p>
+
               {/* QR Code Placeholder */}
               <div className="w-48 h-48 mx-auto bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center mb-4">
                 <div className="text-center">
-                  <div className="w-24 h-24 bg-black mx-auto mb-2" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%23000'%3E%3Crect x='0' y='0' width='10' height='10'/%3E%3Crect x='20' y='0' width='10' height='10'/%3E%3Crect x='0' y='20' width='10' height='10'/%3E%3C/g%3E%3C/svg%3E")`,
-                    backgroundSize: 'cover'
-                  }}></div>
+                  <div
+                    className="w-24 h-24 bg-black mx-auto mb-2"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%23000'%3E%3Crect x='0' y='0' width='10' height='10'/%3E%3Crect x='20' y='0' width='10' height='10'/%3E%3Crect x='0' y='20' width='10' height='10'/%3E%3C/g%3E%3C/svg%3E")`,
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
                   <p className="text-xs text-gray-500">QR Code</p>
                 </div>
               </div>
-              
-              <p className="text-sm text-gray-600 mb-2">Checking payment status... 14:03</p>
+
+              <p className="text-sm text-gray-600 mb-2">
+                Checking payment status... 14:03
+              </p>
               <div className="w-12 h-1 bg-blue-500 rounded-full mx-auto animate-pulse"></div>
-              
+
               <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-600">
                 <span>🏪</span>
                 <span>💳</span>
@@ -161,55 +169,73 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
             <>
               <div className="space-y-4 mb-6">
                 {/* UPI ID Option */}
-                <div 
+                <div
                   className={`flex items-center justify-between p-3 rounded-lg cursor-pointer border-2 ${
-                    paymentMethod === 'upi' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                    paymentMethod === "upi"
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200"
                   }`}
-                  onClick={() => setPaymentMethod('upi')}
+                  onClick={() => setPaymentMethod("upi")}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full border-2 border-blue-500 flex items-center justify-center">
-                      {paymentMethod === 'upi' && <div className="w-3 h-3 bg-blue-500 rounded-full"></div>}
+                      {paymentMethod === "upi" && (
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      )}
                     </div>
                     <div>
                       <p className="font-medium">UPI ID</p>
-                      <p className="text-sm text-gray-600">PhonePe, Gpay, PayTM, BHIM & more</p>
+                      <p className="text-sm text-gray-600">
+                        PhonePe, Gpay, PayTM, BHIM & more
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Debit/Credit Card Option */}
-                <div 
+                <div
                   className={`flex items-center justify-between p-3 rounded-lg cursor-pointer border-2 ${
-                    paymentMethod === 'card' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                    paymentMethod === "card"
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200"
                   }`}
-                  onClick={() => setPaymentMethod('card')}
+                  onClick={() => setPaymentMethod("card")}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full border-2 border-blue-500 flex items-center justify-center">
-                      {paymentMethod === 'card' && <div className="w-3 h-3 bg-blue-500 rounded-full"></div>}
+                      {paymentMethod === "card" && (
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      )}
                     </div>
                     <div>
                       <p className="font-medium">Debit/Credit Card</p>
-                      <p className="text-sm text-gray-600">Visa, MasterCard, Rupay etc</p>
+                      <p className="text-sm text-gray-600">
+                        Visa, MasterCard, Rupay etc
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Net Banking Option */}
-                <div 
+                <div
                   className={`flex items-center justify-between p-3 rounded-lg cursor-pointer border-2 ${
-                    paymentMethod === 'netbanking' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                    paymentMethod === "netbanking"
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200"
                   }`}
-                  onClick={() => setPaymentMethod('netbanking')}
+                  onClick={() => setPaymentMethod("netbanking")}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full border-2 border-blue-500 flex items-center justify-center">
-                      {paymentMethod === 'netbanking' && <div className="w-3 h-3 bg-blue-500 rounded-full"></div>}
+                      {paymentMethod === "netbanking" && (
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      )}
                     </div>
                     <div>
                       <p className="font-medium">Net Banking</p>
-                      <p className="text-sm text-gray-600">Choose your bank to complete payment</p>
+                      <p className="text-sm text-gray-600">
+                        Choose your bank to complete payment
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -218,20 +244,22 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
               {/* Amount and Pay Button */}
               <div className="border-t pt-4">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-lg font-bold">₹{amount.toLocaleString()}</span>
+                  <span className="text-lg font-bold">
+                    ₹{amount.toLocaleString()}
+                  </span>
                   <span className="text-sm text-gray-600">View Booking</span>
                 </div>
-                
+
                 <button
                   onClick={handlePayment}
                   disabled={isProcessing}
                   className={`w-full py-3 rounded-lg font-semibold text-white transition-all ${
-                    isProcessing 
-                      ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-blue-600 hover:bg-blue-700'
+                    isProcessing
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700"
                   }`}
                 >
-                  {isProcessing ? 'Processing...' : 'PAY'}
+                  {isProcessing ? "Processing..." : "PAY"}
                 </button>
               </div>
             </>
@@ -286,22 +314,19 @@ const CabBookingPage = () => {
     },
   ];
 
-  const bookingData = {
-    name: "nwdabgrinbmmedabrnrd",
-    email: "zxjhck@gmail.com",
-    mobile: "7517445547",
-    route: "Dwaraka Tirumala >> Devarayana Durga",
-    distance: "833 Km",
-    date: "26-07-25",
-    time: "03:30 PM",
-    car: "Etios or Similar",
-    pickup: "Sjdkshfncbnb C",
-    drop: "dcfxvjk hbfvmn",
-  };
+  // Parse URL parameters for booking and cab data
+  const searchParams = useSearchParams();
+  const [bookingData, setBookingData] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const data: Record<string, string> = {};
+    searchParams.forEach((value, key) => {
+      data[key] = value;
+    });
+    setBookingData(data);
+  }, [searchParams]);
 
   const handlePayment = () => {
-    const selectedOption = paymentOptions.find(opt => opt.id === selectedPayment);
-    
     if (selectedPayment === "0") {
       // For cash payment, just show success message
       alert("Booking confirmed! You can pay cash to the driver.");
@@ -314,11 +339,15 @@ const CabBookingPage = () => {
 
   const handlePaymentSuccess = () => {
     setPaymentSuccess(true);
-    alert(`Payment of ₹${paymentOptions.find(opt => opt.id === selectedPayment)?.amount} successful! Booking confirmed.`);
+    alert(
+      `Payment of ₹${
+        paymentOptions.find((opt) => opt.id === selectedPayment)?.amount
+      } successful! Booking confirmed.`
+    );
   };
 
   const getSelectedAmount = () => {
-    const selected = paymentOptions.find(opt => opt.id === selectedPayment);
+    const selected = paymentOptions.find((opt) => opt.id === selectedPayment);
     return selected ? selected.amount : 0;
   };
 
@@ -441,7 +470,9 @@ const CabBookingPage = () => {
                 <div className="mb-4 p-3 rounded-lg bg-green-100 border border-green-400">
                   <div className="flex items-center gap-2">
                     <span className="text-green-600">✓</span>
-                    <span className="text-green-800 font-medium">Payment Successful!</span>
+                    <span className="text-green-800 font-medium">
+                      Payment Successful!
+                    </span>
                   </div>
                 </div>
               )}
@@ -463,7 +494,6 @@ const CabBookingPage = () => {
                         selectedPayment === option.id
                           ? `2px solid ${theme.colors.accent.gold}`
                           : `1px solid ${theme.colors.border.light}`,
-                      ringColor: theme.colors.accent.gold,
                     }}
                     onClick={() => setSelectedPayment(option.id)}
                   >
@@ -588,7 +618,9 @@ const CabBookingPage = () => {
                   />
                 )}
                 <span className="relative z-10">
-                  {selectedPayment === "0" ? "Confirm Booking" : `Proceed To Payment ₹${getSelectedAmount()}`}
+                  {selectedPayment === "0"
+                    ? "Confirm Booking"
+                    : `Proceed To Payment ₹${getSelectedAmount()}`}
                 </span>
               </button>
             </div>
@@ -623,26 +655,50 @@ const CabBookingPage = () => {
                   { label: "Name :", value: bookingData.name },
                   { label: "Email :", value: bookingData.email },
                   { label: "Mobile :", value: bookingData.mobile },
-                  { label: "Route :", value: bookingData.route },
-                  { label: "Km :", value: bookingData.distance },
+                  { label: "Service Type :", value: bookingData.serviceType },
+                  { label: "Trip Type :", value: bookingData.tripType },
+                  {
+                    label: "Route :",
+                    value:
+                      bookingData.from && bookingData.to
+                        ? `${bookingData.from} >> ${bookingData.to}`
+                        : bookingData.route,
+                  },
+                  { label: "Km :", value: bookingData.estimatedDistance },
                   { label: "Date :", value: bookingData.date },
-                  { label: "Time :", value: bookingData.time },
-                  { label: "Car :", value: bookingData.car },
-                  { label: "Pickup Address :", value: bookingData.pickup },
-                  { label: "Drop Address :", value: bookingData.drop },
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-start gap-4"
-                  >
-                    <span className="font-medium text-sm min-w-fit">
-                      {item.label}
-                    </span>
-                    <span className="font-semibold text-sm text-right">
-                      {item.value}
-                    </span>
-                  </div>
-                ))}
+                  {
+                    label: "Time :",
+                    value: bookingData.time || bookingData.pickupTime,
+                  },
+                  {
+                    label: "Car :",
+                    value: bookingData.selectedCabName
+                      ? `${bookingData.selectedCabName} or Similar`
+                      : bookingData.car,
+                  },
+                  {
+                    label: "Pickup Address :",
+                    value: bookingData.pickup || bookingData.dropAddress,
+                  },
+                  {
+                    label: "Drop Address :",
+                    value: bookingData.drop || bookingData.to,
+                  },
+                ]
+                  .filter((item) => item.value)
+                  .map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-start gap-4"
+                    >
+                      <span className="font-medium text-sm min-w-fit">
+                        {item.label}
+                      </span>
+                      <span className="font-semibold text-sm text-right">
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -650,7 +706,7 @@ const CabBookingPage = () => {
       </div>
 
       {/* Payment Gateway Modal */}
-      <PaymentGatewayModal 
+      <PaymentGatewayModal
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         amount={getSelectedAmount()}
