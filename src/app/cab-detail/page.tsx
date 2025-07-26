@@ -836,10 +836,18 @@ const BookingDetailsContent: React.FC = () => {
 
 // Loading component for Suspense fallback
 const LoadingFallback: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center" style={{ background: theme.gradients.heroGradient }}>
+  <div
+    className="min-h-screen flex items-center justify-center"
+    style={{ background: theme.gradients.heroGradient }}
+  >
     <div className="text-center">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
-      <p style={{ color: theme.colors.text.primary }}>Loading booking details...</p>
+      <div
+        className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4"
+        style={{ borderColor: theme.colors.accent.gold }}
+      ></div>
+      <p style={{ color: theme.colors.text.primary }}>
+        Loading booking details...
+      </p>
     </div>
   </div>
 );
