@@ -635,15 +635,15 @@ const CabBookingPage = () => {
             <div
               className="rounded-2xl p-6"
               style={{
-                background: theme.colors.background.lightGray,
-                border: `2px solid ${theme.colors.border.light}`,
-                color: "#333333",
+                background: theme.gradients.cardGradient,
+                border: `2px solid ${theme.colors.accent.gold}`,
+                boxShadow: `0 20px 60px ${theme.colors.shadow.elevated}, 0 0 0 1px ${theme.colors.accent.gold}30`,
               }}
             >
               <h2
                 className="text-xl font-bold mb-6 text-center"
                 style={{
-                  color: "#333333",
+                  color: theme.colors.accent.gold,
                   fontWeight: theme.typography.fontWeight.bold,
                 }}
               >
@@ -700,10 +700,16 @@ const CabBookingPage = () => {
                       key={index}
                       className="flex justify-between items-start gap-4"
                     >
-                      <span className="font-medium text-sm min-w-fit">
+                      <span
+                        className="font-medium text-sm min-w-fit"
+                        style={{ color: theme.colors.text.secondary }}
+                      >
                         {item.label}
                       </span>
-                      <span className="font-semibold text-sm text-right">
+                      <span
+                        className="font-semibold text-sm text-right"
+                        style={{ color: theme.colors.text.primary }}
+                      >
                         {item.value}
                       </span>
                     </div>
