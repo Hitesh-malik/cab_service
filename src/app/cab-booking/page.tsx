@@ -1,6 +1,6 @@
 // src/app/cab-booking/page.jsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 // Theme configuration (matching cab-lists)
@@ -276,7 +276,8 @@ const PaymentGatewayModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
   );
 };
 
-const CabBookingPage = () => {
+// Move the main logic to a child component
+const CabBookingContent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("0");
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -766,6 +767,25 @@ const CabBookingPage = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+// Loading fallback for Suspense
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
+      <p style={{ color: theme.colors.text.primary }}>Loading booking details...</p>
+    </div>
+  </div>
+);
+
+// Main export with Suspense
+const CabBookingPage = () => {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CabBookingContent />
+    </Suspense>
   );
 };
 
