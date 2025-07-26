@@ -41,6 +41,7 @@ export default function HomePage() {
 
       <StatsSection />
       <section
+        id="booking-widget"
         className="py-16 lg:py-20"
         style={{ background: theme.gradients.heroGradient }}
       >

@@ -5,6 +5,7 @@ import React from "react";
 import Link from "next/link";
 import { NavItem } from "@/types";
 import Dropdown from "./Dropdown";
+import { useRouter } from "next/navigation";
 
 interface NavigationMenuProps {
   items: NavItem[];
@@ -26,10 +27,39 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
   clickedDropdown,
 }) => {
 
+  const router = useRouter();
+
+  // Function to scroll to booking widget
+  const scrollToBookingWidget = () => {
+    setTimeout(() => {
+      const bookingSection = document.getElementById('booking-widget');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
+  };
+
   // Handle dropdown item clicks with proper mobile handling
-  const handleDropdownItemClick = () => {
+  const handleDropdownItemClick = (href?: string) => {
     console.log('🔗 Dropdown item clicked, closing dropdown');
     onDropdownClose();
+    
+    // If it's a booking widget link, scroll to it
+    if (href && href.includes('#booking-widget')) {
+      // If not on homepage, navigate first
+      if (window.location.pathname !== '/') {
+        router.push('/');
+        setTimeout(() => {
+          scrollToBookingWidget();
+        }, 500);
+      } else {
+        // If already on homepage, just scroll
+        scrollToBookingWidget();
+      }
+    }
     
     if (isMobile && onMobileMenuClose) {
       console.log('📱 Closing mobile menu after dropdown item click');
@@ -119,7 +149,6 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
                     className={getNavItemClasses(item)}
                     onClick={(e) => {
                       console.log('📱 Mobile dropdown button clicked:', item.label);
-                      // Prevent event bubbling to parent elements
                       e.preventDefault();
                       e.stopPropagation();
                       handleItemClick(item, e);

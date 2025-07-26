@@ -9,7 +9,7 @@ import { NavItem } from "@/types";
 interface DropdownProps {
   item: NavItem;
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (href?: string) => void;
   isMobile?: boolean;
   isClickedOpen?: boolean;
 }
@@ -83,8 +83,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     if (!isMobile) e.preventDefault(); // Prevent default link behavior on desktop
     console.log('🧭 Navigating with router to:', dropdownItem.href);
     
-    // Close dropdown immediately for better UX
-    onClose();
+    // Close dropdown immediately for better UX and pass href for navigation
+    onClose(dropdownItem.href);
     
     // Navigate using Next.js router
     router.push(dropdownItem.href);

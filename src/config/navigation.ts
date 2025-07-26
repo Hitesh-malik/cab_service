@@ -11,43 +11,30 @@ export const navigationItems: NavItem[] = [
     dropdownItems: [
       { 
         label: 'Oneway Rentals', 
-        href: '/services/oneway',
+        href: '/#booking-widget',
         icon: '➡️',
         description: 'Single destination car rentals'
       },
       { 
         label: 'Roundway Rentals', 
-        href: '/services/roundway',
+        href: '/#booking-widget',
         icon: '🔄',
         description: 'Return to pickup location'
       },
       { 
         label: 'Local Rentals', 
-        href: '/services/local',
+        href: '/#booking-widget',
         icon: '🏙️',
         description: 'City and local area rentals'
       },
       { 
         label: 'Airport Rentals', 
-        href: '/services/airport',
+        href: '/#booking-widget',
         icon: '✈️',
         badge: 'Fast',
         description: 'Quick airport pickup & drop'
       },
-      {
-        label: 'Get Quote',
-        href: '/quote',
-        icon: '💰',
-        description: 'Instant price calculator',
-        badge: 'New'
-      },
-      {
-        label: 'Call Now',
-        href: 'tel:+919157576555',
-        icon: '📞',
-        description: 'Speak with our team',
-        external: true
-      }
+      
     ]
   },
   {
@@ -59,29 +46,11 @@ export const navigationItems: NavItem[] = [
     dropdownItems: [
       { 
         label: 'Popular Routes', 
-        href: '/popular/routes',
+        href: '/#booking-widget',
         icon: '🗺️',
         description: 'Most booked travel routes'
       },
-      { 
-        label: 'Popular Cities', 
-        href: '/popular/city',
-        icon: '🌆',
-        description: 'Top destination cities'
-      },
-      {
-        label: 'Delhi to Agra',
-        href: '/routes/delhi-agra',
-        icon: '🕌',
-        description: 'Most popular route',
-        badge: 'Trending'
-      },
-      {
-        label: 'Mumbai to Pune',
-        href: '/routes/mumbai-pune',
-        icon: '🏙️',
-        description: 'Business route'
-      }
+      
     ]
   },
   { 
