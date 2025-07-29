@@ -64,14 +64,6 @@ const theme = {
 };
 
 const HeroSection: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <section
@@ -84,8 +76,7 @@ const HeroSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           {/* Left Content */}
           <div
-            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-center px-4 sm:px-6 lg:px-8 ${isVisible ? "animate-fade-in-up" : "opacity-0"
-              }`}
+            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-center px-4 sm:px-6 lg:px-8  `}
           >
             {/* Welcome Text */}
             <div className="space-y-3">
@@ -112,11 +103,9 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Content - Background Image */}
           <div
             className={`relative h-full animate-delay-300`}
           >
-            {/* Background Image */}
             <div className="absolute inset-0">
               <Image
                 src="/cab_image.png"

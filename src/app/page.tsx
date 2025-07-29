@@ -40,8 +40,6 @@ export default function HomePage() {
   return (
     <ThemedPageWrapper>
       <HeroSection />
-
-      <StatsSection />
       <section
         id="booking-widget"
         className="py-16 lg:py-20"
@@ -49,7 +47,7 @@ export default function HomePage() {
       >
         <BookingWidget />
       </section>
-
+      <StatsSection />
       <IntroductionSection />
       <ServicesSection />
       <BookingCTASection />
