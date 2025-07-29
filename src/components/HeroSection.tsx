@@ -74,7 +74,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative h-96 lg:h-[500px] flex items-center justify-center overflow-hidden"
       style={{
         background: theme.gradients.heroGradient,
       }}
@@ -118,126 +118,42 @@ const HeroSection: React.FC = () => {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen py-12">
+      <div className="relative z-10 w-full h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           {/* Left Content */}
           <div
-            className={`text-center lg:text-left space-y-8 ${
+            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-start px-4 sm:px-6 lg:px-8 ${
               isVisible ? "animate-fade-in-up" : "opacity-0"
             }`}
           >
-            {/* Brand Name */}
-            <div className="space-y-2">
+            {/* Welcome Text */}
+            <div className="space-y-3">
               <h1
-                className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none"
+                className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-none"
                 style={{
                   color: theme.colors.text.primary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                   textShadow: `0 4px 20px ${theme.colors.shadow.primary}`,
                 }}
               >
-                PENTA
+                Welcome to
               </h1>
               <h1
-                className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none -mt-4"
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-none"
                 style={{
                   color: theme.colors.accent.gold,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                   textShadow: `0 4px 20px ${theme.colors.shadow.gold}`,
                 }}
               >
-                CAB
+                Penta Cab
               </h1>
             </div>
-
-            {/* Service Types */}
-            <div className="space-y-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium">
-              <p
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                  textShadow: `0 2px 10px ${theme.colors.shadow.primary}`,
-                }}
-              >
-                One Way Location
-              </p>
-              <p
-                style={{
-                  color: theme.colors.text.muted,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                  textShadow: `0 2px 10px ${theme.colors.shadow.primary}`,
-                }}
-              >
-                One Way / Round Trip
-              </p>
-            </div>
-
-            {/* Service Options Grid */}
-            <div className="grid grid-cols-2 gap-6 py-8">
-              <div className="text-center lg:text-left space-y-2">
-                <p
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: theme.colors.text.muted }}
-                >
-                  Pickup Way
-                </p>
-                <p
-                  className="text-lg lg:text-xl font-bold"
-                  style={{ color: theme.colors.text.secondary }}
-                >
-                  Local Location
-                </p>
-              </div>
-              <div className="text-center lg:text-left space-y-2">
-                <p
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: theme.colors.text.muted }}
-                >
-                  Pickup
-                </p>
-                <p
-                  className="text-lg lg:text-xl font-bold"
-                  style={{ color: theme.colors.text.secondary }}
-                >
-                  Drop In
-                </p>
-              </div>
-              <div className="text-center lg:text-left space-y-2">
-                <p
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: theme.colors.text.muted }}
-                >
-                  Drop Way
-                </p>
-                <p
-                  className="text-lg lg:text-xl font-bold"
-                  style={{ color: theme.colors.text.secondary }}
-                >
-                  Drop
-                </p>
-              </div>
-              <div className="text-center lg:text-left space-y-2">
-                <p
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: theme.colors.text.muted }}
-                >
-                  One Way
-                </p>
-                <p
-                  className="text-lg lg:text-xl font-bold"
-                  style={{ color: theme.colors.text.secondary }}
-                >
-                  Round Trip
-                </p>
-              </div>
-            </div>
-
-         
           </div>
 
           {/* Right Content - Car Image */}
           <div
-            className={`relative ${
+            className={`relative h-full ${
               isVisible ? "animate-fade-in-right" : "opacity-0"
             } animate-delay-300`}
           >
@@ -252,24 +168,19 @@ const HeroSection: React.FC = () => {
             />
 
             {/* Car Image Container */}
-            <div className="relative z-10">
+            <div className="relative z-10 h-full w-full">
               <div
-                className="relative w-full h-80 lg:h-96 xl:h-[28rem] 2xl:h-[32rem] rounded-2xl overflow-hidden group transform hover:scale-[1.02] transition-all duration-700"
+                className="relative w-full h-full overflow-hidden group transform hover:scale-[1.02] transition-all duration-700"
                 style={{
-                  border: `3px solid ${theme.colors.border.gold}`,
-                  boxShadow: `
-                    0 25px 80px ${theme.colors.shadow.elevated}, 
-                    0 0 0 1px ${theme.colors.accent.gold}30,
-                    inset 0 1px 0 ${theme.colors.border.light}
-                  `,
+                  boxShadow: `0 25px 80px ${theme.colors.shadow.elevated}`,
                 }}
               >
                 {/* Using Next.js optimized Image component */}
                 <Image
-                  src="/raw.png"
+                  src="/cab_image.png"
                   alt="Penta Cab - Premium Taxi Service"
                   fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="object-contain object-center group-hover:scale-105 transition-transform duration-700"
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
@@ -281,60 +192,7 @@ const HeroSection: React.FC = () => {
                     background: `linear-gradient(135deg, ${theme.colors.primary.black}20 0%, transparent 50%, ${theme.colors.primary.black}20 100%)`,
                   }}
                 />
-
-                {/* Premium Service Badge */}
-                <div
-                  className="absolute top-4 right-4 px-4 py-2 rounded-full backdrop-blur-lg transform hover:scale-110 transition-all duration-300"
-                  style={{
-                    background: `linear-gradient(135deg, ${theme.colors.accent.gold}95 0%, ${theme.colors.secondary.amber}90 100%)`,
-                    color: theme.colors.primary.black,
-                    fontSize: "0.875rem",
-                    fontWeight: theme.typography.fontWeight.bold,
-                    boxShadow: `0 8px 25px ${theme.colors.shadow.gold}`,
-                    border: `1px solid ${theme.colors.accent.lightGold}50`,
-                  }}
-                >
-                  ✨ PREMIUM
-                </div>
               </div>
-
-              {/* Floating Service Badges */}
-              <div className="absolute -top-6 -right-6 space-y-3 hidden lg:block">
-                <div
-                  className="px-5 py-3 rounded-full text-sm font-bold backdrop-blur-xl shadow-2xl transform hover:scale-110 transition-all duration-300 cursor-pointer animate-bounce"
-                  style={{
-                    background: `linear-gradient(135deg, ${theme.colors.accent.gold} 0%, ${theme.colors.secondary.amber} 100%)`,
-                    color: theme.colors.primary.black,
-                    border: `2px solid ${theme.colors.accent.lightGold}50`,
-                    boxShadow: `0 12px 40px ${theme.colors.shadow.gold}`,
-                    animationDelay: "0s",
-                    animationDuration: "3s",
-                  }}
-                >
-                  🚗 24/7 Available
-                </div>
-              
-              </div>
-
-              {/* Floating decorative elements */}
-              <div
-                className="absolute top-1/4 -left-8 w-6 h-6 rounded-full animate-bounce opacity-80 hidden lg:block"
-                style={{
-                  background: `linear-gradient(45deg, ${theme.colors.accent.gold}, ${theme.colors.secondary.amber})`,
-                  animationDelay: "1.5s",
-                  animationDuration: "2.5s",
-                  boxShadow: `0 4px 15px ${theme.colors.shadow.gold}`,
-                }}
-              />
-              <div
-                className="absolute bottom-1/3 -right-6 w-4 h-4 rounded-full animate-bounce opacity-90 hidden lg:block"
-                style={{
-                  background: `linear-gradient(45deg, ${theme.colors.secondary.warmYellow}, ${theme.colors.secondary.lightAmber})`,
-                  animationDelay: "2.5s",
-                  animationDuration: "2s",
-                  boxShadow: `0 4px 15px rgba(255, 184, 77, 0.4)`,
-                }}
-              />
             </div>
           </div>
         </div>
