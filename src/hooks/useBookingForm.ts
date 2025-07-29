@@ -25,7 +25,9 @@ export const useBookingForm = () => {
     date: '03-06-25',
     time: '11:00 PM',
     pickupTime: '11:00 PM',
-    returnDate: ''
+    returnDate: '',
+    name: '',
+    phoneNumber: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,6 +61,9 @@ export const useBookingForm = () => {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
+    // Common validations for all services
+    if (!bookingData.name) newErrors.name = 'Name is required';
+    if (!bookingData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
     if (!bookingData.date) newErrors.date = 'Date is required';
     if (!bookingData.time && !bookingData.pickupTime) newErrors.time = 'Time is required';
 

@@ -17,4 +17,6 @@ export interface BookingFormData {
   time: string;
   pickupTime: string;
   returnDate?: string; // New field for round trip return date
+  name: string; // New field for customer name
+  phoneNumber: string; // New field for customer phone number
 }
