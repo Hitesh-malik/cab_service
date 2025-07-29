@@ -49,6 +49,7 @@ const theme = {
     heroGradient:
       "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%)",
     gold: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+    enhancedBackground: "linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%, #000000 100%)",
   },
   typography: {
     fontFamily: {
@@ -76,55 +77,15 @@ const HeroSection: React.FC = () => {
     <section
       className="relative h-96 lg:h-[500px] flex items-center justify-center overflow-hidden"
       style={{
-        background: theme.gradients.heroGradient,
+        background: theme.gradients.enhancedBackground,
       }}
     >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0">
-        {/* Radial gradient overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.5) 70%, #000000 100%)`,
-          }}
-        />
-
-        {/* Animated background particles */}
-        <div
-          className="absolute top-1/4 left-1/6 w-24 h-24 rounded-full blur-2xl animate-pulse"
-          style={{
-            backgroundColor: theme.colors.accent.gold,
-            opacity: 0.1,
-            animationDuration: "3s",
-          }}
-        />
-        <div
-          className="absolute top-2/3 right-1/4 w-32 h-32 rounded-full blur-3xl animate-pulse"
-          style={{
-            backgroundColor: theme.colors.secondary.amber,
-            opacity: 0.08,
-            animationDelay: "1.5s",
-            animationDuration: "4s",
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 left-1/3 w-20 h-20 rounded-full blur-2xl animate-pulse"
-          style={{
-            backgroundColor: theme.colors.secondary.warmYellow,
-            opacity: 0.12,
-            animationDelay: "2s",
-            animationDuration: "3.5s",
-          }}
-        />
-      </div>
-
       <div className="relative z-10 w-full h-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           {/* Left Content */}
           <div
-            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-start px-4 sm:px-6 lg:px-8 ${
-              isVisible ? "animate-fade-in-up" : "opacity-0"
-            }`}
+            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-center px-4 sm:px-6 lg:px-8 ${isVisible ? "animate-fade-in-up" : "opacity-0"
+              }`}
           >
             {/* Welcome Text */}
             <div className="space-y-3">
@@ -151,58 +112,41 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Content - Car Image */}
+          {/* Right Content - Background Image */}
           <div
-            className={`relative h-full ${
-              isVisible ? "animate-fade-in-right" : "opacity-0"
-            } animate-delay-300`}
+            className={`relative h-full animate-delay-300`}
           >
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <Image
+                src="/cab_image.png"
+                alt="Penta Cab - Premium Taxi Service"
+                fill
+                className="object-cover object-center opacity-80"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+
             {/* Enhanced Glow effect */}
             <div
-              className="absolute inset-0 blur-3xl opacity-50 animate-pulse"
+              className="absolute inset-0 blur-3xl opacity-30 animate-pulse"
               style={{
-                background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${theme.colors.accent.gold}40 0%, ${theme.colors.secondary.amber}20 40%, transparent 70%)`,
-                transform: "scale(1.3)",
-                animationDuration: "4s",
+                background: `radial-gradient(ellipse 90% 70% at 50% 50%, ${theme.colors.accent.gold}20 0%, ${theme.colors.secondary.amber}10 40%, transparent 80%)`,
+                transform: "scale(1.2)",
+                animationDuration: "5s",
               }}
             />
-
-            {/* Car Image Container */}
-            <div className="relative z-10 h-full w-full">
-              <div
-                className="relative w-full h-full overflow-hidden group transform hover:scale-[1.02] transition-all duration-700"
-                style={{
-                  boxShadow: `0 25px 80px ${theme.colors.shadow.elevated}`,
-                }}
-              >
-                {/* Using Next.js optimized Image component */}
-                <Image
-                  src="/cab_image.png"
-                  alt="Penta Cab - Premium Taxi Service"
-                  fill
-                  className="object-contain object-center group-hover:scale-105 transition-transform duration-700"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-
-                {/* Dark overlay for premium effect */}
-                <div
-                  className="absolute inset-0 bg-gradient-to-br opacity-40 group-hover:opacity-30 transition-opacity duration-500"
-                  style={{
-                    background: `linear-gradient(135deg, ${theme.colors.primary.black}20 0%, transparent 50%, ${theme.colors.primary.black}20 100%)`,
-                  }}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom decorative line */}
+      {/* Enhanced bottom decorative line */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px opacity-60"
         style={{
           background: theme.gradients.gold,
+          boxShadow: `0 0 10px ${theme.colors.accent.gold}40`,
         }}
       />
 
