@@ -21,14 +21,14 @@ export const LocalForm: React.FC<LocalFormProps> = ({
   errors,
   onInputChange,
 }) => (
-  <div className="space-y-4">
-    <div className="text-center">
+  <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+    {/* Header Section */}
+    <div className="text-center space-y-3 sm:space-y-4">
       <h3
-        className="font-bold mb-4"
+        className="font-bold text-lg sm:text-xl lg:text-2xl px-2"
         style={{
           color: theme.colors.text.primary,
           fontFamily: theme.typography.fontFamily.sans.join(", "),
-          fontSize: theme.typography.fontSize.lg,
           fontWeight: theme.typography.fontWeight.bold,
         }}
       >
@@ -36,9 +36,10 @@ export const LocalForm: React.FC<LocalFormProps> = ({
       </h3>
     </div>
 
-    <div>
+    {/* City Selection */}
+    <div className="space-y-2">
       <label
-        className="block text-sm font-medium mb-2"
+        className="block text-sm sm:text-base font-medium px-1"
         style={{
           color: theme.colors.text.secondary,
           fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -56,9 +57,10 @@ export const LocalForm: React.FC<LocalFormProps> = ({
       />
     </div>
 
-    <div>
+    {/* Package Selection */}
+    <div className="space-y-2">
       <label
-        className="block text-sm font-medium mb-2"
+        className="block text-sm sm:text-base font-medium px-1"
         style={{
           color: theme.colors.text.secondary,
           fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -76,17 +78,18 @@ export const LocalForm: React.FC<LocalFormProps> = ({
       />
     </div>
 
-    <div className="grid grid-cols-2 gap-4">
-      <div>
+    {/* Date and Time Section - Responsive Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
-          DATE 📅
+          DATE
         </label>
         <ThemedDatePicker
           value={bookingData.date}
@@ -94,16 +97,16 @@ export const LocalForm: React.FC<LocalFormProps> = ({
           error={errors.date}
         />
       </div>
-      <div>
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
-          TIME ⏰
+          TIME
         </label>
         <ThemedTimePicker
           value={bookingData.time}
@@ -113,18 +116,18 @@ export const LocalForm: React.FC<LocalFormProps> = ({
       </div>
     </div>
 
-    {/* Customer Details */}
-    <div className="grid grid-cols-2 gap-4">
-      <div>
+    {/* Customer Details Section - Responsive Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
-          NAME 👤
+          NAME
         </label>
         <ThemedInput
           placeholder="Enter your full name"
@@ -133,16 +136,16 @@ export const LocalForm: React.FC<LocalFormProps> = ({
           error={errors.name}
         />
       </div>
-      <div>
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
-          PHONE NUMBER 📞
+          PHONE NUMBER
         </label>
         <ThemedInput
           placeholder="Enter your phone number"

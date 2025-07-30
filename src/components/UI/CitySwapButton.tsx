@@ -18,7 +18,7 @@ export const CitySwapButton: React.FC<CitySwapButtonProps> = ({
     <button
       type="button"
       onClick={onSwap}
-      className="p-2 rounded-full transition-all duration-300 hover:scale-110"
+      className="p-2 sm:p-2.5 rounded-full transition-all duration-300 hover:scale-110 min-h-[44px] sm:min-h-[48px] min-w-[44px] sm:min-w-[48px]"
       style={{
         backgroundColor: theme.colors.background.card,
         border: `2px solid ${theme.colors.border.goldLight}`,
@@ -38,7 +38,7 @@ export const CitySwapButton: React.FC<CitySwapButtonProps> = ({
       title="Swap cities"
     >
       <svg 
-        className="w-5 h-5" 
+        className="w-4 h-4 sm:w-5 sm:h-5" 
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24"

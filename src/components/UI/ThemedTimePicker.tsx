@@ -92,7 +92,7 @@ export const ThemedTimePicker: React.FC<ThemedTimePickerProps> = ({
           onChange={handleTimeChange}
           min={min}
           max={max}
-          className="w-full p-3 rounded-lg transition-all duration-300 outline-none cursor-pointer"
+          className="w-full p-3 sm:p-3.5 rounded-lg transition-all duration-300 outline-none cursor-pointer text-sm sm:text-base min-h-[44px] sm:min-h-[48px]"
           style={{
             backgroundColor: theme.colors.background.card,
             color: theme.colors.text.primary,
@@ -110,7 +110,7 @@ export const ThemedTimePicker: React.FC<ThemedTimePickerProps> = ({
         />
         {/* Clock icon overlay */}
         <div 
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+          className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-sm sm:text-base"
           style={{ color: theme.colors.text.muted }}
         >
           ⏰
@@ -118,7 +118,7 @@ export const ThemedTimePicker: React.FC<ThemedTimePickerProps> = ({
       </div>
       {error && (
         <p 
-          className="text-sm mt-1"
+          className="text-xs sm:text-sm mt-1 px-1"
           style={{ color: theme.colors.status.error }}
         >
           {error}

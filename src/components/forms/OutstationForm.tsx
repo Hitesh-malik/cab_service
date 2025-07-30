@@ -46,31 +46,33 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="text-center">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+      {/* Header Section */}
+      <div className="text-center space-y-3 sm:space-y-4">
         <h3
-          className="font-bold mb-4"
+          className="font-bold text-lg sm:text-xl lg:text-2xl px-2"
           style={{
             color: theme.colors.text.primary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
-            fontSize: theme.typography.fontSize.lg,
             fontWeight: theme.typography.fontWeight.bold,
           }}
         >
           INDIA'S PREMIER INTERCITY CABS
         </h3>
-        <TabGroup
-          options={["ONEWAY", "ROUNDWAY"]}
-          activeOption={activeTripType}
-          onOptionChange={onTripTypeChange}
-        />
+        <div className="px-2 sm:px-4">
+          <TabGroup
+            options={["ONEWAY", "ROUNDWAY"]}
+            activeOption={activeTripType}
+            onOptionChange={onTripTypeChange}
+          />
+        </div>
       </div>
 
       {/* Cities Selection with Swap Button */}
       <div className="space-y-4">
-        <div>
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -94,9 +96,9 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           className="-my-2 relative z-10"
         />
 
-        <div>
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -118,14 +120,14 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
       {/* Departure Date and Time */}
       <div className="space-y-4">
         <div
-          className="p-4 rounded-lg border"
+          className="p-3 sm:p-4 rounded-lg border"
           style={{
             backgroundColor: theme.colors.background.secondary,
             borderColor: theme.colors.border.goldLight,
           }}
         >
           <h4
-            className="font-semibold mb-3 text-center"
+            className="font-semibold mb-3 text-center text-sm sm:text-base"
             style={{
               color: theme.colors.text.primary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -135,17 +137,17 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             🚗 DEPARTURE DETAILS
           </h4>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="space-y-2">
               <label
-                className="block text-sm font-medium mb-2"
+                className="block text-sm sm:text-base font-medium px-1"
                 style={{
                   color: theme.colors.text.secondary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                   fontWeight: theme.typography.fontWeight.medium,
                 }}
               >
-                DEPARTURE DATE 📅
+                DEPARTURE DATE
               </label>
               <ThemedDatePicker
                 value={bookingData.date}
@@ -153,16 +155,16 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
                 error={errors.date}
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <label
-                className="block text-sm font-medium mb-2"
+                className="block text-sm sm:text-base font-medium px-1"
                 style={{
                   color: theme.colors.text.secondary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                   fontWeight: theme.typography.fontWeight.medium,
                 }}
               >
-                PICKUP TIME ⏰
+                PICKUP TIME
               </label>
               <ThemedTimePicker
                 value={bookingData.pickupTime}
@@ -176,14 +178,14 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         {/* Return Date (Only for Round Trip) */}
         {activeTripType === "ROUNDWAY" && (
           <div
-            className="p-4 rounded-lg border animate-fadeIn"
+            className="p-3 sm:p-4 rounded-lg border animate-fadeIn"
             style={{
               backgroundColor: theme.colors.background.card,
               borderColor: theme.colors.border.goldLight,
             }}
           >
             <h4
-              className="font-semibold mb-3 text-center"
+              className="font-semibold mb-3 text-center text-sm sm:text-base"
               style={{
                 color: theme.colors.text.primary,
                 fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -193,17 +195,17 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
               🔄 RETURN DETAILS
             </h4>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="space-y-2">
                 <label
-                  className="block text-sm font-medium mb-2"
+                  className="block text-sm sm:text-base font-medium px-1"
                   style={{
                     color: theme.colors.text.secondary,
                     fontFamily: theme.typography.fontFamily.sans.join(", "),
                     fontWeight: theme.typography.fontWeight.medium,
                   }}
                 >
-                  RETURN DATE 📅
+                  RETURN DATE
                 </label>
                 <ThemedDatePicker
                   value={bookingData.returnDate || ""}
@@ -212,16 +214,16 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
                   min={getMinReturnDate()}
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <label
-                  className="block text-sm font-medium mb-2"
+                  className="block text-sm sm:text-base font-medium px-1"
                   style={{
                     color: theme.colors.text.secondary,
                     fontFamily: theme.typography.fontFamily.sans.join(", "),
                     fontWeight: theme.typography.fontWeight.medium,
                   }}
                 >
-                  RETURN TIME ⏰
+                  RETURN TIME
                 </label>
                 <ThemedTimePicker
                   value={bookingData.time}
@@ -233,7 +235,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
 
             {/* Return Trip Info */}
             <div
-              className="mt-3 p-2 rounded text-center text-sm"
+              className="mt-3 p-2 rounded text-center text-xs sm:text-sm"
               style={{
                 backgroundColor: theme.colors.background.secondary,
                 color: theme.colors.text.muted,
@@ -247,18 +249,18 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         )}
       </div>
 
-      {/* Customer Details */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+      {/* Customer Details Section - Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            NAME 👤
+            NAME
           </label>
           <ThemedInput
             placeholder="Enter your full name"
@@ -267,16 +269,16 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             error={errors.name}
           />
         </div>
-        <div>
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            PHONE NUMBER 📞
+            PHONE NUMBER
           </label>
           <ThemedInput
             placeholder="Enter your phone number"
@@ -290,7 +292,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
       {/* Trip Summary */}
       {bookingData.from && bookingData.to && (
         <div
-          className="p-3 rounded-lg text-center border"
+          className="p-3 sm:p-4 rounded-lg text-center border"
           style={{
             backgroundColor: theme.colors.background.secondary,
             borderColor: theme.colors.border.goldLight,
@@ -298,7 +300,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             fontFamily: theme.typography.fontFamily.sans.join(", "),
           }}
         >
-          <div className="flex items-center justify-center space-x-2">
+          <div className="flex items-center justify-center space-x-2 text-sm sm:text-base">
             <span className="font-semibold">{bookingData.from}</span>
             <span style={{ color: theme.colors.accent.gold }}>
               {activeTripType === "ROUNDWAY" ? "⇄" : "→"}
@@ -306,7 +308,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             <span className="font-semibold">{bookingData.to}</span>
           </div>
           <div
-            className="text-sm mt-1"
+            className="text-xs sm:text-sm mt-1"
             style={{ color: theme.colors.text.muted }}
           >
             {activeTripType === "ROUNDWAY" ? "Round Trip" : "One Way Trip"}

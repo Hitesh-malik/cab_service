@@ -28,7 +28,7 @@ export const ThemedInput: React.FC<ThemedInputProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="w-full p-3 rounded-lg transition-all duration-300 outline-none"
+      className="w-full p-3 sm:p-3.5 rounded-lg transition-all duration-300 outline-none text-sm sm:text-base min-h-[44px] sm:min-h-[48px]"
       style={{
         backgroundColor: theme.colors.background.card,
         color: theme.colors.text.primary,
@@ -46,7 +46,7 @@ export const ThemedInput: React.FC<ThemedInputProps> = ({
     />
     {error && (
       <p 
-        className="text-sm mt-1"
+        className="text-xs sm:text-sm mt-1 px-1"
         style={{ color: theme.colors.status.error }}
       >
         {error}

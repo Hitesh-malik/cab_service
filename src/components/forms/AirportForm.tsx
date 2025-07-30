@@ -29,29 +29,32 @@ export const AirportForm: React.FC<AirportFormProps> = ({
   console.log("AirportForm rendered with bookingData:", activePickupDrop);
 
   return (
-    <div className="space-y-4">
-      <div className="text-center">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+      {/* Header Section */}
+      <div className="text-center space-y-3 sm:space-y-4">
         <h3
-          className="font-bold mb-4"
+          className="font-bold text-lg sm:text-xl lg:text-2xl px-2"
           style={{
             color: theme.colors.text.primary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
-            fontSize: theme.typography.fontSize.lg,
             fontWeight: theme.typography.fontWeight.bold,
           }}
         >
           RELIABLE AIRPORT PICKUPS & DROPS
         </h3>
-        <TabGroup
-          options={["PICKUP", "DROP"]}
-          activeOption={activePickupDrop}
-          onOptionChange={onPickupDropChange}
-        />
+        <div className="px-2 sm:px-4">
+          <TabGroup
+            options={["PICKUP", "DROP"]}
+            activeOption={activePickupDrop}
+            onOptionChange={onPickupDropChange}
+          />
+        </div>
       </div>
 
-      <div>
+      {/* Airport Selection */}
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -69,9 +72,10 @@ export const AirportForm: React.FC<AirportFormProps> = ({
         />
       </div>
 
-      <div>
+      {/* Address Section */}
+      <div className="space-y-2">
         <label
-          className="block text-sm font-medium mb-2"
+          className="block text-sm sm:text-base font-medium px-1"
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -88,17 +92,18 @@ export const AirportForm: React.FC<AirportFormProps> = ({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+      {/* Date and Time Section - Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            DATE 📅
+            DATE 
           </label>
           <ThemedDatePicker
             value={bookingData.date}
@@ -106,16 +111,16 @@ export const AirportForm: React.FC<AirportFormProps> = ({
             error={errors.date}
           />
         </div>
-        <div>
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            TIME ⏰
+            TIME 
           </label>
           <ThemedTimePicker
             value={bookingData.time}
@@ -125,18 +130,18 @@ export const AirportForm: React.FC<AirportFormProps> = ({
         </div>
       </div>
 
-      {/* Customer Details */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+      {/* Customer Details Section - Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            NAME 👤
+            NAME 
           </label>
           <ThemedInput
             placeholder="Enter your full name"
@@ -145,16 +150,16 @@ export const AirportForm: React.FC<AirportFormProps> = ({
             error={errors.name}
           />
         </div>
-        <div>
+        <div className="space-y-2">
           <label
-            className="block text-sm font-medium mb-2"
+            className="block text-sm sm:text-base font-medium px-1"
             style={{
               color: theme.colors.text.secondary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
-            PHONE NUMBER 📞
+            PHONE NUMBER 
           </label>
           <ThemedInput
             placeholder="Enter your phone number"
