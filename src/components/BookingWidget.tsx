@@ -21,13 +21,6 @@ const BookingWidget: React.FC = () => {
     <div className="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto p-6">
       <BookingForm />
       
-      <QuickInquiryForm
-        inquiryData={inquiryData}
-        errors={errors}
-        isSubmitting={isSubmitting}
-        onInputChange={handleInputChange}
-        onSubmit={handleSubmit}
-      />
     </div>
   );
 };

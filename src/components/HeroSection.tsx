@@ -1,12 +1,7 @@
-// ============================================================================
-// HeroSection.tsx - Enhanced Penta Cab Hero Section
-// ============================================================================
 
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-
+import React from "react";
 // Theme configuration
 const theme = {
   colors: {
@@ -67,16 +62,16 @@ const HeroSection: React.FC = () => {
 
   return (
     <section
-      className="relative h-96 lg:h-[500px] flex items-center justify-center overflow-hidden"
+      className="min-h-[400px] lg:min-h-[500px] flex items-center justify-center overflow-hidden w-full"
       style={{
         background: theme.gradients.enhancedBackground,
       }}
     >
-      <div className="relative z-10 w-full h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-          {/* Left Content */}
+      <div className="w-full h-full">
+        <div className="flex flex-col lg:flex-row h-full">
+          {/* Left Content - Text Section */}
           <div
-            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-center px-4 sm:px-6 lg:px-8  `}
+            className={`text-center lg:text-left space-y-6 flex items-center justify-center lg:justify-center px-4 sm:px-6 lg:px-8 w-full lg:w-1/2`}
           >
             {/* Welcome Text */}
             <div className="space-y-3">
@@ -103,85 +98,25 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className={`relative h-full animate-delay-300`}
-          >
-            <div className="absolute inset-0">
-              <Image
+          {/* Right Content - Image Section */}
+          <div className={`w-full lg:w-1/2 h-full flex items-center justify-center`}>
+            <div className="w-full h-full flex items-center justify-center">
+              <img
                 src="/cab_image.png"
                 alt="Penta Cab - Premium Taxi Service"
-                fill
-                className="object-cover object-center opacity-80"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="w-full h-full object-cover object-center opacity-80"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  opacity: 0.8,
+                  width: "80%",
+                  height: "80%",
+                }}
               />
             </div>
-
-            {/* Enhanced Glow effect */}
-            <div
-              className="absolute inset-0 blur-3xl opacity-30 animate-pulse"
-              style={{
-                background: `radial-gradient(ellipse 90% 70% at 50% 50%, ${theme.colors.accent.gold}20 0%, ${theme.colors.secondary.amber}10 40%, transparent 80%)`,
-                transform: "scale(1.2)",
-                animationDuration: "5s",
-              }}
-            />
           </div>
         </div>
       </div>
-
-      {/* Enhanced bottom decorative line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px opacity-60"
-        style={{
-          background: theme.gradients.gold,
-          boxShadow: `0 0 10px ${theme.colors.accent.gold}40`,
-        }}
-      />
-
-      {/* Custom CSS Animations */}
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fade-in-right {
-          from {
-            opacity: 0;
-            transform: translateX(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 1s ease-out forwards;
-        }
-
-        .animate-fade-in-right {
-          animation: fade-in-right 1s ease-out forwards;
-        }
-
-        .animate-delay-300 {
-          animation-delay: 300ms;
-        }
-
-        /* Enhanced hover effects */
-        @media (min-width: 1024px) {
-          .group:hover .car-image {
-            transform: scale(1.05);
-          }
-        }
-      `}</style>
     </section>
   );
 };
