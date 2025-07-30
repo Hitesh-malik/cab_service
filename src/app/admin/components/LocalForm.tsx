@@ -6,6 +6,12 @@ import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 
+interface VehiclePricing {
+  vehicleType: string;
+  pickupPrice: string;
+  dropPrice: string;
+}
+
 interface LocalData {
   pickupLocation: string;
   dropLocation: string;
@@ -13,9 +19,9 @@ interface LocalData {
   duration: string;
   basePrice: string;
   perKmPrice: string;
-  vehicleType: string;
   description: string;
   serviceType: string;
+  vehicles: VehiclePricing[];
 }
 
 export default function LocalForm() {
@@ -26,21 +32,40 @@ export default function LocalForm() {
     duration: "",
     basePrice: "",
     perKmPrice: "",
-    vehicleType: "",
     description: "",
     serviceType: "",
+    vehicles: [
+      {
+        vehicleType: "Innova",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Sedan",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "SUV",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Inno Crystal",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+    ],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
   const vehicleOptions = [
-    "Sedan",
+    "Innova",
+    "Sedan", 
     "SUV",
-    "Luxury Sedan",
-    "Luxury SUV",
-    "Mini Bus",
-    "Tempo Traveller",
+    "Inno Crystal",
   ];
 
   const serviceTypeOptions = [
@@ -51,10 +76,19 @@ export default function LocalForm() {
     "City Tour",
   ];
 
-  const handleInputChange = (field: keyof LocalData, value: string) => {
+  const handleInputChange = (field: keyof Omit<LocalData, 'vehicles'>, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      vehicles: prev.vehicles.map((vehicle, i) => 
+        i === index ? { ...vehicle, [field]: value } : vehicle
+      )
     }));
   };
 
@@ -83,9 +117,30 @@ export default function LocalForm() {
           duration: "",
           basePrice: "",
           perKmPrice: "",
-          vehicleType: "",
           description: "",
           serviceType: "",
+          vehicles: [
+            {
+              vehicleType: "Innova",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Sedan",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "SUV",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Inno Crystal",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+          ],
         });
       } else {
         setMessage(result.error || "Error saving data. Please try again.");
@@ -251,23 +306,80 @@ export default function LocalForm() {
             </div>
           </div>
 
-          {/* Vehicle Type */}
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium"
-              style={{
-                color: theme.colors.text.secondary,
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
-            >
-              Vehicle Type
-            </label>
-            <ThemedSelect
-              value={formData.vehicleType}
-              onChange={(e) => handleInputChange("vehicleType", e.target.value)}
-              options={vehicleOptions}
-              placeholder="Select vehicle type"
-            />
+          {/* Vehicle Pricing Section */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 
+                className="text-lg font-semibold"
+                style={{
+                  color: theme.colors.text.primary,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+              >
+                Vehicle Pricing
+              </h3>
+            </div>
+
+            {formData.vehicles.map((vehicle, index) => (
+              <div 
+                key={index}
+                className="p-4 border rounded-lg"
+                style={{
+                  borderColor: theme.colors.border.primary,
+                  backgroundColor: theme.colors.background.secondary,
+                }}
+              >
+                <div className="mb-4">
+                  <h4 
+                    className="text-md font-medium"
+                    style={{
+                      color: theme.colors.text.primary,
+                      fontFamily: theme.typography.fontFamily.sans.join(", "),
+                    }}
+                  >
+                    {vehicle.vehicleType}
+                  </h4>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Pickup Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter pickup price"
+                      value={vehicle.pickupPrice}
+                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Drop Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter drop price"
+                      value={vehicle.dropPrice}
+                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Description */}

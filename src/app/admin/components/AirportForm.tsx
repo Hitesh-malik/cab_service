@@ -6,16 +6,19 @@ import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 
+interface VehiclePricing {
+  vehicleType: string;
+  pickupPrice: string;
+  dropPrice: string;
+}
+
 interface AirportData {
   airportName: string;
   airportCode: string;
   city: string;
-  pickupPrice: string;
-  dropPrice: string;
-  vehicleType: string;
   description: string;
   amenities: string;
-  serviceType: string;
+  vehicles: VehiclePricing[];
 }
 
 export default function AirportForm() {
@@ -23,38 +26,73 @@ export default function AirportForm() {
     airportName: "",
     airportCode: "",
     city: "",
-    pickupPrice: "",
-    dropPrice: "",
-    vehicleType: "",
     description: "",
     amenities: "",
-    serviceType: "",
+    vehicles: [
+      {
+        vehicleType: "Innova",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Sedan",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "SUV",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Inno Crystal",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+    ],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
   const vehicleOptions = [
-    "Sedan",
+    "Innova",
+    "Sedan", 
     "SUV",
-    "Luxury Sedan",
-    "Luxury SUV",
-    "Mini Bus",
-    "Tempo Traveller",
+    "Inno Crystal",
   ];
 
-  const serviceTypeOptions = [
-    "Airport Pickup",
-    "Airport Drop",
-    "Round Trip",
-    "Meet & Greet",
-    "VIP Service",
-  ];
-
-  const handleInputChange = (field: keyof AirportData, value: string) => {
+  const handleInputChange = (field: keyof Omit<AirportData, 'vehicles'>, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const addVehicle = () => {
+    setFormData(prev => ({
+      ...prev,
+      vehicles: [...prev.vehicles, {
+        vehicleType: "",
+        pickupPrice: "",
+        dropPrice: "",
+      }]
+    }));
+  };
+
+  const removeVehicle = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      vehicles: prev.vehicles.filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      vehicles: prev.vehicles.map((vehicle, i) => 
+        i === index ? { ...vehicle, [field]: value } : vehicle
+      )
     }));
   };
 
@@ -80,12 +118,30 @@ export default function AirportForm() {
           airportName: "",
           airportCode: "",
           city: "",
-          pickupPrice: "",
-          dropPrice: "",
-          vehicleType: "",
           description: "",
           amenities: "",
-          serviceType: "",
+          vehicles: [
+            {
+              vehicleType: "Innova",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Sedan",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "SUV",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Inno Crystal",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+          ],
         });
       } else {
         setMessage(result.error || "Error saving data. Please try again.");
@@ -172,119 +228,80 @@ export default function AirportForm() {
             </div>
           </div>
 
-          {/* Pricing */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
+          {/* Vehicle Pricing Section */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 
+                className="text-lg font-semibold"
                 style={{
-                  color: theme.colors.text.secondary,
+                  color: theme.colors.text.primary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Pickup Price (₹)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter pickup price"
-                value={formData.pickupPrice}
-                onChange={(e) => handleInputChange("pickupPrice", e.target.value)}
-              />
+                Vehicle Pricing
+              </h3>
             </div>
 
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
+            {formData.vehicles.map((vehicle, index) => (
+              <div 
+                key={index}
+                className="p-4 border rounded-lg"
                 style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                  borderColor: theme.colors.border.primary,
+                  backgroundColor: theme.colors.background.secondary,
                 }}
               >
-                Drop Price (₹)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter drop price"
-                value={formData.dropPrice}
-                onChange={(e) => handleInputChange("dropPrice", e.target.value)}
-              />
-            </div>
-          </div>
+                <div className="mb-4">
+                  <h4 
+                    className="text-md font-medium"
+                    style={{
+                      color: theme.colors.text.primary,
+                      fontFamily: theme.typography.fontFamily.sans.join(", "),
+                    }}
+                  >
+                    {vehicle.vehicleType}
+                  </h4>
+                </div>
 
-          {/* Service and Vehicle */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Service Type
-              </label>
-              <ThemedSelect
-                value={formData.serviceType}
-                onChange={(e) => handleInputChange("serviceType", e.target.value)}
-                options={serviceTypeOptions}
-                placeholder="Select service type"
-              />
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Pickup Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter pickup price"
+                      value={vehicle.pickupPrice}
+                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
+                    />
+                  </div>
 
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Vehicle Type
-              </label>
-              <ThemedSelect
-                value={formData.vehicleType}
-                onChange={(e) => handleInputChange("vehicleType", e.target.value)}
-                options={vehicleOptions}
-                placeholder="Select vehicle type"
-              />
-            </div>
-          </div>
-
-          {/* Amenities */}
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium"
-              style={{
-                color: theme.colors.text.secondary,
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
-            >
-              Amenities
-            </label>
-            <ThemedInput
-              placeholder="AC, WiFi, Water, Flight Tracking, etc."
-              value={formData.amenities}
-              onChange={(e) => handleInputChange("amenities", e.target.value)}
-            />
-          </div>
-
-          {/* Description */}
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium"
-              style={{
-                color: theme.colors.text.secondary,
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
-            >
-              Description
-            </label>
-            <ThemedTextarea
-              placeholder="Enter airport service description, highlights, or special notes"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              rows={4}
-            />
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Drop Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter drop price"
+                      value={vehicle.dropPrice}
+                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Submit Button */}

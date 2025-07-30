@@ -6,15 +6,21 @@ import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 
+interface VehiclePricing {
+  vehicleType: string;
+  pickupPrice: string;
+  dropPrice: string;
+}
+
 interface OutstationData {
   from: string;
   to: string;
   distance: string;
   duration: string;
   price: string;
-  vehicleType: string;
   description: string;
   amenities: string;
+  vehicles: VehiclePricing[];
 }
 
 export default function OutstationForm() {
@@ -24,27 +30,55 @@ export default function OutstationForm() {
     distance: "",
     duration: "",
     price: "",
-    vehicleType: "",
     description: "",
     amenities: "",
+    vehicles: [
+      {
+        vehicleType: "Innova",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Sedan",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "SUV",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+      {
+        vehicleType: "Inno Crystal",
+        pickupPrice: "",
+        dropPrice: "",
+      },
+    ],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
   const vehicleOptions = [
-    "Sedan",
+    "Innova",
+    "Sedan", 
     "SUV",
-    "Luxury Sedan",
-    "Luxury SUV",
-    "Tempo Traveller",
-    "Mini Bus",
+    "Inno Crystal",
   ];
 
-  const handleInputChange = (field: keyof OutstationData, value: string) => {
+  const handleInputChange = (field: keyof Omit<OutstationData, 'vehicles'>, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      vehicles: prev.vehicles.map((vehicle, i) => 
+        i === index ? { ...vehicle, [field]: value } : vehicle
+      )
     }));
   };
 
@@ -72,9 +106,30 @@ export default function OutstationForm() {
           distance: "",
           duration: "",
           price: "",
-          vehicleType: "",
           description: "",
           amenities: "",
+          vehicles: [
+            {
+              vehicleType: "Innova",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Sedan",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "SUV",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+            {
+              vehicleType: "Inno Crystal",
+              pickupPrice: "",
+              dropPrice: "",
+            },
+          ],
         });
       } else {
         setMessage(result.error || "Error saving data. Please try again.");
@@ -190,37 +245,95 @@ export default function OutstationForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Price (₹)
+                Base Price (₹)
               </label>
               <ThemedInput
                 type="number"
-                placeholder="Enter price"
+                placeholder="Enter base price"
                 value={formData.price}
                 onChange={(e) => handleInputChange("price", e.target.value)}
               />
             </div>
           </div>
 
-          {/* Vehicle and Description */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
+          {/* Vehicle Pricing Section */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 
+                className="text-lg font-semibold"
                 style={{
-                  color: theme.colors.text.secondary,
+                  color: theme.colors.text.primary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Vehicle Type
-              </label>
-              <ThemedSelect
-                value={formData.vehicleType}
-                onChange={(e) => handleInputChange("vehicleType", e.target.value)}
-                options={vehicleOptions}
-                placeholder="Select vehicle type"
-              />
+                Vehicle Pricing
+              </h3>
             </div>
 
+            {formData.vehicles.map((vehicle, index) => (
+              <div 
+                key={index}
+                className="p-4 border rounded-lg"
+                style={{
+                  borderColor: theme.colors.border.primary,
+                  backgroundColor: theme.colors.background.secondary,
+                }}
+              >
+                <div className="mb-4">
+                  <h4 
+                    className="text-md font-medium"
+                    style={{
+                      color: theme.colors.text.primary,
+                      fontFamily: theme.typography.fontFamily.sans.join(", "),
+                    }}
+                  >
+                    {vehicle.vehicleType}
+                  </h4>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Pickup Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter pickup price"
+                      value={vehicle.pickupPrice}
+                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Drop Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter drop price"
+                      value={vehicle.dropPrice}
+                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Amenities and Description */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
                 className="block text-sm font-medium"
@@ -237,25 +350,24 @@ export default function OutstationForm() {
                 onChange={(e) => handleInputChange("amenities", e.target.value)}
               />
             </div>
-          </div>
 
-          {/* Description */}
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium"
-              style={{
-                color: theme.colors.text.secondary,
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
-            >
-              Description
-            </label>
-            <ThemedTextarea
-              placeholder="Enter trip description, highlights, or special notes"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              rows={4}
-            />
+            <div className="space-y-2">
+              <label
+                className="block text-sm font-medium"
+                style={{
+                  color: theme.colors.text.secondary,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+              >
+                Description
+              </label>
+              <ThemedTextarea
+                placeholder="Enter trip description, highlights, or special notes"
+                value={formData.description}
+                onChange={(e) => handleInputChange("description", e.target.value)}
+                rows={4}
+              />
+            </div>
           </div>
 
           {/* Submit Button */}
