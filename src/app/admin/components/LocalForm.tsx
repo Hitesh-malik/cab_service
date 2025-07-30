@@ -18,7 +18,6 @@ interface VehiclePricing {
 
 interface LocalData {
   pickupLocation: string;
-  dropLocation: string;
   distance: string;
   vehicles: VehiclePricing[];
 }
@@ -26,7 +25,6 @@ interface LocalData {
 export default function LocalForm() {
   const [formData, setFormData] = useState<LocalData>({
     pickupLocation: "",
-    dropLocation: "",
     distance: "",
     vehicles: [
       {
@@ -167,7 +165,6 @@ export default function LocalForm() {
         setMessage("Local trip data saved successfully!");
         setFormData({
           pickupLocation: "",
-          dropLocation: "",
           distance: "",
           vehicles: [
             {
@@ -288,40 +285,21 @@ export default function LocalForm() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Location Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Pickup Location
-              </label>
-              <ThemedInput
-                placeholder="Enter pickup location"
-                value={formData.pickupLocation}
-                onChange={(e) => handleInputChange("pickupLocation", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Drop Location
-              </label>
-              <ThemedInput
-                placeholder="Enter drop location"
-                value={formData.dropLocation}
-                onChange={(e) => handleInputChange("dropLocation", e.target.value)}
-              />
-            </div>
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-medium"
+              style={{
+                color: theme.colors.text.secondary,
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
+              }}
+            >
+              Pickup Location
+            </label>
+            <ThemedInput
+              placeholder="Enter pickup location"
+              value={formData.pickupLocation}
+              onChange={(e) => handleInputChange("pickupLocation", e.target.value)}
+            />
           </div>
 
           {/* Trip Details */}
