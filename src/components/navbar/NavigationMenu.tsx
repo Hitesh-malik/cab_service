@@ -47,17 +47,22 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
     console.log('🔗 Dropdown item clicked, closing dropdown');
     onDropdownClose();
     
-    // If it's a booking widget link, scroll to it
-    if (href && href.includes('#booking-widget')) {
-      // If not on homepage, navigate first
-      if (window.location.pathname !== '/') {
-        router.push('/');
-        setTimeout(() => {
+    if (href) {
+      // If it's a booking widget link, scroll to it
+      if (href.includes('#booking-widget')) {
+        // If not on homepage, navigate first
+        if (window.location.pathname !== '/') {
+          router.push('/');
+          setTimeout(() => {
+            scrollToBookingWidget();
+          }, 500);
+        } else {
+          // If already on homepage, just scroll
           scrollToBookingWidget();
-        }, 500);
+        }
       } else {
-        // If already on homepage, just scroll
-        scrollToBookingWidget();
+        // For regular page navigation
+        router.push(href);
       }
     }
     

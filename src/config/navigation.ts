@@ -46,7 +46,7 @@ export const navigationItems: NavItem[] = [
     dropdownItems: [
       { 
         label: 'Popular Routes', 
-        href: '/#booking-widget',
+        href: '/popular_route_info',
         icon: '🗺️',
         description: 'Most booked travel routes'
       },
