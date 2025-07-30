@@ -11,6 +11,7 @@ import { TabGroup } from "@/components/UI/TabGroup";
 import { CitySwapButton } from "@/components/UI/CitySwapButton";
 import { BookingFormData, TripType } from "@/types/booking";
 import { CITIES } from "@/constants/booking";
+import { BsCarFront, BsArrowRepeat } from 'react-icons/bs';
 
 interface OutstationFormProps {
   bookingData: BookingFormData;
@@ -91,10 +92,10 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         </div>
 
         {/* Swap Button */}
-        <CitySwapButton
+        {/* <CitySwapButton
           onSwap={handleCitySwap}
           className="-my-2 relative z-10"
-        />
+        /> */}
 
         <div className="space-y-2">
           <label
@@ -127,14 +128,15 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           }}
         >
           <h4
-            className="font-semibold mb-3 text-center text-sm sm:text-base"
+            className="font-semibold mb-3 text-center text-sm sm:text-base flex items-center justify-center gap-2"
             style={{
               color: theme.colors.text.primary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.semibold,
             }}
           >
-            🚗 DEPARTURE DETAILS
+            <BsCarFront className="w-4 h-4" />
+            DEPARTURE DETAILS
           </h4>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -185,14 +187,15 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             }}
           >
             <h4
-              className="font-semibold mb-3 text-center text-sm sm:text-base"
+              className="font-semibold mb-3 text-center text-sm sm:text-base flex items-center justify-center gap-2"
               style={{
                 color: theme.colors.text.primary,
                 fontFamily: theme.typography.fontFamily.sans.join(", "),
                 fontWeight: theme.typography.fontWeight.semibold,
               }}
             >
-              🔄 RETURN DETAILS
+              <BsArrowRepeat className="w-4 h-4" />
+              RETURN DETAILS
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">

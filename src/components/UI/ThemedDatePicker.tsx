@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { theme } from '@/styles/theme';
+import { BsCalendar } from 'react-icons/bs';
 
 interface ThemedDatePickerProps {
   value: string;
@@ -95,7 +96,7 @@ export const ThemedDatePicker: React.FC<ThemedDatePickerProps> = ({
           className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-sm sm:text-base"
           style={{ color: theme.colors.text.muted }}
         >
-          📅
+          <BsCalendar className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
       </div>
       {error && (

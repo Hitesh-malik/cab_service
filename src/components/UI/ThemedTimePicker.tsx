@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { theme } from '@/styles/theme';
+import { BsClock } from 'react-icons/bs';
 
 interface ThemedTimePickerProps {
   value: string;
@@ -113,7 +114,7 @@ export const ThemedTimePicker: React.FC<ThemedTimePickerProps> = ({
           className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-sm sm:text-base"
           style={{ color: theme.colors.text.muted }}
         >
-          ⏰
+          <BsClock className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
       </div>
       {error && (
