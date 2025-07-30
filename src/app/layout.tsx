@@ -2,8 +2,7 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import ConditionalLayout from "@/components/ConditionalLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -172,11 +171,9 @@ export default function RootLayout({
         className={`${inter.variable} ${poppins.variable} font-sans antialiased bg-penta-black text-penta-cream min-h-screen flex flex-col`}
         suppressHydrationWarning={true}
       >
-        <Navbar />
-        <main id="main-content" className="relative flex-1">
+        <ConditionalLayout>
           {children}
-        </main>
-        <Footer />
+        </ConditionalLayout>
       </body>
     </html>
   );
