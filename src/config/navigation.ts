@@ -68,16 +68,16 @@ export const navigationItems: NavItem[] = [
 ];
 
 export const contactInfo = {
-  phone: '9157576555',
-  phoneFormatted: '+91 915 757 6555',
-  email: 'contact@pentacab.com',
-  whatsapp: '9157576555',
+  phone: '7600839900',
+  phoneFormatted: '+91 760 083 9900',
+  email: 'Info.pentacab@gmail.com',
+  whatsapp: '7600839900',
   
   // Enhanced contact options
   supportHours: '24/7 Support Available',
-  emergencyPhone: '9157576555',
-  bookingEmail: 'booking@pentacab.com',
-  supportEmail: 'support@pentacab.com',
+  emergencyPhone: '7600839900',
+  bookingEmail: 'Info.pentacab@gmail.com',
+  supportEmail: 'Info.pentacab@gmail.com',
   
   // Social media (optional)
   social: {
@@ -97,13 +97,13 @@ export const quickActions = [
   },
   {
     label: 'Call Us',
-    href: 'tel:+919157576555',
+    href: 'tel:+917600839900',
     icon: '📞',
     external: true
   },
   {
     label: 'WhatsApp',
-    href: `https://wa.me/919157576555?text=Hi, I need a cab booking`,
+    href: `https://wa.me/917600839900?text=Hi, I need a cab booking`,
     icon: '💬',
     external: true
   },

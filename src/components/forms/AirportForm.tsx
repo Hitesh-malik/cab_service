@@ -1,15 +1,15 @@
 // src/components/forms/AirportForm.tsx (Updated)
-'use client';
+"use client";
 
-import React from 'react';
-import { theme } from '@/styles/theme';
-import { ThemedInput } from '@/components/UI/ThemedInput';
-import { ThemedSelect } from '@/components/UI/ThemedSelect';
-import { ThemedDatePicker } from '@/components/UI/ThemedDatePicker';
-import { ThemedTimePicker } from '@/components/UI/ThemedTimePicker';
-import { TabGroup } from '@/components/UI/TabGroup';
-import { BookingFormData, PickupDropType } from '@/types/booking';
-import { AIRPORTS } from '@/constants/booking';
+import React from "react";
+import { theme } from "@/styles/theme";
+import { ThemedInput } from "@/components/UI/ThemedInput";
+import { ThemedSelect } from "@/components/UI/ThemedSelect";
+import { ThemedDatePicker } from "@/components/UI/ThemedDatePicker";
+import { ThemedTimePicker } from "@/components/UI/ThemedTimePicker";
+import { TabGroup } from "@/components/UI/TabGroup";
+import { BookingFormData, PickupDropType } from "@/types/booking";
+import { AIRPORTS } from "@/constants/booking";
 
 interface AirportFormProps {
   bookingData: BookingFormData;
@@ -24,10 +24,10 @@ export const AirportForm: React.FC<AirportFormProps> = ({
   errors,
   activePickupDrop,
   onInputChange,
-  onPickupDropChange
+  onPickupDropChange,
 }) => {
-  console.log('AirportForm rendered with bookingData:', activePickupDrop);
-  
+  console.log("AirportForm rendered with bookingData:", activePickupDrop);
+
   return (
     <div className="space-y-4">
       <div className="text-center">
@@ -35,7 +35,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           className="font-bold mb-4"
           style={{
             color: theme.colors.text.primary,
-            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontSize: theme.typography.fontSize.lg,
             fontWeight: theme.typography.fontWeight.bold,
           }}
@@ -43,7 +43,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           RELIABLE AIRPORT PICKUPS & DROPS
         </h3>
         <TabGroup
-          options={['PICKUP', 'DROP']}
+          options={["PICKUP", "DROP"]}
           activeOption={activePickupDrop}
           onOptionChange={onPickupDropChange}
         />
@@ -54,7 +54,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           className="block text-sm font-medium mb-2"
           style={{
             color: theme.colors.text.secondary,
-            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
@@ -62,7 +62,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
         </label>
         <ThemedSelect
           value={bookingData.airport}
-          onChange={(e) => onInputChange('airport', e.target.value)}
+          onChange={(e) => onInputChange("airport", e.target.value)}
           options={AIRPORTS}
           placeholder="Select Airport or City"
           error={errors.airport}
@@ -74,7 +74,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           className="block text-sm font-medium mb-2"
           style={{
             color: theme.colors.text.secondary,
-            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
@@ -83,7 +83,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
         <ThemedInput
           placeholder="Select Your Location"
           value={bookingData.dropAddress}
-          onChange={(e) => onInputChange('dropAddress', e.target.value)}
+          onChange={(e) => onInputChange("dropAddress", e.target.value)}
           error={errors.dropAddress}
         />
       </div>
@@ -94,7 +94,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
             className="block text-sm font-medium mb-2"
             style={{
               color: theme.colors.text.secondary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
@@ -102,7 +102,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           </label>
           <ThemedDatePicker
             value={bookingData.date}
-            onChange={(e) => onInputChange('date', e.target.value)}
+            onChange={(e) => onInputChange("date", e.target.value)}
             error={errors.date}
           />
         </div>
@@ -111,7 +111,7 @@ export const AirportForm: React.FC<AirportFormProps> = ({
             className="block text-sm font-medium mb-2"
             style={{
               color: theme.colors.text.secondary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
@@ -119,8 +119,48 @@ export const AirportForm: React.FC<AirportFormProps> = ({
           </label>
           <ThemedTimePicker
             value={bookingData.time}
-            onChange={(e) => onInputChange('time', e.target.value)}
+            onChange={(e) => onInputChange("time", e.target.value)}
             error={errors.time}
+          />
+        </div>
+      </div>
+
+      {/* Customer Details */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            NAME 👤
+          </label>
+          <ThemedInput
+            placeholder="Enter your full name"
+            value={bookingData.name}
+            onChange={(e) => onInputChange("name", e.target.value)}
+            error={errors.name}
+          />
+        </div>
+        <div>
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            PHONE NUMBER 📞
+          </label>
+          <ThemedInput
+            placeholder="Enter your phone number"
+            value={bookingData.phoneNumber}
+            onChange={(e) => onInputChange("phoneNumber", e.target.value)}
+            error={errors.phoneNumber}
           />
         </div>
       </div>

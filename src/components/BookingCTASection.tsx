@@ -1,5 +1,5 @@
 // src/components/BookingCTASection.tsx
-'use client';
+"use client";
 
 import React from 'react';
 import Image from 'next/image';
@@ -26,10 +26,10 @@ const BookingCTASection: React.FC = () => {
   ];
 
   const trustIndicators = [
-    { icon: '🛡️', label: 'Secure Booking', desc: 'SSL Protected' },
-    { icon: '💳', label: 'Easy Payment', desc: 'Multiple Options' },
-    { icon: '📞', label: '24/7 Support', desc: 'Always Available' },
-    { icon: '⭐', label: '5-Star Rated', desc: 'Customer Choice' }
+    { icon: "🛡️", label: "Secure Booking", desc: "SSL Protected" },
+    { icon: "💳", label: "Easy Payment", desc: "Multiple Options" },
+    { icon: "📞", label: "24/7 Support", desc: "Always Available" },
+    { icon: "⭐", label: "5-Star Rated", desc: "Customer Choice" },
   ];
 
   return (
@@ -51,7 +51,7 @@ const BookingCTASection: React.FC = () => {
           className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl animate-pulse"
           style={{
             backgroundColor: theme.colors.accent.gold,
-            animationDelay: '1000ms'
+            animationDelay: "1000ms",
           }}
         />
       </div>
@@ -65,9 +65,9 @@ const BookingCTASection: React.FC = () => {
               <h2
                 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-6"
                 style={{
-                  fontFamily: theme.typography.fontFamily.display.join(', '),
+                  fontFamily: theme.typography.fontFamily.display.join(", "),
                   color: theme.colors.text.primary,
-                  fontSize: theme.typography.fontSize['5xl'],
+                  fontSize: theme.typography.fontSize["5xl"],
                   fontWeight: theme.typography.fontWeight.bold,
                 }}
               >
@@ -76,13 +76,14 @@ const BookingCTASection: React.FC = () => {
                   className="bg-clip-text text-transparent"
                   style={{
                     background: theme.gradients.goldToAmber,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
                   }}
                 >
                   stress-free journey!
                 </span>
               </h2>
+
 
               <div
                 className="space-y-4 leading-relaxed"
@@ -129,7 +130,8 @@ const BookingCTASection: React.FC = () => {
                     style={{ color: theme.colors.accent.gold }}
                   >
                     outstation cabs
-                  </span>. Book with us for a stress-free journey!
+                  </span>
+                  . Book with us for a stress-free journey!
                 </p>
               </div>
             </div>
@@ -226,7 +228,7 @@ const BookingCTASection: React.FC = () => {
                   className="font-semibold text-sm"
                   style={{
                     color: theme.colors.text.primary,
-                    fontFamily: theme.typography.fontFamily.sans.join(', '),
+                    fontFamily: theme.typography.fontFamily.sans.join(", "),
                     fontWeight: theme.typography.fontWeight.semibold,
                   }}
                 >
@@ -236,7 +238,7 @@ const BookingCTASection: React.FC = () => {
                   className="text-xs"
                   style={{
                     color: theme.colors.text.secondary,
-                    fontFamily: theme.typography.fontFamily.sans.join(', '),
+                    fontFamily: theme.typography.fontFamily.sans.join(", "),
                   }}
                 >
                   {item.desc}

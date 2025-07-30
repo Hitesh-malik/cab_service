@@ -136,7 +136,7 @@ export default function RootLayout({
               description:
                 "Premium taxi service with professional drivers and luxury vehicles",
               url: "https://pentacab.com",
-              telephone: "+91-9157576555",
+              telephone: "+91-7600839900",
               priceRange: "$",
               address: {
                 "@type": "PostalAddress",

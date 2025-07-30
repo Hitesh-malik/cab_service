@@ -4,8 +4,8 @@ export const footerConfig = {
   company: {
     name: 'Penta Cab',
     description: 'Premium taxi service providing reliable, safe, and comfortable transportation 24/7. Professional drivers, luxury vehicles, and exceptional customer service.',
-    email: 'info@pentacab.com',
-    phone: '9157576555',
+    email: 'Info.pentacab@gmail.com',
+    phone: '7600839900',
     address: {
       street: '123 Business District',
       city: 'Your City',

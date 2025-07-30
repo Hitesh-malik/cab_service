@@ -1,16 +1,16 @@
-
 // src/components/forms/OutstationForm.tsx (Enhanced)
-'use client';
+"use client";
 
-import React from 'react';
-import { theme } from '@/styles/theme';
-import { ThemedSelect } from '@/components/UI/ThemedSelect';
-import { ThemedDatePicker } from '@/components/UI/ThemedDatePicker';
-import { ThemedTimePicker } from '@/components/UI/ThemedTimePicker';
-import { TabGroup } from '@/components/UI/TabGroup';
-import { CitySwapButton } from '@/components/UI/CitySwapButton';
-import { BookingFormData, TripType } from '@/types/booking';
-import { CITIES } from '@/constants/booking';
+import React from "react";
+import { theme } from "@/styles/theme";
+import { ThemedSelect } from "@/components/UI/ThemedSelect";
+import { ThemedInput } from "@/components/UI/ThemedInput";
+import { ThemedDatePicker } from "@/components/UI/ThemedDatePicker";
+import { ThemedTimePicker } from "@/components/UI/ThemedTimePicker";
+import { TabGroup } from "@/components/UI/TabGroup";
+import { CitySwapButton } from "@/components/UI/CitySwapButton";
+import { BookingFormData, TripType } from "@/types/booking";
+import { CITIES } from "@/constants/booking";
 
 interface OutstationFormProps {
   bookingData: BookingFormData;
@@ -25,42 +25,42 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
   errors,
   activeTripType,
   onInputChange,
-  onTripTypeChange
+  onTripTypeChange,
 }) => {
   const handleCitySwap = () => {
     const fromCity = bookingData.from;
     const toCity = bookingData.to;
-    
-    onInputChange('from', toCity);
-    onInputChange('to', fromCity);
+
+    onInputChange("from", toCity);
+    onInputChange("to", fromCity);
   };
 
   // Helper function to get minimum return date (should be same day or later than departure)
   const getMinReturnDate = (): string => {
-    if (!bookingData.date) return '';
-    
+    if (!bookingData.date) return "";
+
     // Convert DD-MM-YY to YYYY-MM-DD for comparison
-    const [day, month, year] = bookingData.date.split('-');
+    const [day, month, year] = bookingData.date.split("-");
     const fullYear = year.length === 2 ? `20${year}` : year;
-    return `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    return `${fullYear}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 
+        <h3
           className="font-bold mb-4"
           style={{
             color: theme.colors.text.primary,
-            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontFamily: theme.typography.fontFamily.sans.join(", "),
             fontSize: theme.typography.fontSize.lg,
             fontWeight: theme.typography.fontWeight.bold,
           }}
         >
           INDIA'S PREMIER INTERCITY CABS
         </h3>
-        <TabGroup 
-          options={['ONEWAY', 'ROUNDWAY']}
+        <TabGroup
+          options={["ONEWAY", "ROUNDWAY"]}
           activeOption={activeTripType}
           onOptionChange={onTripTypeChange}
         />
@@ -69,11 +69,11 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
       {/* Cities Selection with Swap Button */}
       <div className="space-y-4">
         <div>
-          <label 
+          <label
             className="block text-sm font-medium mb-2"
             style={{
               color: theme.colors.text.secondary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
@@ -81,7 +81,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           </label>
           <ThemedSelect
             value={bookingData.from}
-            onChange={(e) => onInputChange('from', e.target.value)}
+            onChange={(e) => onInputChange("from", e.target.value)}
             options={CITIES}
             placeholder="Select Departure City"
             error={errors.from}
@@ -89,14 +89,17 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         </div>
 
         {/* Swap Button */}
-        <CitySwapButton onSwap={handleCitySwap} className="-my-2 relative z-10" />
+        <CitySwapButton
+          onSwap={handleCitySwap}
+          className="-my-2 relative z-10"
+        />
 
         <div>
-          <label 
+          <label
             className="block text-sm font-medium mb-2"
             style={{
               color: theme.colors.text.secondary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.medium,
             }}
           >
@@ -104,7 +107,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           </label>
           <ThemedSelect
             value={bookingData.to}
-            onChange={(e) => onInputChange('to', e.target.value)}
+            onChange={(e) => onInputChange("to", e.target.value)}
             options={CITIES}
             placeholder="Select Destination City"
             error={errors.to}
@@ -114,31 +117,31 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
 
       {/* Departure Date and Time */}
       <div className="space-y-4">
-        <div 
+        <div
           className="p-4 rounded-lg border"
           style={{
             backgroundColor: theme.colors.background.secondary,
             borderColor: theme.colors.border.goldLight,
           }}
         >
-          <h4 
+          <h4
             className="font-semibold mb-3 text-center"
             style={{
               color: theme.colors.text.primary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
               fontWeight: theme.typography.fontWeight.semibold,
             }}
           >
             🚗 DEPARTURE DETAILS
           </h4>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label 
+              <label
                 className="block text-sm font-medium mb-2"
                 style={{
                   color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(', '),
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
                   fontWeight: theme.typography.fontWeight.medium,
                 }}
               >
@@ -146,16 +149,16 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
               </label>
               <ThemedDatePicker
                 value={bookingData.date}
-                onChange={(e) => onInputChange('date', e.target.value)}
+                onChange={(e) => onInputChange("date", e.target.value)}
                 error={errors.date}
               />
             </div>
             <div>
-              <label 
+              <label
                 className="block text-sm font-medium mb-2"
                 style={{
                   color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(', '),
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
                   fontWeight: theme.typography.fontWeight.medium,
                 }}
               >
@@ -163,7 +166,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
               </label>
               <ThemedTimePicker
                 value={bookingData.pickupTime}
-                onChange={(e) => onInputChange('pickupTime', e.target.value)}
+                onChange={(e) => onInputChange("pickupTime", e.target.value)}
                 error={errors.pickupTime}
               />
             </div>
@@ -171,50 +174,50 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         </div>
 
         {/* Return Date (Only for Round Trip) */}
-        {activeTripType === 'ROUNDWAY' && (
-          <div 
+        {activeTripType === "ROUNDWAY" && (
+          <div
             className="p-4 rounded-lg border animate-fadeIn"
             style={{
               backgroundColor: theme.colors.background.card,
               borderColor: theme.colors.border.goldLight,
             }}
           >
-            <h4 
+            <h4
               className="font-semibold mb-3 text-center"
               style={{
                 color: theme.colors.text.primary,
-                fontFamily: theme.typography.fontFamily.sans.join(', '),
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
                 fontWeight: theme.typography.fontWeight.semibold,
               }}
             >
               🔄 RETURN DETAILS
             </h4>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label 
+                <label
                   className="block text-sm font-medium mb-2"
                   style={{
                     color: theme.colors.text.secondary,
-                    fontFamily: theme.typography.fontFamily.sans.join(', '),
+                    fontFamily: theme.typography.fontFamily.sans.join(", "),
                     fontWeight: theme.typography.fontWeight.medium,
                   }}
                 >
                   RETURN DATE 📅
                 </label>
                 <ThemedDatePicker
-                  value={bookingData.returnDate || ''}
-                  onChange={(e) => onInputChange('returnDate', e.target.value)}
+                  value={bookingData.returnDate || ""}
+                  onChange={(e) => onInputChange("returnDate", e.target.value)}
                   error={errors.returnDate}
                   min={getMinReturnDate()}
                 />
               </div>
               <div>
-                <label 
+                <label
                   className="block text-sm font-medium mb-2"
                   style={{
                     color: theme.colors.text.secondary,
-                    fontFamily: theme.typography.fontFamily.sans.join(', '),
+                    fontFamily: theme.typography.fontFamily.sans.join(", "),
                     fontWeight: theme.typography.fontWeight.medium,
                   }}
                 >
@@ -222,47 +225,91 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
                 </label>
                 <ThemedTimePicker
                   value={bookingData.time}
-                  onChange={(e) => onInputChange('time', e.target.value)}
+                  onChange={(e) => onInputChange("time", e.target.value)}
                   error={errors.time}
                 />
               </div>
             </div>
-            
+
             {/* Return Trip Info */}
-            <div 
+            <div
               className="mt-3 p-2 rounded text-center text-sm"
               style={{
                 backgroundColor: theme.colors.background.secondary,
                 color: theme.colors.text.muted,
-                fontFamily: theme.typography.fontFamily.sans.join(', '),
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
               }}
             >
-              Return journey: {bookingData.to || 'Destination'} → {bookingData.from || 'Origin'}
+              Return journey: {bookingData.to || "Destination"} →{" "}
+              {bookingData.from || "Origin"}
             </div>
           </div>
         )}
       </div>
 
+      {/* Customer Details */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            NAME 👤
+          </label>
+          <ThemedInput
+            placeholder="Enter your full name"
+            value={bookingData.name}
+            onChange={(e) => onInputChange("name", e.target.value)}
+            error={errors.name}
+          />
+        </div>
+        <div>
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+              fontWeight: theme.typography.fontWeight.medium,
+            }}
+          >
+            PHONE NUMBER 📞
+          </label>
+          <ThemedInput
+            placeholder="Enter your phone number"
+            value={bookingData.phoneNumber}
+            onChange={(e) => onInputChange("phoneNumber", e.target.value)}
+            error={errors.phoneNumber}
+          />
+        </div>
+      </div>
+
       {/* Trip Summary */}
       {bookingData.from && bookingData.to && (
-        <div 
+        <div
           className="p-3 rounded-lg text-center border"
           style={{
             backgroundColor: theme.colors.background.secondary,
             borderColor: theme.colors.border.goldLight,
             color: theme.colors.text.primary,
-            fontFamily: theme.typography.fontFamily.sans.join(', '),
+            fontFamily: theme.typography.fontFamily.sans.join(", "),
           }}
         >
           <div className="flex items-center justify-center space-x-2">
             <span className="font-semibold">{bookingData.from}</span>
             <span style={{ color: theme.colors.accent.gold }}>
-              {activeTripType === 'ROUNDWAY' ? '⇄' : '→'}
+              {activeTripType === "ROUNDWAY" ? "⇄" : "→"}
             </span>
             <span className="font-semibold">{bookingData.to}</span>
           </div>
-          <div className="text-sm mt-1" style={{ color: theme.colors.text.muted }}>
-            {activeTripType === 'ROUNDWAY' ? 'Round Trip' : 'One Way Trip'}
+          <div
+            className="text-sm mt-1"
+            style={{ color: theme.colors.text.muted }}
+          >
+            {activeTripType === "ROUNDWAY" ? "Round Trip" : "One Way Trip"}
           </div>
         </div>
       )}

@@ -1,9 +1,9 @@
 // src/components/ServicesSection.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { theme, themeVariants } from '@/styles/theme';
+import React from "react";
+import Link from "next/link";
+import { theme, themeVariants } from "@/styles/theme";
 
 interface ServiceCard {
   id: string;
@@ -18,75 +18,105 @@ interface ServiceCard {
 const ServicesSection: React.FC = () => {
   const services: ServiceCard[] = [
     {
-      id: 'outstation',
-      title: 'Outstation Travel',
-      description: 'Explore all of India with our One-way or Round-trip outstation cab services. Our skilled drivers prioritize both speed and safety, guaranteeing timely arrivals. Trust us for all your outstation car rental needs.',
-      image: '/api/placeholder/400/250',
-      features: ['One-way & Round-trip', 'Skilled Drivers', 'Speed & Safety', 'Timely Arrivals'],
+      id: "outstation",
+      title: "Outstation Travel",
+      description:
+        "Explore all of India with our One-way or Round-trip outstation cab services. Our skilled drivers prioritize both speed and safety, guaranteeing timely arrivals. Trust us for all your outstation car rental needs.",
+      image: "/api/placeholder/400/250",
+      features: [
+        "One-way & Round-trip",
+        "Skilled Drivers",
+        "Speed & Safety",
+        "Timely Arrivals",
+      ],
       accentColor: theme.colors.secondary.warmYellow,
-      href: '/services/outstation'
+      href: "/services/outstation",
     },
     {
-      id: 'airport',
-      title: 'Airport Transfer',
-      description: 'We prioritize your flight\'s punctuality and safety. Whether returning from a trip, exploring as a tourist, or needing an airport drop, our prompt drivers ensure a secure journey.',
-      image: '/api/placeholder/400/250',
-      features: ['Flight Tracking', 'Punctual Service', 'Safe & Secure', 'Professional Drivers'],
+      id: "airport",
+      title: "Airport Transfer",
+      description:
+        "We prioritize your flight's punctuality and safety. Whether returning from a trip, exploring as a tourist, or needing an airport drop, our prompt drivers ensure a secure journey.",
+      image: "/api/placeholder/400/250",
+      features: [
+        "Flight Tracking",
+        "Punctual Service",
+        "Safe & Secure",
+        "Professional Drivers",
+      ],
       accentColor: theme.colors.accent.bronze,
-      href: '/services/airport'
+      href: "/services/airport",
     },
     {
-      id: 'local',
-      title: 'Local Trip Rental',
-      description: 'Discover local car rentals in the city with tailored packages. Whether you need a ride to a meeting, wedding, or any event, our skilled drivers navigate traffic and rough roads, ensuring punctual arrivals.',
-      image: '/api/placeholder/400/250',
-      features: ['City Packages', 'Event Transportation', 'Traffic Navigation', 'Punctual Service'],
+      id: "local",
+      title: "Local Trip Rental",
+      description:
+        "Discover local car rentals in the city with tailored packages. Whether you need a ride to a meeting, wedding, or any event, our skilled drivers navigate traffic and rough roads, ensuring punctual arrivals.",
+      image: "/api/placeholder/400/250",
+      features: [
+        "City Packages",
+        "Event Transportation",
+        "Traffic Navigation",
+        "Punctual Service",
+      ],
       accentColor: theme.colors.secondary.orange,
-      href: '/services/local'
+      href: "/services/local",
     },
     {
-      id: 'multiway',
-      title: 'Multiway Booking',
-      description: 'A single travel booking that allows you to visit several destinations during one trip, choose your destinations, and alter your schedule as you go. Avoid multiple bookings and check-ins.',
-      image: '/api/placeholder/400/250',
-      features: ['Multiple Destinations', 'Flexible Schedule', 'Single Booking', 'No Check-ins'],
+      id: "multiway",
+      title: "Multiway Booking",
+      description:
+        "A single travel booking that allows you to visit several destinations during one trip, choose your destinations, and alter your schedule as you go. Avoid multiple bookings and check-ins.",
+      image: "/api/placeholder/400/250",
+      features: [
+        "Multiple Destinations",
+        "Flexible Schedule",
+        "Single Booking",
+        "No Check-ins",
+      ],
       accentColor: theme.colors.accent.gold,
-      href: '/services/multiway'
-    }
+      href: "/services/multiway",
+    },
   ];
 
   // Service icons component
-  const ServiceIcon = ({ serviceId, color }: { serviceId: string; color: string }) => {
+  const ServiceIcon = ({
+    serviceId,
+    color,
+  }: {
+    serviceId: string;
+    color: string;
+  }) => {
     const iconProps = {
       className: "w-10 h-10",
       fill: "currentColor",
       viewBox: "0 0 24 24",
-      style: { color }
+      style: { color },
     };
 
     switch (serviceId) {
-      case 'outstation':
+      case "outstation":
         return (
           <svg {...iconProps}>
-            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
+            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
           </svg>
         );
-      case 'airport':
+      case "airport":
         return (
           <svg {...iconProps}>
-            <path d="M20.36 2.64L19.29 3.71L16.17 6.83L14.83 5.49L13.76 6.56L16.24 9.04L9.35 15.93L5.78 12.36L2.64 15.5L9.35 22.21L22.07 9.49L20.36 2.64Z"/>
+            <path d="M20.36 2.64L19.29 3.71L16.17 6.83L14.83 5.49L13.76 6.56L16.24 9.04L9.35 15.93L5.78 12.36L2.64 15.5L9.35 22.21L22.07 9.49L20.36 2.64Z" />
           </svg>
         );
-      case 'local':
+      case "local":
         return (
           <svg {...iconProps}>
-            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2M12 11.5C10.62 11.5 9.5 10.38 9.5 9S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5Z"/>
+            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2M12 11.5C10.62 11.5 9.5 10.38 9.5 9S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5Z" />
           </svg>
         );
-      case 'multiway':
+      case "multiway":
         return (
           <svg {...iconProps}>
-            <path d="M2 12C2 6.48 6.48 2 12 2S22 6.48 22 12 17.52 22 12 22 2 17.52 2 12M15.5 8L14 6.5 9.5 11 14 15.5 15.5 14 12.5 11 15.5 8Z"/>
+            <path d="M2 12C2 6.48 6.48 2 12 2S22 6.48 22 12 17.52 22 12 22 2 17.52 2 12M15.5 8L14 6.5 9.5 11 14 15.5 15.5 14 12.5 11 15.5 8Z" />
           </svg>
         );
       default:
@@ -95,7 +125,7 @@ const ServicesSection: React.FC = () => {
   };
 
   return (
-    <section 
+    <section
       className="py-16 lg:py-24 relative overflow-hidden"
       style={{
         backgroundColor: theme.colors.primary.black,
@@ -103,45 +133,44 @@ const ServicesSection: React.FC = () => {
     >
       {/* Background decoration using theme colors */}
       <div className="absolute inset-0" style={{ opacity: 0.05 }}>
-        <div 
+        <div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse"
           style={{
             backgroundColor: theme.colors.secondary.warmYellow,
           }}
         />
-        <div 
+        <div
           className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl animate-pulse"
           style={{
             backgroundColor: theme.colors.accent.gold,
-            animationDelay: '1000ms'
+            animationDelay: "1000ms",
           }}
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 
+          <h2
             className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-6"
             style={{
-              fontFamily: theme.typography.fontFamily.display.join(', '),
-              fontSize: theme.typography.fontSize['5xl'],
+              fontFamily: theme.typography.fontFamily.display.join(", "),
+              fontSize: theme.typography.fontSize["5xl"],
               fontWeight: theme.typography.fontWeight.bold,
             }}
           >
-            <span 
+            <span
               className="bg-clip-text text-transparent"
               style={{
                 background: theme.gradients.goldToAmber,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Take a Ride Experience With Penta Cab
             </span>
           </h2>
-          <div 
+          <div
             className="w-24 h-1 mx-auto rounded-full"
             style={{
               background: theme.gradients.gold,
@@ -157,7 +186,7 @@ const ServicesSection: React.FC = () => {
               className="group animate-fade-in-up"
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              <div 
+              <div
                 className="rounded-2xl overflow-hidden border transition-all duration-500 hover:scale-105 h-full"
                 style={{
                   background: theme.gradients.primary,
@@ -169,14 +198,14 @@ const ServicesSection: React.FC = () => {
                   e.currentTarget.style.boxShadow = `0 12px 40px ${theme.colors.shadow.gold}`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.goldLight;
+                  e.currentTarget.style.borderColor =
+                    theme.colors.border.goldLight;
                   e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
                 }}
               >
-                
                 {/* Image Container */}
                 <div className="relative h-48 overflow-hidden">
-                  <div 
+                  <div
                     className="absolute inset-0"
                     style={{
                       background: `linear-gradient(135deg, ${service.accentColor}20, ${service.accentColor}10)`,
@@ -184,19 +213,22 @@ const ServicesSection: React.FC = () => {
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Service Icon */}
-                    <div 
+                    <div
                       className="w-20 h-20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                       style={{
                         backgroundColor: `${theme.colors.accent.gold}20`,
                         border: `2px solid ${theme.colors.accent.gold}30`,
                       }}
                     >
-                      <ServiceIcon serviceId={service.id} color={theme.colors.accent.gold} />
+                      <ServiceIcon
+                        serviceId={service.id}
+                        color={theme.colors.accent.gold}
+                      />
                     </div>
                   </div>
-                  
+
                   {/* Accent overlay on hover */}
-                  <div 
+                  <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
                     style={{
                       background: `linear-gradient(135deg, ${service.accentColor}, transparent)`,
@@ -205,17 +237,17 @@ const ServicesSection: React.FC = () => {
                 </div>
 
                 {/* Content */}
-                <div 
+                <div
                   className="p-6"
                   style={{
                     backgroundColor: theme.colors.background.card,
                   }}
                 >
-                  <h3 
+                  <h3
                     className="text-xl font-bold mb-3 group-hover:text-opacity-100 transition-colors duration-300"
                     style={{
                       color: theme.colors.text.primary,
-                      fontFamily: theme.typography.fontFamily.sans.join(', '),
+                      fontFamily: theme.typography.fontFamily.sans.join(", "),
                       fontSize: theme.typography.fontSize.xl,
                       fontWeight: theme.typography.fontWeight.bold,
                     }}
@@ -228,12 +260,12 @@ const ServicesSection: React.FC = () => {
                   >
                     {service.title}
                   </h3>
-                  
-                  <p 
+
+                  <p
                     className="text-sm leading-relaxed mb-4 line-clamp-4"
                     style={{
                       color: theme.colors.text.secondary,
-                      fontFamily: theme.typography.fontFamily.sans.join(', '),
+                      fontFamily: theme.typography.fontFamily.sans.join(", "),
                       lineHeight: theme.typography.lineHeight.relaxed,
                     }}
                   >
@@ -244,17 +276,18 @@ const ServicesSection: React.FC = () => {
                   <div className="space-y-2 mb-6">
                     {service.features.slice(0, 3).map((feature, idx) => (
                       <div key={idx} className="flex items-center space-x-2">
-                        <div 
+                        <div
                           className="w-1.5 h-1.5 rounded-full"
                           style={{
                             backgroundColor: service.accentColor,
                           }}
                         />
-                        <span 
+                        <span
                           className="text-xs"
                           style={{
                             color: theme.colors.text.muted,
-                            fontFamily: theme.typography.fontFamily.sans.join(', '),
+                            fontFamily:
+                              theme.typography.fontFamily.sans.join(", "),
                           }}
                         >
                           {feature}
@@ -270,7 +303,7 @@ const ServicesSection: React.FC = () => {
                       className="inline-flex items-center space-x-2 text-sm font-semibold transition-all duration-300"
                       style={{
                         color: service.accentColor,
-                        fontFamily: theme.typography.fontFamily.sans.join(', '),
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
                         fontWeight: theme.typography.fontWeight.semibold,
                       }}
                       onMouseEnter={(e) => {
@@ -281,13 +314,18 @@ const ServicesSection: React.FC = () => {
                       }}
                     >
                       <span>Learn More</span>
-                      <svg 
-                        className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" 
-                        fill="none" 
-                        stroke="currentColor" 
+                      <svg
+                        className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300"
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </Link>
                   </div>
@@ -298,52 +336,60 @@ const ServicesSection: React.FC = () => {
         </div>
 
         {/* Bottom CTA Section */}
-        <div className="mt-16 text-center animate-fade-in-up" style={{ animationDelay: '800ms' }}>
-          <div 
+        <div
+          className="mt-16 text-center animate-fade-in-up"
+          style={{ animationDelay: "800ms" }}
+        >
+          <div
             className="inline-flex items-center space-x-4 px-8 py-4 rounded-2xl border"
             style={{
               backgroundColor: `${theme.colors.background.card}80`,
               borderColor: theme.colors.border.goldLight,
-              backdropFilter: 'blur(10px)',
+              backdropFilter: "blur(10px)",
             }}
           >
-            <div 
+            <div
               className="w-12 h-12 rounded-full flex items-center justify-center"
               style={{
                 background: theme.gradients.gold,
               }}
             >
-              <svg 
-                className="w-6 h-6" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
                 style={{ color: theme.colors.primary.black }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
               </svg>
             </div>
             <div className="text-left">
-              <p 
+              <p
                 className="font-semibold"
                 style={{
                   color: theme.colors.text.primary,
-                  fontFamily: theme.typography.fontFamily.sans.join(', '),
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
                   fontWeight: theme.typography.fontWeight.semibold,
                 }}
               >
                 Need a Custom Solution?
               </p>
-              <p 
+              <p
                 className="text-sm"
                 style={{
                   color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(', '),
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Call us at{' '}
-                <a 
-                  href="tel:9157576555" 
+                Call us at{" "}
+                <a
+                  href="tel:9157576555"
                   className="font-semibold hover:underline transition-colors duration-300"
                   style={{ color: theme.colors.accent.gold }}
                   onMouseEnter={(e) => {
@@ -353,7 +399,7 @@ const ServicesSection: React.FC = () => {
                     e.currentTarget.style.color = theme.colors.accent.gold;
                   }}
                 >
-                  9157576555
+                  7600839900
                 </a>
               </p>
             </div>
