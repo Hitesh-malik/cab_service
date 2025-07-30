@@ -8,7 +8,8 @@ import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 
 interface VehiclePricing {
   vehicleType: string;
-  pickupPrice: string;
+  oneWayPrice: string;
+  twoWayPrice: string;
 }
 
 interface OutstationData {
@@ -16,9 +17,6 @@ interface OutstationData {
   to: string;
   distance: string;
   duration: string;
-  price: string;
-  description: string;
-  amenities: string;
   vehicles: VehiclePricing[];
 }
 
@@ -28,25 +26,26 @@ export default function OutstationForm() {
     to: "",
     distance: "",
     duration: "",
-    price: "",
-    description: "",
-    amenities: "",
     vehicles: [
       {
         vehicleType: "Innova",
-        pickupPrice: "",
+        oneWayPrice: "",
+        twoWayPrice: "",
       },
       {
         vehicleType: "Sedan",
-        pickupPrice: "",
+        oneWayPrice: "",
+        twoWayPrice: "",
       },
       {
         vehicleType: "SUV",
-        pickupPrice: "",
+        oneWayPrice: "",
+        twoWayPrice: "",
       },
       {
         vehicleType: "Inno Crystal",
-        pickupPrice: "",
+        oneWayPrice: "",
+        twoWayPrice: "",
       },
     ],
   });
@@ -100,25 +99,26 @@ export default function OutstationForm() {
           to: "",
           distance: "",
           duration: "",
-          price: "",
-          description: "",
-          amenities: "",
           vehicles: [
             {
               vehicleType: "Innova",
-              pickupPrice: "",
+              oneWayPrice: "",
+              twoWayPrice: "",
             },
             {
               vehicleType: "Sedan",
-              pickupPrice: "",
+              oneWayPrice: "",
+              twoWayPrice: "",
             },
             {
               vehicleType: "SUV",
-              pickupPrice: "",
+              oneWayPrice: "",
+              twoWayPrice: "",
             },
             {
               vehicleType: "Inno Crystal",
-              pickupPrice: "",
+              oneWayPrice: "",
+              twoWayPrice: "",
             },
           ],
         });
@@ -191,7 +191,7 @@ export default function OutstationForm() {
           </div>
 
           {/* Trip Details */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
                 className="block text-sm font-medium"
@@ -225,24 +225,6 @@ export default function OutstationForm() {
                 placeholder="Enter duration"
                 value={formData.duration}
                 onChange={(e) => handleInputChange("duration", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Base Price (₹)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter base price"
-                value={formData.price}
-                onChange={(e) => handleInputChange("price", e.target.value)}
               />
             </div>
           </div>
@@ -282,7 +264,7 @@ export default function OutstationForm() {
                   </h4>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label
                       className="block text-sm font-medium"
@@ -291,56 +273,35 @@ export default function OutstationForm() {
                         fontFamily: theme.typography.fontFamily.sans.join(", "),
                       }}
                     >
-                      Pickup Price (₹)
+                      One Way Price (₹)
                     </label>
                     <ThemedInput
                       type="number"
-                      placeholder="Enter pickup price"
-                      value={vehicle.pickupPrice}
-                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
+                      placeholder="Enter one way price"
+                      value={vehicle.oneWayPrice}
+                      onChange={(e) => updateVehicle(index, "oneWayPrice", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      className="block text-sm font-medium"
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      Two Way Price (₹)
+                    </label>
+                    <ThemedInput
+                      type="number"
+                      placeholder="Enter two way price"
+                      value={vehicle.twoWayPrice}
+                      onChange={(e) => updateVehicle(index, "twoWayPrice", e.target.value)}
                     />
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Amenities and Description */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Amenities
-              </label>
-              <ThemedInput
-                placeholder="AC, WiFi, Water, etc."
-                value={formData.amenities}
-                onChange={(e) => handleInputChange("amenities", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Description
-              </label>
-              <ThemedTextarea
-                placeholder="Enter trip description, highlights, or special notes"
-                value={formData.description}
-                onChange={(e) => handleInputChange("description", e.target.value)}
-                rows={4}
-              />
-            </div>
           </div>
 
           {/* Submit Button */}
