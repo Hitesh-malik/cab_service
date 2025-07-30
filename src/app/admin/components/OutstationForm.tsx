@@ -9,7 +9,6 @@ import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 interface VehiclePricing {
   vehicleType: string;
   pickupPrice: string;
-  dropPrice: string;
 }
 
 interface OutstationData {
@@ -36,22 +35,18 @@ export default function OutstationForm() {
       {
         vehicleType: "Innova",
         pickupPrice: "",
-        dropPrice: "",
       },
       {
         vehicleType: "Sedan",
         pickupPrice: "",
-        dropPrice: "",
       },
       {
         vehicleType: "SUV",
         pickupPrice: "",
-        dropPrice: "",
       },
       {
         vehicleType: "Inno Crystal",
         pickupPrice: "",
-        dropPrice: "",
       },
     ],
   });
@@ -112,22 +107,18 @@ export default function OutstationForm() {
             {
               vehicleType: "Innova",
               pickupPrice: "",
-              dropPrice: "",
             },
             {
               vehicleType: "Sedan",
               pickupPrice: "",
-              dropPrice: "",
             },
             {
               vehicleType: "SUV",
               pickupPrice: "",
-              dropPrice: "",
             },
             {
               vehicleType: "Inno Crystal",
               pickupPrice: "",
-              dropPrice: "",
             },
           ],
         });
@@ -291,7 +282,7 @@ export default function OutstationForm() {
                   </h4>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
                     <label
                       className="block text-sm font-medium"
@@ -307,24 +298,6 @@ export default function OutstationForm() {
                       placeholder="Enter pickup price"
                       value={vehicle.pickupPrice}
                       onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
-                      style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
-                      }}
-                    >
-                      Drop Price (₹)
-                    </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter drop price"
-                      value={vehicle.dropPrice}
-                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
                     />
                   </div>
                 </div>

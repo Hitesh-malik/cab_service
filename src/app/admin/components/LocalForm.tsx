@@ -6,21 +6,20 @@ import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 
+interface PackagePricing {
+  packageName: string;
+  price: string;
+}
+
 interface VehiclePricing {
   vehicleType: string;
-  pickupPrice: string;
-  dropPrice: string;
+  packages: PackagePricing[];
 }
 
 interface LocalData {
   pickupLocation: string;
   dropLocation: string;
   distance: string;
-  duration: string;
-  basePrice: string;
-  perKmPrice: string;
-  description: string;
-  serviceType: string;
   vehicles: VehiclePricing[];
 }
 
@@ -29,31 +28,90 @@ export default function LocalForm() {
     pickupLocation: "",
     dropLocation: "",
     distance: "",
-    duration: "",
-    basePrice: "",
-    perKmPrice: "",
-    description: "",
-    serviceType: "",
     vehicles: [
       {
         vehicleType: "Innova",
-        pickupPrice: "",
-        dropPrice: "",
+        packages: [
+          {
+            packageName: "4 Hours / 40 KM",
+            price: "",
+          },
+          {
+            packageName: "8 Hours / 80 KM",
+            price: "",
+          },
+          {
+            packageName: "12 Hours / 120 KM",
+            price: "",
+          },
+          {
+            packageName: "Full Day",
+            price: "",
+          },
+        ],
       },
       {
         vehicleType: "Sedan",
-        pickupPrice: "",
-        dropPrice: "",
+        packages: [
+          {
+            packageName: "4 Hours / 40 KM",
+            price: "",
+          },
+          {
+            packageName: "8 Hours / 80 KM",
+            price: "",
+          },
+          {
+            packageName: "12 Hours / 120 KM",
+            price: "",
+          },
+          {
+            packageName: "Full Day",
+            price: "",
+          },
+        ],
       },
       {
         vehicleType: "SUV",
-        pickupPrice: "",
-        dropPrice: "",
+        packages: [
+          {
+            packageName: "4 Hours / 40 KM",
+            price: "",
+          },
+          {
+            packageName: "8 Hours / 80 KM",
+            price: "",
+          },
+          {
+            packageName: "12 Hours / 120 KM",
+            price: "",
+          },
+          {
+            packageName: "Full Day",
+            price: "",
+          },
+        ],
       },
       {
         vehicleType: "Inno Crystal",
-        pickupPrice: "",
-        dropPrice: "",
+        packages: [
+          {
+            packageName: "4 Hours / 40 KM",
+            price: "",
+          },
+          {
+            packageName: "8 Hours / 80 KM",
+            price: "",
+          },
+          {
+            packageName: "12 Hours / 120 KM",
+            price: "",
+          },
+          {
+            packageName: "Full Day",
+            price: "",
+          },
+        ],
       },
     ],
   });
@@ -68,26 +126,23 @@ export default function LocalForm() {
     "Inno Crystal",
   ];
 
-  const serviceTypeOptions = [
-    "Point to Point",
-    "Hourly Rental",
-    "Half Day",
-    "Full Day",
-    "City Tour",
-  ];
-
-  const handleInputChange = (field: keyof Omit<LocalData, 'vehicles'>, value: string) => {
+  const handleInputChange = (field: keyof Omit<LocalData, 'packages'>, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
+  const updateVehicle = (vehicleIndex: number, packageIndex: number, field: keyof PackagePricing, value: string) => {
     setFormData(prev => ({
       ...prev,
       vehicles: prev.vehicles.map((vehicle, i) => 
-        i === index ? { ...vehicle, [field]: value } : vehicle
+        i === vehicleIndex ? {
+          ...vehicle,
+          packages: vehicle.packages.map((pkg, j) => 
+            j === packageIndex ? { ...pkg, [field]: value } : pkg
+          )
+        } : vehicle
       )
     }));
   };
@@ -114,31 +169,90 @@ export default function LocalForm() {
           pickupLocation: "",
           dropLocation: "",
           distance: "",
-          duration: "",
-          basePrice: "",
-          perKmPrice: "",
-          description: "",
-          serviceType: "",
           vehicles: [
             {
               vehicleType: "Innova",
-              pickupPrice: "",
-              dropPrice: "",
+              packages: [
+                {
+                  packageName: "4 Hours / 40 KM",
+                  price: "",
+                },
+                {
+                  packageName: "8 Hours / 80 KM",
+                  price: "",
+                },
+                {
+                  packageName: "12 Hours / 120 KM",
+                  price: "",
+                },
+                {
+                  packageName: "Full Day",
+                  price: "",
+                },
+              ],
             },
             {
               vehicleType: "Sedan",
-              pickupPrice: "",
-              dropPrice: "",
+              packages: [
+                {
+                  packageName: "4 Hours / 40 KM",
+                  price: "",
+                },
+                {
+                  packageName: "8 Hours / 80 KM",
+                  price: "",
+                },
+                {
+                  packageName: "12 Hours / 120 KM",
+                  price: "",
+                },
+                {
+                  packageName: "Full Day",
+                  price: "",
+                },
+              ],
             },
             {
               vehicleType: "SUV",
-              pickupPrice: "",
-              dropPrice: "",
+              packages: [
+                {
+                  packageName: "4 Hours / 40 KM",
+                  price: "",
+                },
+                {
+                  packageName: "8 Hours / 80 KM",
+                  price: "",
+                },
+                {
+                  packageName: "12 Hours / 120 KM",
+                  price: "",
+                },
+                {
+                  packageName: "Full Day",
+                  price: "",
+                },
+              ],
             },
             {
               vehicleType: "Inno Crystal",
-              pickupPrice: "",
-              dropPrice: "",
+              packages: [
+                {
+                  packageName: "4 Hours / 40 KM",
+                  price: "",
+                },
+                {
+                  packageName: "8 Hours / 80 KM",
+                  price: "",
+                },
+                {
+                  packageName: "12 Hours / 120 KM",
+                  price: "",
+                },
+                {
+                  packageName: "Full Day",
+                  price: "",
+                },
+              ],
             },
           ],
         });
@@ -211,99 +325,22 @@ export default function LocalForm() {
           </div>
 
           {/* Trip Details */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Distance (km)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter distance"
-                value={formData.distance}
-                onChange={(e) => handleInputChange("distance", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Duration (hours)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter duration"
-                value={formData.duration}
-                onChange={(e) => handleInputChange("duration", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Service Type
-              </label>
-              <ThemedSelect
-                value={formData.serviceType}
-                onChange={(e) => handleInputChange("serviceType", e.target.value)}
-                options={serviceTypeOptions}
-                placeholder="Select service type"
-              />
-            </div>
-          </div>
-
-          {/* Pricing */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Base Price (₹)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter base price"
-                value={formData.basePrice}
-                onChange={(e) => handleInputChange("basePrice", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block text-sm font-medium"
-                style={{
-                  color: theme.colors.text.secondary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Price per KM (₹)
-              </label>
-              <ThemedInput
-                type="number"
-                placeholder="Enter price per km"
-                value={formData.perKmPrice}
-                onChange={(e) => handleInputChange("perKmPrice", e.target.value)}
-              />
-            </div>
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-medium"
+              style={{
+                color: theme.colors.text.secondary,
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
+              }}
+            >
+              Distance (km)
+            </label>
+            <ThemedInput
+              type="number"
+              placeholder="Enter distance"
+              value={formData.distance}
+              onChange={(e) => handleInputChange("distance", e.target.value)}
+            />
           </div>
 
           {/* Vehicle Pricing Section */}
@@ -320,9 +357,9 @@ export default function LocalForm() {
               </h3>
             </div>
 
-            {formData.vehicles.map((vehicle, index) => (
+            {formData.vehicles.map((vehicle, vehicleIndex) => (
               <div 
-                key={index}
+                key={vehicleIndex}
                 className="p-4 border rounded-lg"
                 style={{
                   borderColor: theme.colors.border.primary,
@@ -331,7 +368,7 @@ export default function LocalForm() {
               >
                 <div className="mb-4">
                   <h4 
-                    className="text-md font-medium"
+                    className="text-lg font-medium"
                     style={{
                       color: theme.colors.text.primary,
                       fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -342,63 +379,49 @@ export default function LocalForm() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
+                  {vehicle.packages.map((pkg, packageIndex) => (
+                    <div 
+                      key={packageIndex}
+                      className="p-3 border rounded-lg"
                       style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                        borderColor: theme.colors.border.primary,
+                        backgroundColor: theme.colors.background.card,
                       }}
                     >
-                      Pickup Price (₹)
-                    </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter pickup price"
-                      value={vehicle.pickupPrice}
-                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
-                    />
-                  </div>
+                      <div className="mb-2">
+                        <h5 
+                          className="text-sm font-medium"
+                          style={{
+                            color: theme.colors.text.primary,
+                            fontFamily: theme.typography.fontFamily.sans.join(", "),
+                          }}
+                        >
+                          {pkg.packageName}
+                        </h5>
+                      </div>
 
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
-                      style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
-                      }}
-                    >
-                      Drop Price (₹)
-                    </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter drop price"
-                      value={vehicle.dropPrice}
-                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
-                    />
-                  </div>
+                      <div className="space-y-2">
+                        <label
+                          className="block text-xs font-medium"
+                          style={{
+                            color: theme.colors.text.secondary,
+                            fontFamily: theme.typography.fontFamily.sans.join(", "),
+                          }}
+                        >
+                          Price (₹)
+                        </label>
+                        <ThemedInput
+                          type="number"
+                          placeholder="Enter price"
+                          value={pkg.price}
+                          onChange={(e) => updateVehicle(vehicleIndex, packageIndex, "price", e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Description */}
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium"
-              style={{
-                color: theme.colors.text.secondary,
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
-            >
-              Description
-            </label>
-            <ThemedTextarea
-              placeholder="Enter trip description, highlights, or special notes"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              rows={4}
-            />
           </div>
 
           {/* Submit Button */}
