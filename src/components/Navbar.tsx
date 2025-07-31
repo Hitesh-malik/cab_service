@@ -26,14 +26,14 @@ const Navbar: React.FC = () => {
   const handleOverlayClick = (e: React.MouseEvent) => {
     // Only close if clicking the overlay itself (not any child elements)
     if (e.target === e.currentTarget) {
-      console.log('📱 Mobile overlay clicked');
-      
+      console.log("📱 Mobile overlay clicked");
+
       // If a dropdown is open, close it first
       if (activeDropdown) {
-        console.log('📱 Closing active dropdown from overlay');
+        console.log("📱 Closing active dropdown from overlay");
         handleDropdownClose();
       } else {
-        console.log('📱 Closing mobile menu from overlay');
+        console.log("📱 Closing mobile menu from overlay");
         handleMobileMenuClose();
       }
     }
@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
 
   // Handle mobile menu button click
   const handleMobileToggle = () => {
-    console.log('📱 Mobile menu button clicked');
+    console.log("📱 Mobile menu button clicked");
     handleMobileMenuToggle();
   };
 
@@ -112,14 +112,14 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu Content */}
       <div
         className={`lg:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-black/98 backdrop-blur-2xl border-b border-yellow-500/20 transition-all duration-300 transform ${
-          isMobileMenuOpen 
-            ? 'translate-x-0 opacity-100' 
-            : 'translate-x-full opacity-0 pointer-events-none'
+          isMobileMenuOpen
+            ? "translate-x-0 opacity-100"
+            : "translate-x-full opacity-0 pointer-events-none"
         }`}
         style={{
-          transitionProperty: 'transform, opacity',
-          transitionDuration: '0.3s',
-          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          transitionProperty: "transform, opacity",
+          transitionDuration: "0.3s",
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         {/* Background gradient */}
@@ -136,14 +136,6 @@ const Navbar: React.FC = () => {
               isMobile={true}
               onMobileMenuClose={handleMobileMenuClose}
               clickedDropdown={clickedDropdown}
-            />
-          </div>
-
-          {/* Mobile Phone Button */}
-          <div className="px-6 pb-8 pt-4 border-t border-yellow-500/10 mt-auto">
-            <PhoneButton
-              isMobile={true}
-              className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black font-semibold py-4 rounded-xl transform hover:scale-[1.02] transition-all duration-300 shadow-lg text-center"
             />
           </div>
         </div>
