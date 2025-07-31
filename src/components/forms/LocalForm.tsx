@@ -3,12 +3,12 @@
 
 import React from "react";
 import { theme } from "@/styles/theme";
-import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
+import { ThemedInput } from "@/components/UI/ThemedInput";
+import { ThemedDatePicker } from "@/components/UI/ThemedDatePicker";
+import { ThemedTimePicker } from "@/components/UI/ThemedTimePicker";
 import { BookingFormData } from "@/types/booking";
 import { CITIES, PACKAGES } from "@/constants/booking";
-import { ThemedTimePicker } from "../UI/ThemedTimePicker";
-import { ThemedDatePicker } from "../UI/ThemedDatePicker";
 
 interface LocalFormProps {
   bookingData: BookingFormData;
@@ -21,11 +21,11 @@ export const LocalForm: React.FC<LocalFormProps> = ({
   errors,
   onInputChange,
 }) => (
-  <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+  <div className="space-y-4 sm:space-y-6 px-3 sm:px-0 max-w-md mx-auto sm:max-w-none">
     {/* Header Section */}
     <div className="text-center space-y-3 sm:space-y-4">
       <h3
-        className="font-bold text-lg sm:text-xl lg:text-2xl px-2"
+        className="font-bold text-lg sm:text-xl lg:text-2xl px-2 leading-tight"
         style={{
           color: theme.colors.text.primary,
           fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -106,12 +106,12 @@ export const LocalForm: React.FC<LocalFormProps> = ({
             fontWeight: theme.typography.fontWeight.medium,
           }}
         >
-          TIME
+          PICKUP TIME
         </label>
         <ThemedTimePicker
-          value={bookingData.time}
-          onChange={(e) => onInputChange("time", e.target.value)}
-          error={errors.time}
+          value={bookingData.pickupTime}
+          onChange={(e) => onInputChange("pickupTime", e.target.value)}
+          error={errors.pickupTime}
         />
       </div>
     </div>
@@ -155,5 +155,30 @@ export const LocalForm: React.FC<LocalFormProps> = ({
         />
       </div>
     </div>
+
+    {/* Trip Summary */}
+    {bookingData.city && bookingData.package && (
+      <div
+        className="p-3 sm:p-4 rounded-lg text-center border"
+        style={{
+          backgroundColor: theme.colors.background.secondary,
+          borderColor: theme.colors.border.goldLight,
+          color: theme.colors.text.primary,
+          fontFamily: theme.typography.fontFamily.sans.join(", "),
+        }}
+      >
+        <div className="flex items-center justify-center space-x-2 text-sm sm:text-base">
+          <span className="font-semibold">{bookingData.city}</span>
+          <span style={{ color: theme.colors.accent.gold }}>•</span>
+          <span className="font-semibold">{bookingData.package}</span>
+        </div>
+        <div
+          className="text-xs sm:text-sm mt-1"
+          style={{ color: theme.colors.text.muted }}
+        >
+          Local Package
+        </div>
+      </div>
+    )}
   </div>
 );

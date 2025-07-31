@@ -11,7 +11,7 @@ import { TabGroup } from "@/components/UI/TabGroup";
 import { CitySwapButton } from "@/components/UI/CitySwapButton";
 import { BookingFormData, TripType } from "@/types/booking";
 import { CITIES } from "@/constants/booking";
-import { BsCarFront, BsArrowRepeat } from 'react-icons/bs';
+import { BsCarFront, BsArrowRepeat } from "react-icons/bs";
 
 interface OutstationFormProps {
   bookingData: BookingFormData;
@@ -47,11 +47,11 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+    <div className="space-y-4 sm:space-y-6 px-3 sm:px-0 max-w-md mx-auto sm:max-w-none">
       {/* Header Section */}
       <div className="text-center space-y-3 sm:space-y-4">
         <h3
-          className="font-bold text-lg sm:text-xl lg:text-2xl px-2"
+          className="font-bold text-lg sm:text-xl lg:text-2xl px-2 leading-tight"
           style={{
             color: theme.colors.text.primary,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
@@ -91,11 +91,13 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           />
         </div>
 
-        {/* Swap Button */}
-        {/* <CitySwapButton
-          onSwap={handleCitySwap}
-          className="-my-2 relative z-10"
-        /> */}
+        {/* Swap Button - Enhanced for mobile */}
+        <div className="flex justify-center -my-2 relative z-10">
+          <CitySwapButton
+            onSwap={handleCitySwap}
+            className="transform scale-90 sm:scale-100"
+          />
+        </div>
 
         <div className="space-y-2">
           <label
