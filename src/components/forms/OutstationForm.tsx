@@ -92,12 +92,12 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
         </div>
 
         {/* Swap Button - Enhanced for mobile */}
-        <div className="flex justify-center -my-2 relative z-10">
+        {/* <div className="flex justify-center -my-2 relative z-10">
           <CitySwapButton
             onSwap={handleCitySwap}
             className="transform scale-90 sm:scale-100"
           />
-        </div>
+        </div> */}
 
         <div className="space-y-2">
           <label
