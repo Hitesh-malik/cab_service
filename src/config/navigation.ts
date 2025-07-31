@@ -3,11 +3,15 @@ import { NavItem } from '@/types';
 
 export const navigationItems: NavItem[] = [
   {
+    label: 'Home',
+    href: '/',
+    description: 'Welcome to Penta CAB - Your trusted travel partner',
+  },
+  {
     label: 'Services',
     href: '/services',
     hasDropdown: true,
     description: 'Explore our range of cab services',
-    icon: '🚗',
     dropdownItems: [
       { 
         label: 'Oneway Rentals', 
@@ -42,7 +46,6 @@ export const navigationItems: NavItem[] = [
     href: '/popular',
     description: 'Discover our most popular routes and cities',
     hasDropdown: true,
-    icon: '⭐',
     dropdownItems: [
       { 
         label: 'Popular Routes', 
@@ -57,13 +60,11 @@ export const navigationItems: NavItem[] = [
     label: 'About Us', 
     description: 'Learn more about our company and values',
     href: '/about',
-    icon: 'ℹ️'
   },
   { 
     label: 'Contact Us', 
     description: 'Get in touch with our support team',
     href: '/contact',
-    icon: '📞'
   }
 ];
 
