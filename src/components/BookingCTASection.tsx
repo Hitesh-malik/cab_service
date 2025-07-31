@@ -1,28 +1,31 @@
 // src/components/BookingCTASection.tsx
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { theme, themeVariants } from '@/styles/theme';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { theme, themeVariants } from "@/styles/theme";
 
 const BookingCTASection: React.FC = () => {
   const benefits = [
     {
-      icon: '🎯',
-      title: 'Complete support',
-      description: 'assisting you from the initial inquiry to drop-off service.'
+      icon: "🎯",
+      title: "Complete support",
+      description:
+        "assisting you from the initial inquiry to drop-off service.",
     },
     {
-      icon: '💳',
-      title: 'Easy payment and return policy',
-      description: 'along with our transparent Terms & Conditions, ensure a hassle-free experience.'
+      icon: "💳",
+      title: "Easy payment and return policy",
+      description:
+        "along with our transparent Terms & Conditions, ensure a hassle-free experience.",
     },
     {
-      icon: '📧',
-      title: 'Rest assured, there are no hidden charges',
-      description: 'Your invoice will be promptly shared via email and mobile, ensuring complete transparency.'
-    }
+      icon: "📧",
+      title: "Rest assured, there are no hidden charges",
+      description:
+        "Your invoice will be promptly shared via email and mobile, ensuring complete transparency.",
+    },
   ];
 
   const trustIndicators = [
@@ -58,7 +61,6 @@ const BookingCTASection: React.FC = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2  items-center">
-
           {/* Left Content */}
           <div className="animate-slide-in-left">
             <div className="mb-8">
@@ -71,7 +73,7 @@ const BookingCTASection: React.FC = () => {
                   fontWeight: theme.typography.fontWeight.bold,
                 }}
               >
-                Book with us for a{' '}
+                Book with us for a{" "}
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
@@ -83,7 +85,6 @@ const BookingCTASection: React.FC = () => {
                   stress-free journey!
                 </span>
               </h2>
-
 
               <div
                 className="space-y-4 leading-relaxed"
@@ -102,7 +103,9 @@ const BookingCTASection: React.FC = () => {
                   >
                     P
                   </span>
-                  one-stop solution in Ahmedabad for one-way and round-trip journeys, efficient airport pickups and drops, and convenient local car rentals.{' '}
+                  one-stop solution in Ahmedabad for one-way and round-trip
+                  journeys, efficient airport pickups and drops, and convenient
+                  local car rentals.{" "}
                   <span
                     className="px-2 py-1 rounded font-semibold"
                     style={{
@@ -111,20 +114,26 @@ const BookingCTASection: React.FC = () => {
                     }}
                   >
                     Penta Cab
-                  </span>{' '}
-                  a trusted car rental company in Ahmedabad, has been serving customers for over a decade. We offer a{' '}
+                  </span>{" "}
+                  a trusted car rental company in Ahmedabad, has been serving
+                  customers for over a decade. We offer a{" "}
                   <span
                     className="font-semibold"
                     style={{ color: theme.colors.accent.gold }}
                   >
                     hassle-free booking process
-                  </span>, letting you provide the flexibility to select from a diverse range of cars, including Premium options, all within your budget. Our helpful representatives assist in planning your trip. Popular services include{' '}
+                  </span>
+                  , letting you provide the flexibility to select from a diverse
+                  range of cars, including Premium options, all within your
+                  budget. Our helpful representatives assist in planning your
+                  trip. Popular services include{" "}
                   <span
                     className="font-semibold"
                     style={{ color: theme.colors.accent.gold }}
                   >
                     corporate car rentals
-                  </span> and{' '}
+                  </span>{" "}
+                  and{" "}
                   <span
                     className="font-semibold"
                     style={{ color: theme.colors.accent.gold }}
@@ -136,15 +145,14 @@ const BookingCTASection: React.FC = () => {
               </div>
             </div>
 
-
             {/* Why This Trip Will Be Better */}
             <div>
               <h3
                 className="text-2xl font-bold mb-6"
                 style={{
                   color: theme.colors.text.primary,
-                  fontFamily: theme.typography.fontFamily.sans.join(', '),
-                  fontSize: theme.typography.fontSize['2xl'],
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                  fontSize: theme.typography.fontSize["2xl"],
                   fontWeight: theme.typography.fontWeight.bold,
                 }}
               >
@@ -187,7 +195,8 @@ const BookingCTASection: React.FC = () => {
                           style={{ color: theme.colors.text.primary }}
                         >
                           {benefit.title}
-                        </span>, {benefit.description}
+                        </span>
+                        , {benefit.description}
                       </p>
                     </div>
                   </div>
@@ -196,9 +205,8 @@ const BookingCTASection: React.FC = () => {
             </div>
           </div>
           <div className="w-full h-full flex items-center justify-center p-4">
-
             <Image
-              src="/cab_image.png"
+              src="/cabtwo.png"
               alt="Penta Cab - Premium Taxi Service"
               width={600}
               height={500}
