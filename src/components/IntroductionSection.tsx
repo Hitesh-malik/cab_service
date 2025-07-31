@@ -81,648 +81,656 @@ const IntroductionSection: React.FC = () => {
           >
             Features:
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="space-y-12">
             {/* A. Intuitive Booking Process */}
-            <div
-              className="space-y-6 leading-relaxed"
-              style={{ color: theme.colors.text.secondary }}
-            >
+            <div>
               <h3
-                className="text-xl font-bold mb-4"
+                className="text-xl font-bold mb-6"
                 style={{ color: theme.colors.accent.gold }}
               >
                 A. Intuitive Booking Process
               </h3>
-
-              {/* Pickup & Drop-off Selection */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {/* Pickup & Drop-off Selection */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      📍
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Pickup & Drop-off Selection
-                    </p>
-                    <p className="text-xs">
-                      Easy input of locations, with auto-suggestions and
-                      map-pinning.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Real-time Location Detection */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      📡
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Real-time Location Detection
-                    </p>
-                    <p className="text-xs">
-                      Automatically detects the user's current location via GPS.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        📍
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Pickup & Drop-off Selection
+                      </p>
+                      <p className="text-xs">
+                        Easy input of locations, with auto-suggestions and
+                        map-pinning.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Vehicle Selection */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Real-time Location Detection */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      🚗
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Vehicle Selection
-                    </p>
-                    <p className="text-xs">
-                      Options for different car types (Economy, Sedan, SUV,
-                      Luxury, etc.) with clear pricing.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        📡
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Real-time Location Detection
+                      </p>
+                      <p className="text-xs">
+                        Automatically detects the user's current location via
+                        GPS.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Fare Estimation */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Vehicle Selection */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      💰
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Fare Estimation
-                    </p>
-                    <p className="text-xs">
-                      Transparent, upfront fare calculation based on distance,
-                      time, and vehicle type before booking.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        🚗
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Vehicle Selection
+                      </p>
+                      <p className="text-xs">
+                        Options for different car types (Economy, Sedan, SUV,
+                        Luxury, etc.) with clear pricing.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Ride Now/Schedule for Later */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Fare Estimation */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      ⏰
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Ride Now/Schedule for Later
-                    </p>
-                    <p className="text-xs">
-                      Option for immediate bookings or scheduling rides in
-                      advance.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        💰
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Fare Estimation
+                      </p>
+                      <p className="text-xs">
+                        Transparent, upfront fare calculation based on distance,
+                        time, and vehicle type before booking.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Multiple Stops */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Ride Now/Schedule for Later */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      🛣️
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Multiple Stops
-                    </p>
-                    <p className="text-xs">
-                      Ability to add multiple drop-off points during a single
-                      trip.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        ⏰
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Ride Now/Schedule for Later
+                      </p>
+                      <p className="text-xs">
+                        Option for immediate bookings or scheduling rides in
+                        advance.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Dynamic Pricing */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Multiple Stops */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      📊
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Dynamic Pricing
-                    </p>
-                    <p className="text-xs">
-                      Real-time adjustment of fares based on demand, traffic,
-                      and supply.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        🛣️
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Multiple Stops
+                      </p>
+                      <p className="text-xs">
+                        Ability to add multiple drop-off points during a single
+                        trip.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Smart Matching Algorithm */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Dynamic Pricing */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      🧠
-                    </span>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        📊
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Dynamic Pricing
+                      </p>
+                      <p className="text-xs">
+                        Real-time adjustment of fares based on demand, traffic,
+                        and supply.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
+                </div>
+
+                {/* Smart Matching Algorithm */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      Smart Matching Algorithm
-                    </p>
-                    <p className="text-xs">
-                      More intelligent matching of drivers to passengers based
-                      on proximity, route, and historical preferences.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        🧠
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Smart Matching Algorithm
+                      </p>
+                      <p className="text-xs">
+                        More intelligent matching of drivers to passengers based
+                        on proximity, route, and historical preferences.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* B. Customer Loyalty & Rewards */}
-            <div
-              className="space-y-6 leading-relaxed"
-              style={{ color: theme.colors.text.secondary }}
-            >
+            <div>
               <h3
-                className="text-xl font-bold mb-4"
+                className="text-xl font-bold mb-6"
                 style={{ color: theme.colors.accent.gold }}
               >
                 B. Customer Loyalty & Rewards
               </h3>
-
-              {/* Referral Programs */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {/* Referral Programs */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      👥
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Referral Programs
-                    </p>
-                    <p className="text-xs">
-                      Incentivize users to refer new customers.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Loyalty Points/Rewards System */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      ⭐
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Loyalty Points/Rewards System
-                    </p>
-                    <p className="text-xs">
-                      Earn points for rides that can be redeemed for discounts
-                      or exclusive benefits.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        👥
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Referral Programs
+                      </p>
+                      <p className="text-xs">
+                        Incentivize users to refer new customers.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Subscription Plans */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Loyalty Points/Rewards System */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      📅
-                    </span>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        ⭐
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Loyalty Points/Rewards System
+                      </p>
+                      <p className="text-xs">
+                        Earn points for rides that can be redeemed for discounts
+                        or exclusive benefits.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
+                </div>
+
+                {/* Subscription Plans */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      Subscription Plans
-                    </p>
-                    <p className="text-xs">
-                      Offer monthly/annual plans for regular commuters with
-                      special benefits.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        📅
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Subscription Plans
+                      </p>
+                      <p className="text-xs">
+                        Offer monthly/annual plans for regular commuters with
+                        special benefits.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* C. Environmental Initiatives */}
-            <div
-              className="space-y-6 leading-relaxed"
-              style={{ color: theme.colors.text.secondary }}
-            >
+            <div>
               <h3
-                className="text-xl font-bold mb-4"
+                className="text-xl font-bold mb-6"
                 style={{ color: theme.colors.accent.gold }}
               >
                 C. Environmental Initiatives
               </h3>
-
-              {/* Green Ride Options */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {/* Green Ride Options */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      🌱
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Green Ride Options
-                    </p>
-                    <p className="text-xs">
-                      Promote electric or hybrid vehicles.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        🌱
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Green Ride Options
+                      </p>
+                      <p className="text-xs">
+                        Promote electric or hybrid vehicles.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Carbon Footprint Tracking */}
-              <div
-                className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
-                style={{
-                  backgroundColor: theme.colors.background.card,
-                  borderColor: theme.colors.border.goldLight,
-                  boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = theme.colors.border.gold;
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    theme.colors.border.goldLight;
-                  e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
-                }}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: theme.gradients.gold,
-                    }}
-                  >
-                    <span
-                      className="font-bold text-xs"
-                      style={{ color: theme.colors.primary.black }}
+                {/* Carbon Footprint Tracking */}
+                <div
+                  className="group p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    borderColor: theme.colors.border.goldLight,
+                    boxShadow: `0 4px 20px ${theme.colors.shadow.card}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.gold;
+                    e.currentTarget.style.boxShadow = `0 8px 32px ${theme.colors.shadow.gold}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor =
+                      theme.colors.border.goldLight;
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${theme.colors.shadow.card}`;
+                  }}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      style={{
+                        background: theme.gradients.gold,
+                      }}
                     >
-                      🌍
-                    </span>
-                  </div>
-                  <div>
-                    <p
-                      className="font-semibold text-sm mb-1"
-                      style={{ color: theme.colors.accent.gold }}
-                    >
-                      Carbon Footprint Tracking
-                    </p>
-                    <p className="text-xs">
-                      Show users their environmental impact.
-                    </p>
+                      <span
+                        className="font-bold text-xs"
+                        style={{ color: theme.colors.primary.black }}
+                      >
+                        🌍
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        className="font-semibold text-sm mb-1"
+                        style={{ color: theme.colors.accent.gold }}
+                      >
+                        Carbon Footprint Tracking
+                      </p>
+                      <p className="text-xs">
+                        Show users their environmental impact.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
