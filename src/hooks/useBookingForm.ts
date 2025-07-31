@@ -7,7 +7,7 @@ import { BookingFormData, ServiceType, TripType, PickupDropType } from '@/types/
 import { useRouter } from 'next/navigation';
 
 export const useBookingForm = () => {
-  const [activeService, setActiveService] = useState<ServiceType>('AIRPORT');
+  const [activeService, setActiveService] = useState<ServiceType>('OUTSTATION');
   const [activeTripType, setActiveTripType] = useState<TripType>('ONEWAY');
   const [activePickupDrop, setActivePickupDrop] = useState<PickupDropType>('PICKUP');
   const router = useRouter();
