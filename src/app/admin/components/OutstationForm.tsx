@@ -5,6 +5,7 @@ import { theme } from "@/styles/theme";
 import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
+import api from "@/config/axios";
 
 interface VehiclePricing {
   vehicleType: string;
@@ -82,51 +83,67 @@ export default function OutstationForm() {
     setMessage("");
 
     try {
-      const response = await fetch('/api/admin/outstation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // Prepare the One Way and Two Way entries
+      const oneWayEntry = {
+        city1: formData.from,
+        city2: formData.to,
+        dateTime: new Date().toISOString(),
+        distance: formData.distance,
+        tripType: 'one-way',
+        cars: formData.vehicles.map(vehicle => ({
+          vehicleType: vehicle.vehicleType,
+          price: vehicle.oneWayPrice
+        }))
+      };
+
+      const twoWayEntry = {
+        city1: formData.from,
+        city2: formData.to,
+        dateTime: new Date().toISOString(),
+        distance: formData.distance,
+        tripType: 'two-way',
+        cars: formData.vehicles.map(vehicle => ({
+          vehicleType: vehicle.vehicleType,
+          price: vehicle.twoWayPrice
+        }))
+      };
+
+      // Submit both One Way and Two Way entries
+      await api.post('/add-outstation', oneWayEntry);
+      await api.post('/add-outstation', twoWayEntry);
+      
+      setMessage("Outstation bookings saved successfully!");
+      setFormData({
+        from: "",
+        to: "",
+        distance: "",
+        duration: "",
+        vehicles: [
+          {
+            vehicleType: "Innova",
+            oneWayPrice: "",
+            twoWayPrice: "",
+          },
+          {
+            vehicleType: "Sedan",
+            oneWayPrice: "",
+            twoWayPrice: "",
+          },
+          {
+            vehicleType: "SUV",
+            oneWayPrice: "",
+            twoWayPrice: "",
+          },
+          {
+            vehicleType: "Inno Crystal",
+            oneWayPrice: "",
+            twoWayPrice: "",
+          },
+        ],
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("Outstation trip data saved successfully!");
-        setFormData({
-          from: "",
-          to: "",
-          distance: "",
-          duration: "",
-          vehicles: [
-            {
-              vehicleType: "Innova",
-              oneWayPrice: "",
-              twoWayPrice: "",
-            },
-            {
-              vehicleType: "Sedan",
-              oneWayPrice: "",
-              twoWayPrice: "",
-            },
-            {
-              vehicleType: "SUV",
-              oneWayPrice: "",
-              twoWayPrice: "",
-            },
-            {
-              vehicleType: "Inno Crystal",
-              oneWayPrice: "",
-              twoWayPrice: "",
-            },
-          ],
-        });
-      } else {
-        setMessage(result.error || "Error saving data. Please try again.");
-      }
-    } catch (error) {
-      setMessage("Error saving data. Please try again.");
+    } catch (error: any) {
+      setMessage("Error saving booking");
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
