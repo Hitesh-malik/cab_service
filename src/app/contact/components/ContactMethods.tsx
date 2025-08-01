@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { theme } from "@/styles/theme";
+import Image from "next/image";
 export const ContactMethods: React.FC = () => {
   return (
     <section className="py-16 lg:py-24">

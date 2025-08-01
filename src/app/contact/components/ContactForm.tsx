@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { theme } from "@/styles/theme";
+import Image from "next/image";
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",

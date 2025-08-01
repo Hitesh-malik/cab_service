@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { theme } from "@/styles/theme";
+import Image from "next/image";
 export const AddressSection: React.FC = () => {
   return (
     <section
