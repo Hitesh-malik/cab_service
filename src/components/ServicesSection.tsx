@@ -88,11 +88,6 @@ const ServicesSection: React.FC = () => {
     serviceId: string;
     color: string;
   }) => {
-    const iconProps = {
-      className: "w-10 h-10 object-contain",
-      style: { color },
-    };
-
     switch (serviceId) {
       case "outstation":
         return (
@@ -101,7 +96,7 @@ const ServicesSection: React.FC = () => {
             alt="Outstation"
             width={40}
             height={40}
-            {...iconProps}
+            className="w-10 h-10 object-contain"
           />
         );
       case "airport":
@@ -111,7 +106,7 @@ const ServicesSection: React.FC = () => {
             alt="Airport"
             width={40}
             height={40}
-            {...iconProps}
+            className="w-10 h-10 object-contain"
           />
         );
       case "local":
@@ -121,7 +116,7 @@ const ServicesSection: React.FC = () => {
             alt="Local"
             width={40}
             height={40}
-            {...iconProps}
+            className="w-10 h-10 object-contain"
           />
         );
       case "multiway":
@@ -131,7 +126,7 @@ const ServicesSection: React.FC = () => {
             alt="Multiway"
             width={40}
             height={40}
-            {...iconProps}
+            className="w-10 h-10 object-contain"
           />
         );
       default:

@@ -1,5 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import {
+  FaCar,
+  FaHandshake,
+  FaTaxi,
+  FaBriefcase,
+  FaGlobe,
+  FaBuilding,
+} from "react-icons/fa";
+import { MdTrendingUp, MdPeople, MdAccessTime } from "react-icons/md";
 
 // Theme configuration (matching cab-detail page)
 const theme = {
@@ -72,9 +81,10 @@ export const AboutStory = () => {
       description: "Began journey as a driver",
       story:
         "Our journey began with a simple idea – to make transportation safer, more convenient, and more accessible for everyone. Starting as a driver, we learned the industry from the ground up.",
-      icon: "🚗",
+      icon: FaCar,
       color: "#FFD700",
       gradient: "from-yellow-400 to-orange-500",
+      image: "/images/about-us/1.png",
     },
     {
       year: "2016",
@@ -82,9 +92,10 @@ export const AboutStory = () => {
       description: "Built network of drivers",
       story:
         "We expanded our vision by building a network of trusted drivers. This marked the beginning of our commitment to creating a reliable transportation community.",
-      icon: "🤝",
+      icon: FaHandshake,
       color: "#FF6B35",
       gradient: "from-orange-400 to-red-500",
+      image: "/images/about-us/2.png",
     },
     {
       year: "2017",
@@ -92,9 +103,10 @@ export const AboutStory = () => {
       description: "Invested in own fleet",
       story:
         "Taking control of our destiny, we invested in our own fleet. This strategic move allowed us to ensure quality, maintain standards, and provide consistent service.",
-      icon: "🚖",
+      icon: FaTaxi,
       color: "#4ECDC4",
       gradient: "from-teal-400 to-cyan-500",
+      image: "/images/about-us/3.png",
     },
     {
       year: "2018",
@@ -102,9 +114,10 @@ export const AboutStory = () => {
       description: "Expanded to agency model",
       story:
         "We evolved into an agency model, expanding our reach and impact. This transformation enabled us to serve more customers while maintaining our high standards.",
-      icon: "💼",
+      icon: FaBriefcase,
       color: "#45B7D1",
       gradient: "from-blue-400 to-indigo-500",
+      image: "/images/about-us/4.png",
     },
     {
       year: "2019",
@@ -112,9 +125,10 @@ export const AboutStory = () => {
       description: "Built agent partnerships",
       story:
         "Building on our success, we created a network of agents and partnerships. This collaborative approach strengthened our market presence and service capabilities.",
-      icon: "🌐",
+      icon: FaGlobe,
       color: "#96CEB4",
       gradient: "from-green-400 to-emerald-500",
+      image: "/images/about-us/5.png",
     },
     {
       year: "2020",
@@ -122,10 +136,22 @@ export const AboutStory = () => {
       description: "Launched Penta Cab",
       story:
         "The culmination of our journey – we launched Penta Cab as a comprehensive transportation solution. Today, we serve thousands of satisfied customers daily.",
-      icon: "🏢",
+      icon: FaBuilding,
       color: "#FECA57",
       gradient: "from-amber-400 to-yellow-500",
+      image: "/images/about-us/6.png",
     },
+  ];
+
+  const historyImages = [
+    { src: "/images/about-us/1.png", alt: "Our Beginning", year: "2015" },
+    { src: "/images/about-us/2.png", alt: "Driver Network", year: "2016" },
+    { src: "/images/about-us/3.png", alt: "Own Fleet", year: "2017" },
+    { src: "/images/about-us/4.png", alt: "Agency Model", year: "2018" },
+    { src: "/images/about-us/5.png", alt: "Agent Network", year: "2019" },
+    { src: "/images/about-us/6.png", alt: "Penta Cab Launch", year: "2020" },
+    { src: "/images/about-us/7.png", alt: "Growth & Expansion", year: "2021" },
+    { src: "/images/about-us/8.png", alt: "Future Vision", year: "2022" },
   ];
 
   useEffect(() => {
@@ -174,7 +200,9 @@ export const AboutStory = () => {
               >
                 <div className="flex items-center space-x-4 mb-4">
                   <div className={`text-3xl animate-bounce`}>
-                    {timelineData[activeStep].icon}
+                    {React.createElement(timelineData[activeStep].icon, {
+                      style: { color: timelineData[activeStep].color },
+                    })}
                   </div>
                   <div>
                     <h3
@@ -306,7 +334,9 @@ export const AboutStory = () => {
                               : "scale-75 group-hover:scale-90"
                           }`}
                         >
-                          {item.icon}
+                          {React.createElement(item.icon, {
+                            style: { color: item.color },
+                          })}
                         </div>
                       </div>
 
@@ -401,7 +431,9 @@ export const AboutStory = () => {
                             activeStep === index ? "animate-bounce" : ""
                           }`}
                         >
-                          {item.icon}
+                          {React.createElement(item.icon, {
+                            style: { color: item.color },
+                          })}
                         </div>
                       </div>
 
@@ -449,13 +481,71 @@ export const AboutStory = () => {
           </div>
         </div>
 
+        {/* History Gallery Section */}
+        <div className="mt-16">
+          <h3
+            className="text-2xl lg:text-3xl font-bold mb-8 text-center"
+            style={{ color: theme.colors.text.primary }}
+          >
+            Our Journey in Pictures
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {historyImages.map((image, index) => (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-xl hover:scale-105 transition-all duration-300"
+                style={{
+                  background: theme.gradients.cardGradient,
+                  border: `1px solid ${theme.colors.border.light}`,
+                }}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-2 left-2 right-2">
+                  <div
+                    className="text-xs font-bold"
+                    style={{ color: theme.colors.accent.gold }}
+                  >
+                    {image.year}
+                  </div>
+                  <div
+                    className="text-xs"
+                    style={{ color: theme.colors.text.secondary }}
+                  >
+                    {image.alt}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Achievement Stats */}
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { number: "2015", label: "Founded", icon: "🎯" },
-            { number: "1000+", label: "Happy Customers", icon: "😊" },
-            { number: "50+", label: "Drivers", icon: "👥" },
-            { number: "24/7", label: "Service", icon: "⏰" },
+            {
+              number: "2015",
+              label: "Founded",
+              icon: MdTrendingUp,
+              color: "#FFD700",
+            },
+            {
+              number: "1000+",
+              label: "Happy Customers",
+              icon: MdPeople,
+              color: "#FFA500",
+            },
+            { number: "50+", label: "Drivers", icon: FaCar, color: "#20B2AA" },
+            {
+              number: "24/7",
+              label: "Service",
+              icon: MdAccessTime,
+              color: "#FF6B35",
+            },
           ].map((stat, index) => (
             <div
               key={index}
@@ -465,9 +555,10 @@ export const AboutStory = () => {
                 border: `1px solid ${theme.colors.border.light}`,
               }}
             >
-              <div className="text-2xl mb-1 group-hover:animate-bounce">
-                {stat.icon}
-              </div>
+              {React.createElement(stat.icon, {
+                className: "text-2xl mb-1 group-hover:animate-bounce",
+                style: { color: stat.color },
+              })}
               <div
                 className="text-xl font-bold mb-1"
                 style={{ color: theme.colors.accent.gold }}

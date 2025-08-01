@@ -1,6 +1,25 @@
 "use client";
 import React from "react";
 import { theme } from "@/styles/theme";
+import {
+  FaShieldAlt,
+  FaClock,
+  FaDollarSign,
+  FaCar,
+  FaPhone,
+  FaMobile,
+  FaUserTie,
+  FaLock,
+  FaGem,
+  FaHeart,
+} from "react-icons/fa";
+import {
+  MdStar,
+  MdSecurity,
+  MdAccessTime,
+  MdPayment,
+  MdSupport,
+} from "react-icons/md";
 
 export const AboutWhy: React.FC = () => {
   return (
@@ -37,31 +56,36 @@ export const AboutWhy: React.FC = () => {
                 title: "Safety First",
                 description:
                   "Your well-being is our top priority. Our drivers undergo rigorous background checks and continuous training. Plus, our in-app SOS feature and real-time ride sharing options give you peace of mind on every journey.",
-                icon: "🛡️",
+                icon: FaShieldAlt,
+                color: "#20B2AA",
               },
               {
                 title: "Reliability You Can Count On",
                 description:
                   "We value your time. Our advanced dispatch system and dedicated drivers ensure on-time arrivals and departures, so you never have to worry about missing an appointment.",
-                icon: "⏰",
+                icon: FaClock,
+                color: "#FFD700",
               },
               {
                 title: "Transparent & Affordable Pricing",
                 description:
                   "No hidden fees, ever. Get upfront fare estimates before you book, with competitive rates that offer great value for your money.",
-                icon: "💰",
+                icon: FaDollarSign,
+                color: "#4ECDC4",
               },
               {
                 title: "Comfort & Convenience",
                 description:
                   "Our diverse fleet of well-maintained vehicles ensures a comfortable ride, while our easy-to-use app and website make booking a breeze. Schedule rides in advance or get an instant cab with just a few taps.",
-                icon: "🚗",
+                icon: FaCar,
+                color: "#FF6B35",
               },
               {
                 title: "24/7 Support",
                 description:
                   "Have a question or need assistance? Our dedicated customer support team is available round-the-clock to help you.",
-                icon: "📞",
+                icon: FaPhone,
+                color: "#96CEB4",
               },
             ].map((item, index) => (
               <div
@@ -93,7 +117,7 @@ export const AboutWhy: React.FC = () => {
                         color: theme.colors.primary.black,
                       }}
                     >
-                      {item.icon}
+                      <item.icon style={{ color: item.color }} />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -137,31 +161,36 @@ export const AboutWhy: React.FC = () => {
                 title: "Seamless Booking Experience",
                 description:
                   "Our intuitive website and app make booking effortless. From real-time vehicle tracking to multiple payment options, we've designed every step with your convenience in mind.",
-                icon: "📱",
+                icon: FaMobile,
+                color: "#FFD700",
               },
               {
                 title: "Professional & Vetted Drivers",
                 description:
                   "Travel with confidence knowing that every PentaCab driver is professionally trained, thoroughly vetted, and committed to providing a courteous and efficient service.",
-                icon: "👨‍💼",
+                icon: FaUserTie,
+                color: "#20B2AA",
               },
               {
                 title: "Uncompromised Safety Measures",
                 description:
                   "Your safety is paramount. Benefit from features like live trip sharing, an emergency SOS button, and secure in-app communication, ensuring a safe journey every time.",
-                icon: "🔒",
+                icon: FaLock,
+                color: "#FF6B35",
               },
               {
                 title: "Smart & Fair Pricing",
                 description:
                   "Our transparent fare structure means you always know what you're paying. Enjoy competitive pricing without sacrificing quality or comfort.",
-                icon: "💎",
+                icon: FaGem,
+                color: "#4ECDC4",
               },
               {
                 title: "Dedicated to Your Satisfaction",
                 description:
                   "We listen to our customers. Our responsive support team and commitment to continuous improvement mean your feedback directly contributes to an even better PentaCab experience.",
-                icon: "❤️",
+                icon: FaHeart,
+                color: "#96CEB4",
               },
             ].map((item, index) => (
               <div
@@ -193,7 +222,7 @@ export const AboutWhy: React.FC = () => {
                         color: theme.colors.primary.black,
                       }}
                     >
-                      {item.icon}
+                      <item.icon style={{ color: item.color }} />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -236,27 +265,32 @@ export const AboutWhy: React.FC = () => {
                 title: "Unmatched Safety",
                 description:
                   "Rigorous driver checks and in-app safety features.",
-                icon: "🛡️",
+                icon: FaShieldAlt,
+                color: "#20B2AA",
               },
               {
                 title: "Guaranteed Reliability",
                 description: "Always on time, every time.",
-                icon: "⏰",
+                icon: FaClock,
+                color: "#FFD700",
               },
               {
                 title: "Transparent Fares",
                 description: "No surprises, just fair pricing.",
-                icon: "💰",
+                icon: FaDollarSign,
+                color: "#4ECDC4",
               },
               {
                 title: "Effortless Convenience",
                 description: "Easy booking, comfortable rides.",
-                icon: "🚗",
+                icon: FaCar,
+                color: "#FF6B35",
               },
               {
                 title: "Superior Service",
                 description: "24/7 support and professional drivers.",
-                icon: "⭐",
+                icon: MdStar,
+                color: "#96CEB4",
               },
             ].map((item, index) => (
               <div
@@ -286,7 +320,7 @@ export const AboutWhy: React.FC = () => {
                     color: theme.colors.primary.black,
                   }}
                 >
-                  {item.icon}
+                  <item.icon style={{ color: item.color }} />
                 </div>
                 <h4
                   className="text-lg font-bold mb-2 group-hover:opacity-80 transition-colors duration-300"
