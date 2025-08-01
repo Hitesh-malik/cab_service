@@ -3,6 +3,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { theme, themeVariants } from "@/styles/theme";
 
 interface ServiceCard {
@@ -88,36 +89,50 @@ const ServicesSection: React.FC = () => {
     color: string;
   }) => {
     const iconProps = {
-      className: "w-10 h-10",
-      fill: "currentColor",
-      viewBox: "0 0 24 24",
+      className: "w-10 h-10 object-contain",
       style: { color },
     };
 
     switch (serviceId) {
       case "outstation":
         return (
-          <svg {...iconProps}>
-            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
-          </svg>
+          <Image
+            src="/images/stats/experiened-driver.png"
+            alt="Outstation"
+            width={40}
+            height={40}
+            {...iconProps}
+          />
         );
       case "airport":
         return (
-          <svg {...iconProps}>
-            <path d="M20.36 2.64L19.29 3.71L16.17 6.83L14.83 5.49L13.76 6.56L16.24 9.04L9.35 15.93L5.78 12.36L2.64 15.5L9.35 22.21L22.07 9.49L20.36 2.64Z" />
-          </svg>
+          <Image
+            src="/images/stats/customer-support.png"
+            alt="Airport"
+            width={40}
+            height={40}
+            {...iconProps}
+          />
         );
       case "local":
         return (
-          <svg {...iconProps}>
-            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2M12 11.5C10.62 11.5 9.5 10.38 9.5 9S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5Z" />
-          </svg>
+          <Image
+            src="/images/stats/transparent-price.png"
+            alt="Local"
+            width={40}
+            height={40}
+            {...iconProps}
+          />
         );
       case "multiway":
         return (
-          <svg {...iconProps}>
-            <path d="M2 12C2 6.48 6.48 2 12 2S22 6.48 22 12 17.52 22 12 22 2 17.52 2 12M15.5 8L14 6.5 9.5 11 14 15.5 15.5 14 12.5 11 15.5 8Z" />
-          </svg>
+          <Image
+            src="/images/stats/customer-satisfation.png"
+            alt="Multiway"
+            width={40}
+            height={40}
+            {...iconProps}
+          />
         );
       default:
         return null;
