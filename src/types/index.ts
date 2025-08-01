@@ -7,7 +7,7 @@ export interface NavItem {
   href: string;
   hasDropdown?: boolean;
   dropdownItems?: NavItem[];
-  icon?: string;
+  icon?: React.ComponentType<{ className?: string }> | string;
   badge?: string;
   external?: boolean;
 }

@@ -1,44 +1,78 @@
 // src/config/navigation.ts
 import { NavItem } from '@/types';
+import { 
+  FaHome, 
+  FaCar, 
+  FaRoute, 
+  FaInfoCircle, 
+  FaPhone,
+  FaArrowRight,
+  FaSync,
+  FaTaxi,
+  FaWhatsapp,
+  FaDollarSign,
+  FaClock,
+  FaUserTie,
+  FaMapPin
+} from 'react-icons/fa';
+import { 
+  MdLocalTaxi,
+  MdAirportShuttle,
+  MdLocationOn,
+  MdStar
+} from 'react-icons/md';
 
 export const navigationItems: NavItem[] = [
   {
     label: 'Home',
     href: '/',
     description: 'Welcome to Penta CAB - Your trusted travel partner',
+    icon: FaHome,
   },
   {
     label: 'Services',
     href: '/services',
     hasDropdown: true,
     description: 'Explore our range of cab services',
+    icon: FaCar,
     dropdownItems: [
       { 
         label: 'Oneway Rentals', 
         href: '/#booking-widget',
-        icon: '➡️',
+        icon: FaArrowRight,
         description: 'Single destination car rentals'
       },
       { 
         label: 'Roundway Rentals', 
         href: '/#booking-widget',
-        icon: '🔄',
+        icon: FaSync,
         description: 'Return to pickup location'
       },
       { 
         label: 'Local Rentals', 
         href: '/#booking-widget',
-        icon: '🏙️',
+        icon: MdLocalTaxi,
         description: 'City and local area rentals'
       },
       { 
         label: 'Airport Rentals', 
         href: '/#booking-widget',
-        icon: '✈️',
+        icon: MdAirportShuttle,
         badge: 'Fast',
         description: 'Quick airport pickup & drop'
       },
-      
+      { 
+        label: 'Corporate Travel', 
+        href: '/#booking-widget',
+        icon: FaUserTie,
+        description: 'Business and corporate travel'
+      },
+      { 
+        label: '24/7 Service', 
+        href: '/#booking-widget',
+        icon: FaClock,
+        description: 'Round the clock cab service'
+      }
     ]
   },
   {
@@ -46,25 +80,39 @@ export const navigationItems: NavItem[] = [
     href: '/popular',
     description: 'Discover our most popular routes and cities',
     hasDropdown: true,
+    icon: FaRoute,
     dropdownItems: [
       { 
         label: 'Popular Routes', 
         href: '/popular_route_info',
-        icon: '🗺️',
+        icon: MdLocationOn,
         description: 'Most booked travel routes'
       },
-      
+      { 
+        label: 'City Tours', 
+        href: '/#booking-widget',
+        icon: FaMapPin,
+        description: 'Explore city attractions'
+      },
+      { 
+        label: 'Top Rated', 
+        href: '/#booking-widget',
+        icon: MdStar,
+        description: 'Highest rated services'
+      }
     ]
   },
   { 
     label: 'About Us', 
     description: 'Learn more about our company and values',
     href: '/about',
+    icon: FaInfoCircle,
   },
   { 
     label: 'Contact Us', 
     description: 'Get in touch with our support team',
     href: '/contact',
+    icon: FaPhone,
   }
 ];
 
@@ -93,24 +141,24 @@ export const quickActions = [
   {
     label: 'Book Now',
     href: '/book',
-    icon: '🚗',
+    icon: FaTaxi,
     primary: true
   },
   {
     label: 'Call Us',
     href: 'tel:+917600839900',
-    icon: '📞',
+    icon: FaPhone,
     external: true
   },
   {
     label: 'WhatsApp',
     href: `https://wa.me/917600839900?text=Hi, I need a cab booking`,
-    icon: '💬',
+    icon: FaWhatsapp,
     external: true
   },
   {
     label: 'Get Quote',
     href: '/quote',
-    icon: '💰'
+    icon: FaDollarSign
   }
 ];
