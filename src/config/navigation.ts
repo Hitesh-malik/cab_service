@@ -61,18 +61,7 @@ export const navigationItems: NavItem[] = [
         badge: 'Fast',
         description: 'Quick airport pickup & drop'
       },
-      { 
-        label: 'Corporate Travel', 
-        href: '/#booking-widget',
-        icon: FaUserTie,
-        description: 'Business and corporate travel'
-      },
-      { 
-        label: '24/7 Service', 
-        href: '/#booking-widget',
-        icon: FaClock,
-        description: 'Round the clock cab service'
-      }
+      
     ]
   },
   {
@@ -88,18 +77,7 @@ export const navigationItems: NavItem[] = [
         icon: MdLocationOn,
         description: 'Most booked travel routes'
       },
-      { 
-        label: 'City Tours', 
-        href: '/#booking-widget',
-        icon: FaMapPin,
-        description: 'Explore city attractions'
-      },
-      { 
-        label: 'Top Rated', 
-        href: '/#booking-widget',
-        icon: MdStar,
-        description: 'Highest rated services'
-      }
+      
     ]
   },
   { 
