@@ -9,13 +9,43 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 export const AboutThks: React.FC = () => {
+  const router = useRouter();
+
+  // Function to scroll to booking widget
+  const scrollToBookingWidget = () => {
+    setTimeout(() => {
+      const bookingSection = document.getElementById("booking-widget");
+      if (bookingSection) {
+        bookingSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  };
+
+  // Handle booking button click
+  const handleBookRideClick = () => {
+    // If not on homepage, navigate first
+    if (window.location.pathname !== "/") {
+      router.push("/");
+      setTimeout(() => {
+        scrollToBookingWidget();
+      }, 500);
+    } else {
+      // If already on homepage, just scroll
+      scrollToBookingWidget();
+    }
+  };
+
   return (
     <section className="py-16 lg:py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Thank You Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Thank You Card */}
           <div className="animate-fade-in-up">
             <div
               className="rounded-2xl p-8 lg:p-12"
@@ -39,7 +69,8 @@ export const AboutThks: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  className="px-8 py-3 rounded-lg font-bold transition-colors duration-300 flex items-center justify-center space-x-2"
+                  onClick={handleBookRideClick}
+                  className="px-8 py-3 rounded-lg font-bold transition-colors duration-300 flex items-center justify-center space-x-2 cursor-pointer"
                   style={{
                     backgroundColor: theme.colors.primary.black,
                     color: theme.colors.accent.gold,
@@ -88,7 +119,7 @@ export const AboutThks: React.FC = () => {
             <div
               className="rounded-2xl p-8 border backdrop-blur-sm"
               style={{
-                background: theme.gradients.cardGradient,
+                background: theme.gradients.primary,
                 border: `2px solid ${theme.colors.accent.gold}30`,
                 boxShadow: `0 20px 60px ${theme.colors.shadow.elevated}`,
               }}

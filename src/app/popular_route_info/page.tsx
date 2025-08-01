@@ -2,8 +2,8 @@
 "use client";
 
 import React from "react";
+import { BsCarFront, BsClock } from "react-icons/bs";
 import { theme } from "@/styles/theme";
-import { BsStar, BsClock, BsCarFront, BsArrowRight } from "react-icons/bs";
 
 interface PopularRoute {
   id: string;
@@ -12,129 +12,158 @@ interface PopularRoute {
   distance: string;
   duration: string;
   description: string;
-
 }
 
 const popularRoutes: PopularRoute[] = [
   {
     id: "1",
-    from: "Mumbai",
-    to: "Pune",
-    distance: "148 km",
-    duration: "3-4 hours",
-    description: "The most popular route connecting Maharashtra's financial capital to its cultural hub.",
+    from: "Ahmedabad",
+    to: "Mumbai",
+    distance: "530 km",
+    duration: "8-9 hours",
+    description:
+      "Premium intercity service with comfortable seating and professional drivers.",
   },
   {
     id: "2",
-    from: "Delhi",
-    to: "Agra",
-    distance: "200 km",
-    duration: "4-5 hours",
-    description: "Historic route to the magnificent Taj Mahal and other UNESCO World Heritage sites.",
+    from: "Ahmedabad",
+    to: "Pune",
+    distance: "650 km",
+    duration: "10-11 hours",
+    description: "Reliable long-distance travel with multiple vehicle options.",
   },
   {
     id: "3",
-    from: "Bangalore",
-    to: "Mysore",
-    distance: "150 km",
-    duration: "3-4 hours",
-    description: "Scenic route through Karnataka's beautiful landscapes and cultural heritage.",
+    from: "Ahmedabad",
+    to: "Surat",
+    distance: "280 km",
+    duration: "4-5 hours",
+    description: "Quick and efficient service for business and leisure travel.",
   },
   {
     id: "4",
-    from: "Chennai",
-    to: "Pondicherry",
-    distance: "160 km",
-    duration: "3-4 hours",
-    description: "Coastal route to the French colonial heritage and pristine beaches.",
+    from: "Ahmedabad",
+    to: "Vadodara",
+    distance: "110 km",
+    duration: "2-3 hours",
+    description: "Frequent service with flexible departure times.",
   },
   {
     id: "5",
-    from: "Hyderabad",
-    to: "Warangal",
-    distance: "140 km",
-    duration: "2.5-3.5 hours",
-    description: "Heritage route connecting Telangana's modern capital to its ancient glory.",
+    from: "Ahmedabad",
+    to: "Rajkot",
+    distance: "200 km",
+    duration: "3-4 hours",
+    description:
+      "Comfortable journey with modern vehicles and experienced drivers.",
   },
   {
     id: "6",
-    from: "Kolkata",
-    to: "Digha",
+    from: "Ahmedabad",
+    to: "Bhavnagar",
     distance: "180 km",
-    duration: "4-5 hours",
-    description: "Coastal journey to West Bengal's popular beach destination.",
-  }
+    duration: "3-4 hours",
+    description:
+      "Reliable service with competitive pricing and excellent customer support.",
+  },
 ];
 
 const PopularRouteInfo: React.FC = () => {
+  // Function to scroll to booking widget
+  const scrollToBookingWidget = () => {
+    setTimeout(() => {
+      const bookingSection = document.getElementById("booking-widget");
+      if (bookingSection) {
+        bookingSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  };
+
+  // Handle call button click
+  const handleCallClick = () => {
+    window.location.href = "tel:+917600839900";
+  };
+
+  // Handle WhatsApp button click
+  const handleWhatsAppClick = () => {
+    const message = encodeURIComponent(
+      "Hi, I need information about cab booking for popular routes."
+    );
+    window.open(`https://wa.me/917600839900?text=${message}`, "_blank");
+  };
+
+  // Handle booking button click
+  const handleBookNowClick = () => {
+    // If not on homepage, navigate first
+    if (window.location.pathname !== "/") {
+      window.location.href = "/";
+      setTimeout(() => {
+        scrollToBookingWidget();
+      }, 500);
+    } else {
+      // If already on homepage, just scroll
+      scrollToBookingWidget();
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
-      {/* Hero Section */}
+    <div
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black
+                    text-white"
+    >
+      {/* Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/20 to-orange-600/20" />
-        <div className="relative px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="max-w-7xl mx-auto text-center">
-            <div className="flex items-center justify-center mb-6">
-              <BsStar className="w-8 h-8 text-yellow-400 mr-3" />
-              <h1 
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold"
-                style={{
-                  color: theme.colors.text.primary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Popular Routes
-              </h1>
-              <BsStar className="w-8 h-8 text-yellow-400 ml-3" />
-            </div>
-            <p 
-              className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8"
-              style={{
-                fontFamily: theme.typography.fontFamily.sans.join(", "),
-              }}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-10"></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/images/routes.jpg')",
+            filter: "brightness(0.3)",
+          }}
+        ></div>
+
+        <div className="relative z-20 px-4 sm:px-6 lg:px-8 py-20">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+              style={{ color: theme.colors.text.primary }}
             >
-              Discover our most booked and highly-rated travel routes across India. 
-              Experience comfort, reliability, and excellent service on these popular journeys.
+              Popular Routes
+            </h1>
+            <p
+              className="text-xl mb-8"
+              style={{ color: theme.colors.text.secondary }}
+            >
+              Discover our most frequently booked routes with competitive
+              pricing and reliable service
             </p>
           </div>
         </div>
       </div>
 
       {/* Routes Grid */}
-      <div className="px-4 sm:px-6 lg:px-8 py-12">
+      <div className="px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {popularRoutes.map((route) => (
               <div
                 key={route.id}
-                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm 
-                         border border-gray-700/50 rounded-2xl p-6 hover:border-yellow-500/50 
-                         transition-all duration-300 hover:transform hover:scale-105 
-                         hover:shadow-2xl hover:shadow-yellow-500/20"
+                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 
+                         backdrop-blur-sm border border-gray-700/50 rounded-xl p-6
+                         hover:transform hover:scale-105 transition-all duration-300
+                         hover:border-gray-600/50"
               >
-                {/* Route Details */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <span 
-                        className="font-semibold text-lg"
-                        style={{ color: theme.colors.text.primary }}
-                      >
-                        {route.from}
-                      </span>
-                    </div>
-                    <BsArrowRight className="w-4 h-4 text-gray-400" />
-                    <div className="flex items-center space-x-2">
-                      <span 
-                        className="font-semibold text-lg"
-                        style={{ color: theme.colors.text.primary }}
-                      >
-                        {route.to}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p 
+                <div className="mb-4">
+                  <h3
+                    className="text-xl font-bold mb-2"
+                    style={{ color: theme.colors.text.primary }}
+                  >
+                    {route.from} → {route.to}
+                  </h3>
+                  <p
                     className="text-sm leading-relaxed"
                     style={{ color: theme.colors.text.muted }}
                   >
@@ -147,13 +176,13 @@ const PopularRouteInfo: React.FC = () => {
                       <div className="flex items-center justify-center mb-1">
                         <BsCarFront className="w-4 h-4 text-blue-400 mr-1" />
                       </div>
-                      <span 
+                      <span
                         className="text-xs font-medium"
                         style={{ color: theme.colors.text.secondary }}
                       >
                         Distance
                       </span>
-                      <p 
+                      <p
                         className="text-sm font-semibold"
                         style={{ color: theme.colors.text.primary }}
                       >
@@ -164,13 +193,13 @@ const PopularRouteInfo: React.FC = () => {
                       <div className="flex items-center justify-center mb-1">
                         <BsClock className="w-4 h-4 text-green-400 mr-1" />
                       </div>
-                      <span 
+                      <span
                         className="text-xs font-medium"
                         style={{ color: theme.colors.text.secondary }}
                       >
                         Duration
                       </span>
-                      <p 
+                      <p
                         className="text-sm font-semibold"
                         style={{ color: theme.colors.text.primary }}
                       >
@@ -188,26 +217,28 @@ const PopularRouteInfo: React.FC = () => {
       {/* Call to Action */}
       <div className="px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <div 
+          <div
             className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm 
                      border border-gray-700/50 rounded-2xl p-8"
           >
-            <h2 
+            <h2
               className="text-2xl sm:text-3xl font-bold mb-4"
               style={{ color: theme.colors.text.primary }}
             >
               Ready to Book Your Journey?
             </h2>
-            <p 
+            <p
               className="text-lg mb-6"
               style={{ color: theme.colors.text.muted }}
             >
-              Contact us for the best rates and personalized service on any of these popular routes.
+              Contact us for the best rates and personalized service on any of
+              these popular routes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
+                onClick={handleCallClick}
                 className="px-8 py-3 rounded-xl font-semibold transition-all duration-300 
-                         transform hover:scale-105 hover:shadow-lg"
+                         transform hover:scale-105 hover:shadow-lg cursor-pointer"
                 style={{
                   backgroundColor: theme.colors.accent.gold,
                   color: theme.colors.primary.black,
@@ -216,14 +247,26 @@ const PopularRouteInfo: React.FC = () => {
                 Call Now: +91 760 083 9900
               </button>
               <button
+                onClick={handleWhatsAppClick}
                 className="px-8 py-3 rounded-xl font-semibold transition-all duration-300 
-                         transform hover:scale-105 border-2"
+                         transform hover:scale-105 border-2 cursor-pointer"
                 style={{
                   borderColor: theme.colors.accent.gold,
                   color: theme.colors.accent.gold,
                 }}
               >
                 WhatsApp Us
+              </button>
+              <button
+                onClick={handleBookNowClick}
+                className="px-8 py-3 rounded-xl font-semibold transition-all duration-300 
+                         transform hover:scale-105 border-2 cursor-pointer"
+                style={{
+                  borderColor: theme.colors.accent.gold,
+                  color: theme.colors.accent.gold,
+                }}
+              >
+                Book Now
               </button>
             </div>
           </div>
@@ -233,4 +276,4 @@ const PopularRouteInfo: React.FC = () => {
   );
 };
 
-export default PopularRouteInfo; 
+export default PopularRouteInfo;
