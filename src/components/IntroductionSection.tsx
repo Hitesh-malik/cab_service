@@ -1,11 +1,10 @@
 // src/components/IntroductionSection.tsx
 "use client";
 import React from "react";
-import { theme, themeVariants } from "@/styles/theme";
+import Image from "next/image";
+import { theme } from "@/styles/theme";
 
 const IntroductionSection: React.FC = () => {
-  const luxuryTheme = themeVariants.luxury;
-
   return (
     <section
       className="py-16 lg:py-24 relative overflow-hidden"
@@ -57,7 +56,7 @@ const IntroductionSection: React.FC = () => {
               >
                 PentaCab
               </span>{" "}
-              is more than just a cab service; it's a smart transportation
+              is more than just a cab service; it&apos;s a smart transportation
               solution that simplifies your travel using advanced technology.
               From our user-friendly mobile app to our GPS-enabled vehicles,
               PentaCab ensures that every journey is smooth and efficient. We
@@ -112,17 +111,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        📍
-                      </span>
+                      <Image
+                        src="/images/contact-icon/address.png"
+                        alt="Location"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -160,17 +160,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        📡
-                      </span>
+                      <Image
+                        src="/images/number-speak/map.png"
+                        alt="GPS Location"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -180,8 +181,8 @@ const IntroductionSection: React.FC = () => {
                         Real-time Location Detection
                       </p>
                       <p className="text-xs">
-                        Automatically detects the user's current location via
-                        GPS.
+                        Automatically detects the user&apos;s current location
+                        via GPS.
                       </p>
                     </div>
                   </div>
@@ -208,17 +209,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        🚗
-                      </span>
+                      <Image
+                        src="/images/car-result/title-icons/sedan.png"
+                        alt="Vehicle Selection"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -256,17 +258,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        💰
-                      </span>
+                      <Image
+                        src="/images/home-stars-icon/transparent-price.png"
+                        alt="Fare Estimation"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -304,17 +307,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        ⏰
-                      </span>
+                      <Image
+                        src="/images/fast-book/fastbook-header.jpg"
+                        alt="Schedule Ride"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4 rounded"
+                      />
                     </div>
                     <div>
                       <p
@@ -352,17 +356,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        🛣️
-                      </span>
+                      <Image
+                        src="/images/route/image01.jpg"
+                        alt="Multiple Stops"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4 rounded"
+                      />
                     </div>
                     <div>
                       <p
@@ -400,17 +405,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        📊
-                      </span>
+                      <Image
+                        src="/images/number-speak/kilometer.png"
+                        alt="Dynamic Pricing"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -448,17 +454,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        🧠
-                      </span>
+                      <Image
+                        src="/images/home-stars-icon/experiened-driver.png"
+                        alt="Smart Matching"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -507,17 +514,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        👥
-                      </span>
+                      <Image
+                        src="/images/number-speak/happy-customer.png"
+                        alt="Referral Programs"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -554,17 +562,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        ⭐
-                      </span>
+                      <Image
+                        src="/images/home-stars-icon/customer-satisfation.png"
+                        alt="Loyalty Points"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -602,17 +611,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        📅
-                      </span>
+                      <Image
+                        src="/images/home-stars-icon/customer-support.png"
+                        alt="Subscription Plans"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -661,17 +671,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        🌱
-                      </span>
+                      <Image
+                        src="/images/car-result/title-icons/suv.png"
+                        alt="Green Ride Options"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -708,17 +719,18 @@ const IntroductionSection: React.FC = () => {
                 >
                   <div className="flex items-start space-x-3">
                     <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
                       style={{
                         background: theme.gradients.gold,
                       }}
                     >
-                      <span
-                        className="font-bold text-xs"
-                        style={{ color: theme.colors.primary.black }}
-                      >
-                        🌍
-                      </span>
+                      <Image
+                        src="/images/number-speak/taxi-abs.png"
+                        alt="Carbon Footprint"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
                     </div>
                     <div>
                       <p
@@ -955,8 +967,9 @@ const IntroductionSection: React.FC = () => {
                     </p>
                     <p className="text-xs">
                       Once a booking is confirmed, users receive necessary
-                      details such as the driver's name, mobile number, vehicle
-                      number, and model, to help identify the correct cab.
+                      details such as the driver&apos;s name, mobile number,
+                      vehicle number, and model, to help identify the correct
+                      cab.
                     </p>
                   </div>
                 </div>
@@ -1377,7 +1390,7 @@ const IntroductionSection: React.FC = () => {
                     </p>
                     <p className="text-xs">
                       Through the website, users can directly reach out to
-                      PentaCab's customer support team for any issues or
+                      PentaCab&apos;s customer support team for any issues or
                       queries, ensuring prompt resolution of their concerns.
                     </p>
                   </div>
