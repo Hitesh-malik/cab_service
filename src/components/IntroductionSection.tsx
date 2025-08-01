@@ -797,12 +797,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      🌍
-                    </span>
+                    <Image
+                      src="/images/number-speak/map.png"
+                      alt="Book Anywhere"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -845,12 +846,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      ⏰
-                    </span>
+                    <Image
+                      src="/images/fast-book/fastbook-header.jpg"
+                      alt="Save Time"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 rounded"
+                    />
                   </div>
                   <div>
                     <p
@@ -903,12 +905,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      💰
-                    </span>
+                    <Image
+                      src="/images/home-stars-icon/transparent-price.png"
+                      alt="Upfront Fare Estimates"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -951,12 +954,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      👤
-                    </span>
+                    <Image
+                      src="/images/home-stars-icon/experiened-driver.png"
+                      alt="Driver & Vehicle Details"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1010,12 +1014,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      📍
-                    </span>
+                    <Image
+                      src="/images/contact-icon/address.png"
+                      alt="Real-time Tracking"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1059,12 +1064,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      ✅
-                    </span>
+                    <Image
+                      src="/images/home-stars-icon/zero-cancellation.png"
+                      alt="Verified Drivers"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1116,12 +1122,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      🚗
-                    </span>
+                    <Image
+                      src="/images/car-result/title-icons/hatchback.png"
+                      alt="Vehicle Choices"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1164,12 +1171,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      📅
-                    </span>
+                    <Image
+                      src="/images/home-stars-icon/customer-support.png"
+                      alt="Schedule a Ride"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1212,12 +1220,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      🛣️
-                    </span>
+                    <Image
+                      src="/images/route/image02.jpg"
+                      alt="Outstation Bookings"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 rounded"
+                    />
                   </div>
                   <div>
                     <p
@@ -1269,12 +1278,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      💳
-                    </span>
+                    <Image
+                      src="/images/contact-icon/gmail.png"
+                      alt="Cashless Transactions"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1317,12 +1327,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      📊
-                    </span>
+                    <Image
+                      src="/images/number-speak/kilometer.png"
+                      alt="Payment History"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
@@ -1374,12 +1385,13 @@ const IntroductionSection: React.FC = () => {
                       background: theme.gradients.gold,
                     }}
                   >
-                    <span
-                      className="font-bold text-sm"
-                      style={{ color: theme.colors.primary.black }}
-                    >
-                      🎧
-                    </span>
+                    <Image
+                      src="/images/contact-icon/whatsapp.png"
+                      alt="Direct Support Access"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
                   </div>
                   <div>
                     <p
