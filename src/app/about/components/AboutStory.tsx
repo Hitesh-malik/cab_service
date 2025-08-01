@@ -502,7 +502,7 @@ export const AboutStory = () => {
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-32 object-contain group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-2 left-2 right-2">
