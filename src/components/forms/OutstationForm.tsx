@@ -1,16 +1,16 @@
 // src/components/forms/OutstationForm.tsx (Enhanced)
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { theme } from "@/styles/theme";
 import { ThemedSelect } from "@/components/UI/ThemedSelect";
 import { ThemedInput } from "@/components/UI/ThemedInput";
 import { ThemedDatePicker } from "@/components/UI/ThemedDatePicker";
 import { ThemedTimePicker } from "@/components/UI/ThemedTimePicker";
 import { TabGroup } from "@/components/UI/TabGroup";
-import { CitySwapButton } from "@/components/UI/CitySwapButton";
 import { BookingFormData, TripType } from "@/types/booking";
 import { CITIES } from "@/constants/booking";
+import { outstationService } from "@/services/outstationService";
 import { BsCarFront, BsArrowRepeat } from "react-icons/bs";
 
 interface OutstationFormProps {
@@ -28,12 +28,54 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
   onInputChange,
   onTripTypeChange,
 }) => {
-  const handleCitySwap = () => {
-    const fromCity = bookingData.from;
-    const toCity = bookingData.to;
+  const [cityMap, setCityMap] = useState<Record<string, string[]>>({});
+  const [fromCities, setFromCities] = useState<string[]>([]);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
+  const [citiesError, setCitiesError] = useState<string | null>(null);
 
-    onInputChange("from", toCity);
-    onInputChange("to", fromCity);
+  // Fetch available cities from API
+  useEffect(() => {
+    const fetchCities = async () => {
+      setIsLoadingCities(true);
+      setCitiesError(null);
+      try {
+        const response = await outstationService.getAvailableCities();
+        if (response.fromCities && response.fromCities.length > 0) {
+          setFromCities(response.fromCities);
+          setCityMap(response.cityMap);
+        } else {
+          // If API returns empty data, use default cities
+          setCitiesError("No cities available from API. Using default list.");
+          setFromCities(CITIES);
+          // Create a simple city map for default cities
+          const defaultCityMap: Record<string, string[]> = {};
+          CITIES.forEach((city) => {
+            defaultCityMap[city] = CITIES.filter((c) => c !== city);
+          });
+          setCityMap(defaultCityMap);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cities:", error);
+        setCitiesError("Failed to load cities. Using default list.");
+        // Fallback to default cities if API fails
+        setFromCities(CITIES);
+        const defaultCityMap: Record<string, string[]> = {};
+        CITIES.forEach((city) => {
+          defaultCityMap[city] = CITIES.filter((c) => c !== city);
+        });
+        setCityMap(defaultCityMap);
+      } finally {
+        setIsLoadingCities(false);
+      }
+    };
+
+    fetchCities();
+  }, []);
+
+  // Get available destination cities based on selected departure city
+  const getToCities = () => {
+    if (!bookingData.from) return [];
+    return cityMap[bookingData.from] || [];
   };
 
   // Helper function to get minimum return date (should be same day or later than departure)
@@ -58,7 +100,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
             fontWeight: theme.typography.fontWeight.bold,
           }}
         >
-          INDIA'S PREMIER INTERCITY CABS
+          INDIA&apos;S PREMIER INTERCITY CABS
         </h3>
         <div className="px-2 sm:px-4">
           <TabGroup
@@ -71,6 +113,18 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
 
       {/* Cities Selection with Swap Button */}
       <div className="space-y-4">
+        {citiesError && (
+          <div
+            className="p-2 rounded text-center text-xs sm:text-sm"
+            style={{
+              backgroundColor: theme.colors.background.secondary,
+              color: theme.colors.text.muted,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+            }}
+          >
+            {citiesError}
+          </div>
+        )}
         <div className="space-y-2">
           <label
             className="block text-sm sm:text-base font-medium px-1"
@@ -84,9 +138,17 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           </label>
           <ThemedSelect
             value={bookingData.from}
-            onChange={(e) => onInputChange("from", e.target.value)}
-            options={CITIES}
-            placeholder="Select Departure City"
+            onChange={(e) => {
+              onInputChange("from", e.target.value);
+              // Clear destination when departure city changes
+              if (bookingData.to && !getToCities().includes(bookingData.to)) {
+                onInputChange("to", "");
+              }
+            }}
+            options={fromCities}
+            placeholder={
+              isLoadingCities ? "Loading cities..." : "Select Departure City"
+            }
             error={errors.from}
           />
         </div>
@@ -113,8 +175,14 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
           <ThemedSelect
             value={bookingData.to}
             onChange={(e) => onInputChange("to", e.target.value)}
-            options={CITIES}
-            placeholder="Select Destination City"
+            options={getToCities()}
+            placeholder={
+              !bookingData.from
+                ? "Select departure city first"
+                : isLoadingCities
+                ? "Loading cities..."
+                : "Select Destination City"
+            }
             error={errors.to}
           />
         </div>

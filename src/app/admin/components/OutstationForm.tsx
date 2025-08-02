@@ -3,78 +3,63 @@
 import React, { useState } from "react";
 import { theme } from "@/styles/theme";
 import { ThemedInput } from "@/components/UI/ThemedInput";
-import { ThemedSelect } from "@/components/UI/ThemedSelect";
-import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
 import api from "@/config/axios";
 
-interface VehiclePricing {
-  vehicleType: string;
-  oneWayPrice: string;
-  twoWayPrice: string;
+interface Car {
+  type: string;
+  available: boolean;
+  price: number;
 }
 
-interface OutstationData {
-  from: string;
-  to: string;
+interface OutstationFormData {
+  city1: string;
+  city2: string;
+  dateTime: string;
   distance: string;
-  duration: string;
-  vehicles: VehiclePricing[];
+  tripType: string;
+  oneWayCars: Car[];
+  twoWayCars: Car[];
 }
 
 export default function OutstationForm() {
-  const [formData, setFormData] = useState<OutstationData>({
-    from: "",
-    to: "",
+  const [form, setForm] = useState<OutstationFormData>({
+    city1: "",
+    city2: "",
+    dateTime: "",
     distance: "",
-    duration: "",
-    vehicles: [
-      {
-        vehicleType: "Innova",
-        oneWayPrice: "",
-        twoWayPrice: "",
-      },
-      {
-        vehicleType: "Sedan",
-        oneWayPrice: "",
-        twoWayPrice: "",
-      },
-      {
-        vehicleType: "SUV",
-        oneWayPrice: "",
-        twoWayPrice: "",
-      },
-      {
-        vehicleType: "Inno Crystal",
-        oneWayPrice: "",
-        twoWayPrice: "",
-      },
+    tripType: "one-way",
+    oneWayCars: [
+      { type: "sedan", available: false, price: 0 },
+      { type: "suv", available: false, price: 0 },
+      { type: "innova", available: false, price: 0 },
+      { type: "crysta", available: false, price: 0 },
+    ],
+    twoWayCars: [
+      { type: "sedan", available: false, price: 0 },
+      { type: "suv", available: false, price: 0 },
+      { type: "innova", available: false, price: 0 },
+      { type: "crysta", available: false, price: 0 },
     ],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const [showEmailOption, setShowEmailOption] = useState(false);
+  const [customerEmail, setCustomerEmail] = useState("");
 
-  const vehicleOptions = [
-    "Innova",
-    "Sedan", 
-    "SUV",
-    "Inno Crystal",
-  ];
-
-  const handleInputChange = (field: keyof Omit<OutstationData, 'vehicles'>, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      vehicles: prev.vehicles.map((vehicle, i) => 
-        i === index ? { ...vehicle, [field]: value } : vehicle
-      )
-    }));
+  const handleCarChange = (
+    tripType: "oneWayCars" | "twoWayCars",
+    index: number,
+    field: keyof Car,
+    value: boolean | number
+  ) => {
+    const updatedCars = [...form[tripType]];
+    if (field === "available") {
+      updatedCars[index][field] = !updatedCars[index][field];
+    } else if (field === "price") {
+      updatedCars[index][field] = value as number;
+    }
+    setForm({ ...form, [tripType]: updatedCars });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,60 +70,47 @@ export default function OutstationForm() {
     try {
       // Prepare the One Way and Two Way entries
       const oneWayEntry = {
-        city1: formData.from,
-        city2: formData.to,
+        city1: form.city1,
+        city2: form.city2,
         dateTime: new Date().toISOString(),
-        distance: formData.distance,
-        tripType: 'one-way',
-        cars: formData.vehicles.map(vehicle => ({
-          vehicleType: vehicle.vehicleType,
-          price: vehicle.oneWayPrice
-        }))
+        distance: form.distance,
+        tripType: "one-way",
+        cars: form.oneWayCars,
       };
 
       const twoWayEntry = {
-        city1: formData.from,
-        city2: formData.to,
+        city1: form.city1,
+        city2: form.city2,
         dateTime: new Date().toISOString(),
-        distance: formData.distance,
-        tripType: 'two-way',
-        cars: formData.vehicles.map(vehicle => ({
-          vehicleType: vehicle.vehicleType,
-          price: vehicle.twoWayPrice
-        }))
+        distance: form.distance,
+        tripType: "two-way",
+        cars: form.twoWayCars,
       };
 
       // Submit both One Way and Two Way entries
-      await api.post('/add-outstation', oneWayEntry);
-      await api.post('/add-outstation', twoWayEntry);
-      
+      await api.post("/add-outstation", oneWayEntry);
+      await api.post("/add-outstation", twoWayEntry);
+
       setMessage("Outstation bookings saved successfully!");
-      setFormData({
-        from: "",
-        to: "",
+
+      // Reset form
+      setForm({
+        city1: "",
+        city2: "",
+        dateTime: "",
         distance: "",
-        duration: "",
-        vehicles: [
-          {
-            vehicleType: "Innova",
-            oneWayPrice: "",
-            twoWayPrice: "",
-          },
-          {
-            vehicleType: "Sedan",
-            oneWayPrice: "",
-            twoWayPrice: "",
-          },
-          {
-            vehicleType: "SUV",
-            oneWayPrice: "",
-            twoWayPrice: "",
-          },
-          {
-            vehicleType: "Inno Crystal",
-            oneWayPrice: "",
-            twoWayPrice: "",
-          },
+        tripType: "one-way",
+        oneWayCars: [
+          { type: "sedan", available: false, price: 0 },
+          { type: "suv", available: false, price: 0 },
+          { type: "innova", available: false, price: 0 },
+          { type: "crysta", available: false, price: 0 },
+        ],
+        twoWayCars: [
+          { type: "sedan", available: false, price: 0 },
+          { type: "suv", available: false, price: 0 },
+          { type: "innova", available: false, price: 0 },
+          { type: "crysta", available: false, price: 0 },
         ],
       });
     } catch (error: any) {
@@ -146,6 +118,25 @@ export default function OutstationForm() {
       console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleSendEmail = async () => {
+    if (!customerEmail) {
+      setMessage("Please enter an email ID.");
+      return;
+    }
+
+    try {
+      await api.post("/send-route-email", {
+        email: customerEmail,
+        route: `${form.city1} ➡️ ${form.city2}`,
+        cars: form.oneWayCars.concat(form.twoWayCars),
+      });
+      setMessage("Email sent successfully!");
+    } catch (error: any) {
+      setMessage("Error sending email");
+      console.error("Error sending email:", error);
     }
   };
 
@@ -166,11 +157,11 @@ export default function OutstationForm() {
             fontFamily: theme.typography.fontFamily.sans.join(", "),
           }}
         >
-          Add Outstation Trip
+          🚗 Outstation / Intercity Booking
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Route Information */}
+          {/* Basic Route Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
@@ -180,12 +171,13 @@ export default function OutstationForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                From Location
+                From City (city1)
               </label>
               <ThemedInput
-                placeholder="Enter departure city/location"
-                value={formData.from}
-                onChange={(e) => handleInputChange("from", e.target.value)}
+                type="text"
+                placeholder="From City (city1)"
+                value={form.city1}
+                onChange={(e) => setForm({ ...form, city1: e.target.value })}
               />
             </div>
 
@@ -197,17 +189,18 @@ export default function OutstationForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                To Location
+                To City (city2)
               </label>
               <ThemedInput
-                placeholder="Enter destination city/location"
-                value={formData.to}
-                onChange={(e) => handleInputChange("to", e.target.value)}
+                type="text"
+                placeholder="To City (city2)"
+                value={form.city2}
+                onChange={(e) => setForm({ ...form, city2: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Trip Details */}
+          {/* Date Time and Distance */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
@@ -217,13 +210,12 @@ export default function OutstationForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Distance (km)
+                Date Time
               </label>
               <ThemedInput
-                type="number"
-                placeholder="Enter distance"
-                value={formData.distance}
-                onChange={(e) => handleInputChange("distance", e.target.value)}
+                type="datetime-local"
+                value={form.dateTime}
+                onChange={(e) => setForm({ ...form, dateTime: e.target.value })}
               />
             </div>
 
@@ -235,90 +227,137 @@ export default function OutstationForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Duration (hours)
+                Distance (in km)
               </label>
               <ThemedInput
                 type="number"
-                placeholder="Enter duration"
-                value={formData.duration}
-                onChange={(e) => handleInputChange("duration", e.target.value)}
+                placeholder="Distance (in km)"
+                value={form.distance}
+                onChange={(e) => setForm({ ...form, distance: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Vehicle Pricing Section */}
+          {/* Available Cars for One-Way Trip */}
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 
-                className="text-lg font-semibold"
-                style={{
-                  color: theme.colors.text.primary,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-              >
-                Vehicle Pricing
-              </h3>
+            <h4
+              className="text-lg font-semibold"
+              style={{
+                color: theme.colors.text.primary,
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
+              }}
+            >
+              Available Cars for One-Way Trip
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {form.oneWayCars.map((car, index) => (
+                <div
+                  key={car.type}
+                  className="p-4 border rounded-lg"
+                  style={{
+                    borderColor: theme.colors.border.primary,
+                    backgroundColor: theme.colors.background.secondary,
+                  }}
+                >
+                  <div className="flex items-center space-x-3 mb-3">
+                    <input
+                      type="checkbox"
+                      checked={car.available}
+                      onChange={() =>
+                        handleCarChange("oneWayCars", index, "available", null)
+                      }
+                      className="w-4 h-4"
+                      style={{
+                        accentColor: theme.colors.accent.gold,
+                      }}
+                    />
+                    <label
+                      className="font-medium"
+                      style={{
+                        color: theme.colors.text.primary,
+                        fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      }}
+                    >
+                      {car.type.toUpperCase()}
+                    </label>
+                  </div>
+                  <ThemedInput
+                    type="number"
+                    placeholder="Price"
+                    value={car.price.toString()}
+                    onChange={(e) =>
+                      handleCarChange(
+                        "oneWayCars",
+                        index,
+                        "price",
+                        parseInt(e.target.value) || 0
+                      )
+                    }
+                  />
+                </div>
+              ))}
             </div>
+          </div>
 
-            {formData.vehicles.map((vehicle, index) => (
-              <div 
-                key={index}
-                className="p-4 border rounded-lg"
-                style={{
-                  borderColor: theme.colors.border.primary,
-                  backgroundColor: theme.colors.background.secondary,
-                }}
-              >
-                <div className="mb-4">
-                  <h4 
-                    className="text-md font-medium"
-                    style={{
-                      color: theme.colors.text.primary,
-                      fontFamily: theme.typography.fontFamily.sans.join(", "),
-                    }}
-                  >
-                    {vehicle.vehicleType}
-                  </h4>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
+          {/* Available Cars for Two-Way Trip */}
+          <div className="space-y-4">
+            <h4
+              className="text-lg font-semibold"
+              style={{
+                color: theme.colors.text.primary,
+                fontFamily: theme.typography.fontFamily.sans.join(", "),
+              }}
+            >
+              Available Cars for Two-Way Trip
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {form.twoWayCars.map((car, index) => (
+                <div
+                  key={car.type}
+                  className="p-4 border rounded-lg"
+                  style={{
+                    borderColor: theme.colors.border.primary,
+                    backgroundColor: theme.colors.background.secondary,
+                  }}
+                >
+                  <div className="flex items-center space-x-3 mb-3">
+                    <input
+                      type="checkbox"
+                      checked={car.available}
+                      onChange={() =>
+                        handleCarChange("twoWayCars", index, "available", null)
+                      }
+                      className="w-4 h-4"
                       style={{
-                        color: theme.colors.text.secondary,
+                        accentColor: theme.colors.accent.gold,
+                      }}
+                    />
+                    <label
+                      className="font-medium"
+                      style={{
+                        color: theme.colors.text.primary,
                         fontFamily: theme.typography.fontFamily.sans.join(", "),
                       }}
                     >
-                      One Way Price (₹)
+                      {car.type.toUpperCase()}
                     </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter one way price"
-                      value={vehicle.oneWayPrice}
-                      onChange={(e) => updateVehicle(index, "oneWayPrice", e.target.value)}
-                    />
                   </div>
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
-                      style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
-                      }}
-                    >
-                      Two Way Price (₹)
-                    </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter two way price"
-                      value={vehicle.twoWayPrice}
-                      onChange={(e) => updateVehicle(index, "twoWayPrice", e.target.value)}
-                    />
-                  </div>
+                  <ThemedInput
+                    type="number"
+                    placeholder="Price"
+                    value={car.price.toString()}
+                    onChange={(e) =>
+                      handleCarChange(
+                        "twoWayCars",
+                        index,
+                        "price",
+                        parseInt(e.target.value) || 0
+                      )
+                    }
+                  />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Submit Button */}
@@ -343,7 +382,7 @@ export default function OutstationForm() {
                 }
               }}
             >
-              {isSubmitting ? "Saving..." : "Save Outstation Trip"}
+              {isSubmitting ? "Saving..." : "Save Booking"}
             </button>
           </div>
 
@@ -362,7 +401,71 @@ export default function OutstationForm() {
             </div>
           )}
         </form>
+
+        <hr
+          className="my-6"
+          style={{ borderColor: theme.colors.border.primary }}
+        />
+
+        {/* Email Section */}
+        <div className="space-y-4">
+          <button
+            type="button"
+            onClick={() => setShowEmailOption((prev) => !prev)}
+            className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
+            style={{
+              backgroundColor: theme.colors.background.secondary,
+              color: theme.colors.text.primary,
+              border: `1px solid ${theme.colors.border.primary}`,
+              fontFamily: theme.typography.fontFamily.sans.join(", "),
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.8";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "1";
+            }}
+          >
+            Do you want to send this info to the customer that the new route is
+            launched?
+          </button>
+
+          {showEmailOption && (
+            <div
+              className="space-y-4 p-4 border rounded-lg"
+              style={{
+                borderColor: theme.colors.border.primary,
+                backgroundColor: theme.colors.background.secondary,
+              }}
+            >
+              <ThemedInput
+                type="email"
+                placeholder="Enter customer's email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={handleSendEmail}
+                className="px-6 py-2 rounded-lg font-medium transition-all duration-300"
+                style={{
+                  backgroundColor: theme.colors.accent.gold,
+                  color: theme.colors.primary.black,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = "0.8";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = "1";
+                }}
+              >
+                Send Email
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
-} 
+}
