@@ -40,7 +40,6 @@ const UserLocalRide = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setResults([]);
     setLoading(true);
 
     try {
@@ -54,9 +53,32 @@ const UserLocalRide = () => {
 
       if (response.data.cars.length === 0) {
         setError("No available cars for this selection.");
-      } else {
-        setResults(response.data.cars);
+        return;
       }
+
+      // Prepare booking data for navigation
+      const bookingData = {
+        serviceType: "LOCAL",
+        tripType: "ONEWAY",
+        city: formData.city,
+        package: formData.package,
+        date: formData.date,
+        pickupTime: formData.time,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        // Add API response data
+        apiCabs: JSON.stringify(response.data.cars),
+        apiResponse: JSON.stringify(response.data),
+      };
+
+      // Convert booking data to URL search params
+      const searchParams = new URLSearchParams();
+      Object.entries(bookingData).forEach(([key, value]) => {
+        if (value) searchParams.append(key, value);
+      });
+
+      // Navigate to cab-lists page
+      window.location.href = `/cab-lists?${searchParams.toString()}`;
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Something went wrong.");
@@ -253,113 +275,11 @@ const UserLocalRide = () => {
         </form>
       )}
 
-      {/* Show Results */}
+      {/* Show Error */}
       {error && (
         <div className="p-4 rounded-lg bg-red-50 border border-red-200">
           <p className="text-red-600">{error}</p>
         </div>
-      )}
-
-      {results.length > 0 && !selectedCar && (
-        <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Available Cars:</h3>
-          <div className="space-y-2">
-            {results.map((car: any) => (
-              <div
-                key={car._id}
-                className="p-4 rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
-                style={{ borderColor: theme.colors.border.goldLight }}
-                onClick={() => handleCarSelect(car)}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">
-                    {car.type.toUpperCase()}
-                  </span>
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: theme.colors.accent.gold }}
-                  >
-                    ₹{car.price}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedCar && (
-        <>
-          <div
-            className="p-4 rounded-lg border"
-            style={{
-              backgroundColor: theme.colors.background.secondary,
-              borderColor: theme.colors.border.goldLight,
-            }}
-          >
-            <h3 className="font-semibold text-lg mb-3">🧾 Booking Summary</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <strong>City:</strong> {formData.city}
-              </p>
-              <p>
-                <strong>Package:</strong> {formData.package}
-              </p>
-              <p>
-                <strong>Date & Time:</strong> {formData.date} at {formData.time}
-              </p>
-              <p>
-                <strong>Car Selected:</strong> {selectedCar.type.toUpperCase()}{" "}
-                - ₹{selectedCar.price}
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">👤 Traveller Information</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <ThemedInput
-                placeholder="Name *"
-                value={travellerInfo.name}
-                onChange={handleTravellerChange}
-              />
-              <ThemedInput
-                placeholder="Mobile *"
-                value={travellerInfo.mobile}
-                onChange={handleTravellerChange}
-              />
-            </div>
-            <ThemedInput
-              placeholder="Email *"
-              value={travellerInfo.email}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Pickup Address"
-              value={travellerInfo.pickupAddress}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Drop Address"
-              value={travellerInfo.dropAddress}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Remark for Driver"
-              value={travellerInfo.remark}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="GST Details (optional)"
-              value={travellerInfo.gst}
-              onChange={handleTravellerChange}
-            />
-
-            <ThemedButton onClick={handleFinalSubmit} className="w-full">
-              🚀 Proceed
-            </ThemedButton>
-          </div>
-        </>
       )}
     </div>
   );

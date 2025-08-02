@@ -57,7 +57,36 @@ const UserAirport = () => {
         "http://localhost:5000/api/search-cabs-forairport",
         formData
       );
-      setCabOptions(response.data.cabs);
+
+      if (response.data.cabs.length === 0) {
+        setError("No cabs available for this route.");
+        return;
+      }
+
+      // Prepare booking data for navigation
+      const bookingData = {
+        serviceType: "AIRPORT",
+        tripType: "ONEWAY",
+        airport: formData.airportCity,
+        address: formData.otherLocation,
+        pickupDropType: formData.serviceType === "pickup" ? "PICKUP" : "DROP",
+        date: formData.date,
+        pickupTime: formData.time,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        // Add API response data
+        apiCabs: JSON.stringify(response.data.cabs),
+        apiResponse: JSON.stringify(response.data),
+      };
+
+      // Convert booking data to URL search params
+      const searchParams = new URLSearchParams();
+      Object.entries(bookingData).forEach(([key, value]) => {
+        if (value) searchParams.append(key, value);
+      });
+
+      // Navigate to cab-lists page
+      window.location.href = `/cab-lists?${searchParams.toString()}`;
     } catch (err: any) {
       setError(err.response?.data?.message || "Server error");
     } finally {
@@ -265,127 +294,11 @@ const UserAirport = () => {
         </form>
       )}
 
-      {loading && (
-        <div className="text-center py-4">
-          <p>Loading…</p>
-        </div>
-      )}
-
+      {/* Show Error */}
       {error && (
         <div className="p-4 rounded-lg bg-red-50 border border-red-200">
           <p className="text-red-600">{error}</p>
         </div>
-      )}
-
-      {cabOptions.length > 0 && !selectedCab && (
-        <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Choose a cab:</h3>
-          <div className="space-y-2">
-            {cabOptions.map((cab: any, i: number) => (
-              <div
-                key={i}
-                className="p-4 rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
-                style={{ borderColor: theme.colors.border.goldLight }}
-                onClick={() => handleCabSelect(cab)}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">
-                    {cab.type.toUpperCase()}
-                  </span>
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: theme.colors.accent.gold }}
-                  >
-                    ₹{cab.price}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedCab && (
-        <>
-          <div
-            className="p-4 rounded-lg border"
-            style={{
-              backgroundColor: theme.colors.background.secondary,
-              borderColor: theme.colors.border.goldLight,
-            }}
-          >
-            <h3 className="font-semibold text-lg mb-3">🧾 Booking Summary</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <strong>Service:</strong> {formData.serviceType}
-              </p>
-              <p>
-                <strong>Airport City:</strong> {formData.airportCity}
-              </p>
-              <p>
-                <strong>Your Location:</strong> {formData.otherLocation}
-              </p>
-              <p>
-                <strong>Date/Time:</strong> {formData.date} at {formData.time}
-              </p>
-              <p>
-                <strong>Cab:</strong> {selectedCab.type.toUpperCase()} – ₹
-                {selectedCab.price}
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Traveller Details</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <ThemedInput
-                placeholder="Name"
-                value={traveller.name}
-                onChange={handleTravellerChange}
-              />
-              <ThemedInput
-                placeholder="Mobile"
-                value={traveller.mobile}
-                onChange={handleTravellerChange}
-              />
-            </div>
-            <ThemedInput
-              placeholder="Email"
-              value={traveller.email}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Pickup Address"
-              value={traveller.pickup}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Drop Address"
-              value={traveller.drop}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="Remark"
-              value={traveller.remark}
-              onChange={handleTravellerChange}
-            />
-            <ThemedInput
-              placeholder="GST Details"
-              value={traveller.gst}
-              onChange={handleTravellerChange}
-            />
-
-            <ThemedButton onClick={handleBooking} className="w-full">
-              PROCEED
-            </ThemedButton>
-
-            {message && (
-              <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                <p className="text-green-600">{message}</p>
-              </div>
-            )}
-          </div>
-        </>
       )}
     </div>
   );

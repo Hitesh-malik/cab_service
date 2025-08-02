@@ -2,10 +2,9 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import type { Vehicle } from "@/types/index";
+import type { Vehicle, VehicleType } from "@/types/index";
 import type { BookingFormData } from "@/types/booking";
 import { useRouter } from "next/navigation";
-
 
 // Theme configuration (matching HeroSection)
 const theme = {
@@ -127,6 +126,21 @@ const CabListsContent: React.FC = () => {
   const [selectedCab, setSelectedCab] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [bookingData, setBookingData] = useState<BookingFormData | null>(null);
+  const [apiCabs, setApiCabs] = useState<
+    Array<{
+      type?: string;
+      capacity?: number;
+      features?: string[];
+      pricePerKm?: number;
+      price?: number;
+      image?: string;
+      available?: boolean;
+      fuelType?: string;
+      airConditioned?: boolean;
+      luggage?: number;
+    }>
+  >([]);
+  const [apiDistance, setApiDistance] = useState<number | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -141,11 +155,64 @@ const CabListsContent: React.FC = () => {
 
     setBookingData(data as unknown as BookingFormData);
 
+    // Parse API cabs data if available
+    if (data.apiCabs) {
+      try {
+        const parsedCabs = JSON.parse(data.apiCabs);
+        setApiCabs(parsedCabs);
+      } catch (error) {
+        console.error("Error parsing API cabs data:", error);
+      }
+    }
+
+    // Parse API response data to extract distance if available
+    if (data.apiResponse) {
+      try {
+        const parsedResponse = JSON.parse(data.apiResponse);
+        if (parsedResponse.distance) {
+          setApiDistance(parsedResponse.distance);
+        }
+      } catch (error) {
+        console.error("Error parsing API response data:", error);
+      }
+    }
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
     return () => clearTimeout(timer);
   }, [searchParams]);
+
+  // Create dynamic cab list based on API data or fallback to default
+  const getCabList = (): Vehicle[] => {
+    if (apiCabs.length > 0) {
+      // Map API cabs to Vehicle format
+      return apiCabs.map((apiCab, index) => ({
+        id: (index + 1).toString(),
+        name: apiCab.type?.toUpperCase() || `CAB ${index + 1}`,
+        type: (apiCab.type?.toLowerCase() || "sedan") as VehicleType,
+        capacity: apiCab.capacity || 4,
+        features: apiCab.features || ["AC"],
+        pricePerKm: apiCab.pricePerKm || 12,
+        basePrice: apiCab.price || 5000,
+        images: apiCab.image ? [apiCab.image] : ["/sendan.png"],
+        available: apiCab.available !== false,
+        fuelType: (apiCab.fuelType || "petrol") as
+          | "petrol"
+          | "diesel"
+          | "cng"
+          | "electric"
+          | "hybrid",
+        airConditioned: apiCab.airConditioned !== false,
+        luggage: apiCab.luggage || 2,
+      }));
+    }
+
+    // Fallback to default cab list
+    return cabList;
+  };
+
+  const dynamicCabList = getCabList();
 
   // Helper function to format trip details based on booking data
   const formatTripDetails = () => {
@@ -196,10 +263,33 @@ const CabListsContent: React.FC = () => {
     return "0";
   };
 
-  // Calculate dynamic pricing based on booking data
+  // Calculate dynamic pricing based on booking data and API response
   const calculatePrice = (baseCab: Vehicle) => {
     if (!bookingData) return baseCab.basePrice;
 
+    // If we have API cabs data, use the API price directly
+    if (apiCabs.length > 0) {
+      const apiCab = apiCabs.find(
+        (cab) =>
+          cab.type?.toLowerCase() === baseCab.type ||
+          cab.type?.toUpperCase() === baseCab.name
+      );
+      if (apiCab && apiCab.price) {
+        let calculatedPrice = apiCab.price;
+
+        // Add round trip multiplier for outstation
+        if (
+          bookingData.serviceType === "OUTSTATION" &&
+          bookingData.tripType === "ROUNDWAY"
+        ) {
+          calculatedPrice *= 1.8;
+        }
+
+        return Math.floor(calculatedPrice);
+      }
+    }
+
+    // Fallback to distance-based calculation
     const distance = parseInt(calculateDistance());
     let calculatedPrice = baseCab.basePrice;
 
@@ -218,7 +308,9 @@ const CabListsContent: React.FC = () => {
   const handleSelectCab = () => {
     if (!selectedCab || !bookingData) return;
 
-    const selectedCabData = cabList.find((cab) => cab.id === selectedCab);
+    const selectedCabData = dynamicCabList.find(
+      (cab) => cab.id === selectedCab
+    );
     if (!selectedCabData) return;
 
     // Combine booking data with selected cab information
@@ -235,7 +327,9 @@ const CabListsContent: React.FC = () => {
       selectedCabFeatures: selectedCabData.features.join(","),
       selectedCabFuelType: selectedCabData.fuelType,
       selectedCabImage: selectedCabData.images[0],
-      estimatedDistance: calculateDistance(),
+      estimatedDistance: apiDistance
+        ? apiDistance.toString()
+        : calculateDistance(),
     };
 
     // Convert to URL search params
@@ -322,7 +416,7 @@ const CabListsContent: React.FC = () => {
             isVisible ? "animate-fade-in-up animate-delay-300" : "opacity-0"
           }`}
         >
-          {cabList.map((cab, index) => {
+          {dynamicCabList.map((cab, index) => {
             const dynamicPrice = calculatePrice(cab);
 
             return (
@@ -433,7 +527,7 @@ const CabListsContent: React.FC = () => {
             }}
           >
             {(() => {
-              const cab = cabList.find((c) => c.id === selectedCab);
+              const cab = dynamicCabList.find((c) => c.id === selectedCab);
               if (!cab) return null;
 
               const dynamicPrice = calculatePrice(cab);
@@ -591,9 +685,7 @@ const CabListsContent: React.FC = () => {
                 border: `2px solid ${theme.colors.accent.lightGold}`,
               }}
               onClick={() => {
-               
                 handleSelectCab();
-              
               }}
             >
               {/* Button glow effect */}
@@ -717,8 +809,13 @@ const CabListsContent: React.FC = () => {
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-black">
     <div className="text-center">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
-      <p style={{ color: theme.colors.text.primary }}>Loading cab selection...</p>
+      <div
+        className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4"
+        style={{ borderColor: theme.colors.accent.gold }}
+      ></div>
+      <p style={{ color: theme.colors.text.primary }}>
+        Loading cab selection...
+      </p>
     </div>
   </div>
 );

@@ -73,11 +73,10 @@ const UserOutstationRide = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setResults([]);
-    setSelectedCab(null);
     setLoading(true);
 
     try {
+      // Make API call to get cab data
       const response = await outstationService.searchIntercityCabs({
         city1: formData.city1,
         city2: formData.city2,
@@ -86,9 +85,34 @@ const UserOutstationRide = () => {
 
       if (response.cars.length === 0) {
         setError("No cabs available for this route.");
-      } else {
-        setResults(response.cars);
+        return;
       }
+
+      // Prepare booking data for navigation
+      const bookingData = {
+        serviceType: "OUTSTATION",
+        tripType: formData.tripType === "one-way" ? "ONEWAY" : "ROUNDWAY",
+        from: formData.city1,
+        to: formData.city2,
+        date: formData.date,
+        pickupTime: formData.time,
+        returnDate: formData.returnDate || "",
+        time: formData.returnTime || "",
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        // Add API response data
+        apiCabs: JSON.stringify(response.cars),
+        apiResponse: JSON.stringify(response),
+      };
+
+      // Convert booking data to URL search params
+      const searchParams = new URLSearchParams();
+      Object.entries(bookingData).forEach(([key, value]) => {
+        if (value) searchParams.append(key, value);
+      });
+
+      // Navigate to cab-lists page
+      window.location.href = `/cab-lists?${searchParams.toString()}`;
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Something went wrong.");
@@ -392,123 +416,11 @@ const UserOutstationRide = () => {
         </form>
       )}
 
-      {/* Show Results */}
+      {/* Show Error */}
       {error && (
         <div className="p-4 rounded-lg bg-red-50 border border-red-200">
           <p className="text-red-600">{error}</p>
         </div>
-      )}
-
-      {results.length > 0 && !selectedCab && (
-        <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Available Cars:</h3>
-          <div className="space-y-2">
-            {results.map((car: any, index: number) => (
-              <div
-                key={index}
-                className="p-4 rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
-                style={{ borderColor: theme.colors.border.goldLight }}
-                onClick={() => handleCabSelect(car)}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">
-                    {car.type.toUpperCase()}
-                  </span>
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: theme.colors.accent.gold }}
-                  >
-                    ₹{car.price}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedCab && (
-        <>
-          {/* Ticket View */}
-          <div
-            className="p-4 rounded-lg border"
-            style={{
-              backgroundColor: theme.colors.background.secondary,
-              borderColor: theme.colors.border.goldLight,
-            }}
-          >
-            <h3 className="font-semibold text-lg mb-3">🧾 Ride Summary</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <strong>Route:</strong> {formData.city1} ➡️ {formData.city2}
-              </p>
-              <p>
-                <strong>Date:</strong> {formData.date}
-              </p>
-              <p>
-                <strong>Time:</strong> {formData.time}
-              </p>
-              <p>
-                <strong>Cab:</strong> {selectedCab.type.toUpperCase()} - ₹
-                {selectedCab.price}
-              </p>
-            </div>
-          </div>
-
-          {/* Traveller Form */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">👤 Traveller Information</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <ThemedInput
-                placeholder="Name *"
-                value={traveller.name}
-                onChange={handleTravellerChange}
-                name="name"
-              />
-              <ThemedInput
-                placeholder="Mobile *"
-                value={traveller.mobile}
-                onChange={handleTravellerChange}
-                name="mobile"
-              />
-            </div>
-            <ThemedInput
-              placeholder="Email *"
-              value={traveller.email}
-              onChange={handleTravellerChange}
-              name="email"
-            />
-            <ThemedInput
-              placeholder="Pickup Address"
-              value={traveller.pickup}
-              onChange={handleTravellerChange}
-              name="pickup"
-            />
-            <ThemedInput
-              placeholder="Drop Address"
-              value={traveller.drop}
-              onChange={handleTravellerChange}
-              name="drop"
-            />
-            <ThemedInput
-              placeholder="Remark for Driver"
-              value={traveller.remark}
-              onChange={handleTravellerChange}
-              name="remark"
-            />
-            <ThemedInput
-              placeholder="GST Details (optional)"
-              value={traveller.gst}
-              onChange={handleTravellerChange}
-              name="gst"
-            />
-
-            <ThemedButton onClick={handleBooking} className="w-full">
-              🚀 Proceed
-            </ThemedButton>
-            {message && <p className="text-center">{message}</p>}
-          </div>
-        </>
       )}
     </div>
   );
