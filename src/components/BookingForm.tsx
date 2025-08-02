@@ -1,15 +1,17 @@
-
 // src/components/BookingForm.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { theme } from '@/styles/theme';
-import { ServiceTabs } from '@/components/UI/ServiceTabs';
-import { ThemedButton } from '@/components/UI/ThemedButton';
-import { AirportForm } from '@/components/forms/AirportForm';
-import { OutstationForm } from '@/components/forms/OutstationForm';
-import { LocalForm } from '@/components/forms/LocalForm';
-import { useBookingForm } from '@/hooks/useBookingForm';
+import React from "react";
+import { theme } from "@/styles/theme";
+import { ServiceTabs } from "@/components/UI/ServiceTabs";
+import { ThemedButton } from "@/components/UI/ThemedButton";
+import { AirportForm } from "@/components/forms/AirportForm";
+import { OutstationForm } from "@/components/forms/OutstationForm";
+import { LocalForm } from "@/components/forms/LocalForm";
+import UserLocalRide from "@/components/UserLocalRide";
+import UserAirport from "@/components/UserAirport";
+import UserOutstationRide from "@/components/UserOutstationRide";
+import { useBookingForm } from "@/hooks/useBookingForm";
 
 export const BookingForm: React.FC = () => {
   const {
@@ -23,46 +25,24 @@ export const BookingForm: React.FC = () => {
     errors,
     isSubmitting,
     handleInputChange,
-    handleSubmit
+    handleSubmit,
   } = useBookingForm();
 
   const renderForm = () => {
     switch (activeService) {
-      case 'AIRPORT':
-        return (
-          <AirportForm
-            bookingData={bookingData}
-            errors={errors}
-            activePickupDrop={activePickupDrop}
-            onInputChange={handleInputChange}
-            onPickupDropChange={setActivePickupDrop}
-          />
-        );
-      case 'OUTSTATION':
-        return (
-          <OutstationForm
-            bookingData={bookingData}
-            errors={errors}
-            activeTripType={activeTripType}
-            onInputChange={handleInputChange}
-            onTripTypeChange={setActiveTripType}
-          />
-        );
-      case 'LOCAL':
-        return (
-          <LocalForm
-            bookingData={bookingData}
-            errors={errors}
-            onInputChange={handleInputChange}
-          />
-        );
+      case "AIRPORT":
+        return <UserAirport />;
+      case "OUTSTATION":
+        return <UserOutstationRide />;
+      case "LOCAL":
+        return <UserLocalRide />;
       default:
         return null;
     }
   };
 
   return (
-    <div 
+    <div
       className="flex-1 rounded-2xl p-6 border"
       style={{
         backgroundColor: theme.colors.background.card,
@@ -74,17 +54,10 @@ export const BookingForm: React.FC = () => {
         activeService={activeService}
         onServiceChange={setActiveService}
       />
-      
+
       {renderForm()}
 
-      <ThemedButton
-        onClick={handleSubmit}
-        disabled={isSubmitting}
-        loading={isSubmitting}
-        className="w-full mt-6"
-      >
-        Search Cabs
-      </ThemedButton>
+      {/* Search button is handled within each component now */}
     </div>
   );
 };

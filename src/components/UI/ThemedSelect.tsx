@@ -8,7 +8,7 @@ import { BsChevronDown, BsSearch, BsX } from "react-icons/bs";
 interface ThemedSelectProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: string[];
+  options: string[] | { value: string; label: string }[];
   placeholder: string;
   error?: string;
   className?: string;
@@ -27,9 +27,22 @@ export const ThemedSelect: React.FC<ThemedSelectProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  // Helper function to get option value and label
+  const getOptionValue = (
+    option: string | { value: string; label: string }
+  ) => {
+    return typeof option === "string" ? option : option.value;
+  };
+
+  const getOptionLabel = (
+    option: string | { value: string; label: string }
+  ) => {
+    return typeof option === "string" ? option : option.label;
+  };
+
   // Filter options based on search term
   const filteredOptions = options.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
+    getOptionLabel(option).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Handle option selection
@@ -71,7 +84,7 @@ export const ThemedSelect: React.FC<ThemedSelectProps> = ({
     if (e.key === "Enter" && isOpen) {
       e.preventDefault();
       if (filteredOptions.length > 0) {
-        handleOptionSelect(filteredOptions[0]);
+        handleOptionSelect(getOptionValue(filteredOptions[0]));
       }
     } else if (e.key === "Escape") {
       setIsOpen(false);
@@ -157,20 +170,20 @@ export const ThemedSelect: React.FC<ThemedSelectProps> = ({
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => (
                 <button
-                  key={option}
+                  key={getOptionValue(option)}
                   type="button"
-                  onClick={() => handleOptionSelect(option)}
+                  onClick={() => handleOptionSelect(getOptionValue(option))}
                   className="w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors duration-150"
                   style={{
                     color: theme.colors.text.primary,
                     fontFamily: theme.typography.fontFamily.sans.join(", "),
                     backgroundColor:
-                      option === value
+                      getOptionValue(option) === value
                         ? `${theme.colors.accent.gold}20`
                         : "transparent",
                   }}
                 >
-                  {option}
+                  {getOptionLabel(option)}
                 </button>
               ))
             ) : (

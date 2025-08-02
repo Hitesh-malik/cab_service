@@ -40,6 +40,7 @@ export const OutstationForm: React.FC<OutstationFormProps> = ({
       setCitiesError(null);
       try {
         const response = await outstationService.getAvailableCities();
+        console.log("response", response);
         if (response.fromCities && response.fromCities.length > 0) {
           setFromCities(response.fromCities);
           setCityMap(response.cityMap);
