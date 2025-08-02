@@ -185,6 +185,7 @@ const UserLocalRide = () => {
                 { value: "4hr/40km", label: "4hr/40km" },
                 { value: "8hr/80km", label: "8hr/80km" },
                 { value: "12hr/120km", label: "12hr/120km" },
+                { value: "Full Day", label: "Full Day" },
               ]}
               placeholder="Select Package"
             />

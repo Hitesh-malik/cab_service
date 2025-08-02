@@ -19,7 +19,7 @@ interface FormData {
     "4hr/40km": Car[];
     "8hr/80km": Car[];
     "12hr/120km": Car[];
-    "full-day": Car[];
+    "Full Day": Car[];
   };
 }
 
@@ -38,7 +38,7 @@ export default function LocalForm() {
       "4hr/40km": [...defaultCars],
       "8hr/80km": [...defaultCars],
       "12hr/120km": [...defaultCars],
-      "full-day": [...defaultCars],
+      "Full Day": [...defaultCars],
     },
   });
 
@@ -95,7 +95,7 @@ export default function LocalForm() {
           "4hr/40km": [...defaultCars],
           "8hr/80km": [...defaultCars],
           "12hr/120km": [...defaultCars],
-          "full-day": [...defaultCars],
+          "Full Day": [...defaultCars],
         },
       });
     } catch (error) {
