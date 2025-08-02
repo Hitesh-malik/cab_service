@@ -3,6 +3,12 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import type { BookingFormData } from "@/types/booking";
+import {
+  sendAirportEmail,
+  sendLocalEmail,
+  sendIntercityEmail,
+  prepareEmailData,
+} from "@/services/emailService";
 
 // Theme configuration (matching HeroSection and cab-lists)
 const theme = {
@@ -95,6 +101,7 @@ const BookingDetailsContent: React.FC = () => {
     remark: "",
     whatsapp: false,
     gstDetails: false,
+    gst: "",
   });
   const searchParams = useSearchParams();
 
@@ -126,27 +133,89 @@ const BookingDetailsContent: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    console.log("Booking data:", bookingData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
 
-    // Combine booking data with form data and send to cab-booking page
-    const combinedData = {
-      ...bookingData,
-      ...formData,
-    };
+    try {
+      console.log("Form submitted:", formData);
+      console.log("Booking data:", bookingData);
 
-    // Convert to URL search params
-    const searchParams = new URLSearchParams();
-    Object.entries(combinedData).forEach(([key, value]) => {
-      if (value !== null && value !== undefined && value !== "") {
-        searchParams.append(key, value.toString());
+      if (!bookingData) {
+        throw new Error("Booking data not available");
       }
-    });
 
-    // Navigate to cab-booking page with all data
-    window.location.href = `/cab-booking?${searchParams.toString()}`;
+      // Prepare email data based on service type
+      const emailData = prepareEmailData(
+        bookingData,
+        formData,
+        bookingData.serviceType as "AIRPORT" | "LOCAL" | "OUTSTATION"
+      );
+
+      console.log("Prepared email data:", emailData);
+
+      // Send email based on service type
+      let emailResponse;
+      switch (bookingData.serviceType) {
+        case "AIRPORT":
+          emailResponse = await sendAirportEmail(emailData);
+          break;
+        case "LOCAL":
+          emailResponse = await sendLocalEmail(emailData);
+          break;
+        case "OUTSTATION":
+          emailResponse = await sendIntercityEmail(emailData);
+          break;
+        default:
+          throw new Error(
+            `Unsupported service type: ${bookingData.serviceType}`
+          );
+      }
+
+      console.log("Email sent successfully:", emailResponse);
+
+      // Show success message
+      setSubmitStatus({
+        type: "success",
+        message:
+          "Booking request sent successfully! You will receive a confirmation email shortly.",
+      });
+
+      // Combine booking data with form data and send to cab-booking page
+      const combinedData = {
+        ...bookingData,
+        ...formData,
+      };
+
+      // Convert to URL search params
+      const searchParams = new URLSearchParams();
+      Object.entries(combinedData).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          searchParams.append(key, value.toString());
+        }
+      });
+
+      // Navigate to cab-booking page with all data after a short delay
+      setTimeout(() => {
+        window.location.href = `/cab-booking?${searchParams.toString()}`;
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+      setSubmitStatus({
+        type: "error",
+        message:
+          "Failed to send booking request. Please try again or contact support.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Helper function to format trip details based on booking data
@@ -636,12 +705,54 @@ const BookingDetailsContent: React.FC = () => {
                       GST Details
                     </label>
                   </div>
+
+                  {/* GST Input Field - Show only when GST checkbox is checked */}
+                  {formData.gstDetails && (
+                    <div className="mt-3">
+                      <label
+                        className="block text-sm font-medium mb-2"
+                        style={{ color: theme.colors.text.secondary }}
+                      >
+                        GST Number
+                      </label>
+                      <input
+                        type="text"
+                        name="gst"
+                        placeholder="Enter GST Number"
+                        value={formData.gst}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-2 transition-all duration-300"
+                        style={{
+                          background: theme.colors.primary.black,
+                          border: `1px solid ${theme.colors.border.light}`,
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
+
+                {/* Status Message */}
+                {submitStatus.type && (
+                  <div
+                    className={`p-4 rounded-lg mb-4 text-center font-medium ${
+                      submitStatus.type === "success"
+                        ? "bg-green-900 text-green-100 border border-green-500"
+                        : "bg-red-900 text-red-100 border border-red-500"
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full font-bold py-4 rounded-xl text-lg transition-all duration-500 hover:scale-105 transform relative overflow-hidden group"
+                  disabled={isSubmitting}
+                  className={`w-full font-bold py-4 rounded-xl text-lg transition-all duration-500 transform relative overflow-hidden group ${
+                    isSubmitting
+                      ? "opacity-70 cursor-not-allowed"
+                      : "hover:scale-105"
+                  }`}
                   style={{
                     background: theme.gradients.gold,
                     color: theme.colors.primary.black,
@@ -658,7 +769,16 @@ const BookingDetailsContent: React.FC = () => {
                       transform: "scale(1.2)",
                     }}
                   />
-                  <span className="relative z-10">PROCEED</span>
+                  <span className="relative z-10">
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                        SENDING...
+                      </div>
+                    ) : (
+                      "PROCEED"
+                    )}
+                  </span>
                 </button>
               </form>
             </div>
