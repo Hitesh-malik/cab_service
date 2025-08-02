@@ -284,40 +284,16 @@ const CabBookingContent = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  // Parse URL parameters for booking and cab data
+  const searchParams = useSearchParams();
+  const [bookingData, setBookingData] = useState<Record<string, string>>({});
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
     return () => clearTimeout(timer);
   }, []);
-
-  const paymentOptions = [
-    {
-      id: "0",
-      title: "₹ 0",
-      subtitle: "Payment",
-      description: "Pay Cash to driver",
-      amount: 0,
-    },
-    {
-      id: "20",
-      title: "20%",
-      subtitle: "Advance",
-      description: "Pay Adv ₹ 2624",
-      amount: 2624,
-    },
-    {
-      id: "100",
-      title: "100%",
-      subtitle: "Advance",
-      description: "Pay Adv ₹ 13118",
-      amount: 13118,
-    },
-  ];
-
-  // Parse URL parameters for booking and cab data
-  const searchParams = useSearchParams();
-  const [bookingData, setBookingData] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const data: Record<string, string> = {};
@@ -326,6 +302,43 @@ const CabBookingContent = () => {
     });
     setBookingData(data);
   }, [searchParams]);
+
+  // Calculate dynamic payment options based on booking data
+  const getPaymentOptions = () => {
+    const totalFare = parseInt(bookingData.selectedCabPrice || "0");
+    const twentyPercent = Math.round(totalFare * 0.2);
+
+    return [
+      {
+        id: "0",
+        title: "₹ 0",
+        subtitle: "Payment",
+        description: "Pay Cash to driver",
+        amount: 0,
+      },
+      {
+        id: "20",
+        title: "20%",
+        subtitle: "Advance",
+        description: `Pay Adv ₹ ${twentyPercent.toLocaleString()}`,
+        amount: twentyPercent,
+      },
+      {
+        id: "100",
+        title: "100%",
+        subtitle: "Advance",
+        description: `Pay Adv ₹ ${totalFare.toLocaleString()}`,
+        amount: totalFare,
+      },
+    ];
+  };
+
+  const paymentOptions = getPaymentOptions();
+
+  // Recalculate payment options when booking data changes
+  useEffect(() => {
+    // This will trigger a re-render with updated payment options
+  }, [bookingData.selectedCabPrice]);
 
   const handlePayment = () => {
     if (selectedPayment === "0") {
@@ -462,7 +475,10 @@ const CabBookingContent = () => {
                     fontWeight: theme.typography.fontWeight.bold,
                   }}
                 >
-                  ₹ 13118
+                  ₹{" "}
+                  {parseInt(
+                    bookingData.selectedCabPrice || "0"
+                  ).toLocaleString()}
                 </span>
               </div>
 
@@ -737,6 +753,16 @@ const CabBookingContent = () => {
         }}
       />
 
+      {/* Debug Info (Remove in production) */}
+      {process.env.NODE_ENV === "development" && bookingData && (
+        <div className="mt-8 p-4 bg-gray-800 rounded-lg">
+          <h3 className="text-white mb-2">Debug - Received Booking Data:</h3>
+          <pre className="text-green-400 text-xs overflow-auto">
+            {JSON.stringify(bookingData, null, 2)}
+          </pre>
+        </div>
+      )}
+
       {/* Custom CSS Animations */}
       <style jsx>{`
         @keyframes fade-in-up {
@@ -774,8 +800,13 @@ const CabBookingContent = () => {
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-black">
     <div className="text-center">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderColor: theme.colors.accent.gold }}></div>
-      <p style={{ color: theme.colors.text.primary }}>Loading booking details...</p>
+      <div
+        className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4"
+        style={{ borderColor: theme.colors.accent.gold }}
+      ></div>
+      <p style={{ color: theme.colors.text.primary }}>
+        Loading booking details...
+      </p>
     </div>
   </div>
 );
