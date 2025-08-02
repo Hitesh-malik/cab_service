@@ -3,158 +3,137 @@
 import React, { useState } from "react";
 import { theme } from "@/styles/theme";
 import { ThemedInput } from "@/components/UI/ThemedInput";
-import { ThemedSelect } from "@/components/UI/ThemedSelect";
-import { ThemedTextarea } from "@/components/UI/ThemedTextarea";
+import api from "@/config/axios";
 
-interface VehiclePricing {
-  vehicleType: string;
-  pickupPrice: string;
-  dropPrice: string;
+interface CarData {
+  type: string;
+  available: boolean;
+  price: number;
 }
 
-interface AirportData {
+interface AirportFormData {
+  airportCity: string;
   airportName: string;
   airportCode: string;
-  city: string;
-  description: string;
-  amenities: string;
-  vehicles: VehiclePricing[];
+  serviceType: "drop" | "pick";
+  otherLocation: string;
+  distance: string;
+  dropCars: CarData[];
+  pickCars: CarData[];
 }
 
 export default function AirportForm() {
-  const [formData, setFormData] = useState<AirportData>({
+  const [form, setForm] = useState<AirportFormData>({
+    airportCity: "",
     airportName: "",
     airportCode: "",
-    city: "",
-    description: "",
-    amenities: "",
-    vehicles: [
-      {
-        vehicleType: "Innova",
-        pickupPrice: "",
-        dropPrice: "",
-      },
-      {
-        vehicleType: "Sedan",
-        pickupPrice: "",
-        dropPrice: "",
-      },
-      {
-        vehicleType: "SUV",
-        pickupPrice: "",
-        dropPrice: "",
-      },
-      {
-        vehicleType: "Inno Crystal",
-        pickupPrice: "",
-        dropPrice: "",
-      },
+    serviceType: "drop",
+    otherLocation: "",
+    distance: "",
+    dropCars: [
+      { type: "sedan", available: false, price: 0 },
+      { type: "suv", available: false, price: 0 },
+      { type: "innova", available: false, price: 0 },
+      { type: "crysta", available: false, price: 0 },
+    ],
+    pickCars: [
+      { type: "sedan", available: false, price: 0 },
+      { type: "suv", available: false, price: 0 },
+      { type: "innova", available: false, price: 0 },
+      { type: "crysta", available: false, price: 0 },
     ],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
-  const vehicleOptions = [
-    "Innova",
-    "Sedan", 
-    "SUV",
-    "Inno Crystal",
-  ];
-
-  const handleInputChange = (field: keyof Omit<AirportData, 'vehicles'>, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+  // Handle Car Change (both for 'drop' and 'pick')
+  const handleCarChange = (
+    serviceType: "dropCars" | "pickCars",
+    index: number,
+    field: keyof CarData,
+    value: boolean | number
+  ) => {
+    const updatedCars = [...form[serviceType]];
+    updatedCars[index] = { ...updatedCars[index], [field]: value };
+    setForm({ ...form, [serviceType]: updatedCars });
   };
 
-  const addVehicle = () => {
-    setFormData(prev => ({
-      ...prev,
-      vehicles: [...prev.vehicles, {
-        vehicleType: "",
-        pickupPrice: "",
-        dropPrice: "",
-      }]
-    }));
-  };
-
-  const removeVehicle = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      vehicles: prev.vehicles.filter((_, i) => i !== index)
-    }));
-  };
-
-  const updateVehicle = (index: number, field: keyof VehiclePricing, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      vehicles: prev.vehicles.map((vehicle, i) => 
-        i === index ? { ...vehicle, [field]: value } : vehicle
-      )
-    }));
-  };
-
+  // Submit Data
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage("");
 
     try {
-      const response = await fetch('/api/admin/airport', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // Prepare two separate entries for drop and pick services
+      const dropEntry = {
+        airportCity: form.airportCity,
+        airportName: form.airportName,
+        airportCode: form.airportCode,
+        serviceType: "drop",
+        otherLocation: form.otherLocation,
+        dateTime: new Date().toISOString(),
+        distance: form.distance,
+        cars: form.dropCars.map((car) => ({
+          vehicleType: car.type,
+          price: car.price,
+          available: car.available,
+        })),
+      };
+
+      const pickEntry = {
+        airportCity: form.airportCity,
+        airportName: form.airportName,
+        airportCode: form.airportCode,
+        serviceType: "pick",
+        otherLocation: form.otherLocation,
+        dateTime: new Date().toISOString(),
+        distance: form.distance,
+        cars: form.pickCars.map((car) => ({
+          vehicleType: car.type,
+          price: car.price,
+          available: car.available,
+        })),
+      };
+
+      // Make two separate POST requests using the same pattern as OutstationForm
+      await api.post("/add-service", dropEntry);
+      await api.post("/add-service", pickEntry);
+
+      setMessage("Both drop and pick services saved successfully!");
+
+      // Reset form
+      setForm({
+        airportCity: "",
+        airportName: "",
+        airportCode: "",
+        serviceType: "drop",
+        otherLocation: "",
+        distance: "",
+        dropCars: [
+          { type: "sedan", available: false, price: 0 },
+          { type: "suv", available: false, price: 0 },
+          { type: "innova", available: false, price: 0 },
+          { type: "crysta", available: false, price: 0 },
+        ],
+        pickCars: [
+          { type: "sedan", available: false, price: 0 },
+          { type: "suv", available: false, price: 0 },
+          { type: "innova", available: false, price: 0 },
+          { type: "crysta", available: false, price: 0 },
+        ],
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("Airport trip data saved successfully!");
-        setFormData({
-          airportName: "",
-          airportCode: "",
-          city: "",
-          description: "",
-          amenities: "",
-          vehicles: [
-            {
-              vehicleType: "Innova",
-              pickupPrice: "",
-              dropPrice: "",
-            },
-            {
-              vehicleType: "Sedan",
-              pickupPrice: "",
-              dropPrice: "",
-            },
-            {
-              vehicleType: "SUV",
-              pickupPrice: "",
-              dropPrice: "",
-            },
-            {
-              vehicleType: "Inno Crystal",
-              pickupPrice: "",
-              dropPrice: "",
-            },
-          ],
-        });
-      } else {
-        setMessage(result.error || "Error saving data. Please try again.");
-      }
-    } catch (error) {
-      setMessage("Error saving data. Please try again.");
+    } catch (error: unknown) {
+      setMessage("Error saving services. Please try again.");
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div 
+    <div
       className="max-w-4xl mx-auto"
       style={{
         backgroundColor: theme.colors.background.card,
@@ -163,14 +142,14 @@ export default function AirportForm() {
       }}
     >
       <div className="p-6">
-        <h2 
+        <h2
           className="text-2xl font-bold mb-6"
           style={{
             color: theme.colors.accent.gold,
             fontFamily: theme.typography.fontFamily.sans.join(", "),
           }}
         >
-          Add Airport Trip
+          Add Airport Service
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -184,12 +163,33 @@ export default function AirportForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
+                Airport City
+              </label>
+              <ThemedInput
+                placeholder="Enter airport city"
+                value={form.airportCity}
+                onChange={(e) =>
+                  setForm({ ...form, airportCity: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                className="block text-sm font-medium"
+                style={{
+                  color: theme.colors.text.secondary,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+              >
                 Airport Name
               </label>
               <ThemedInput
                 placeholder="Enter airport name"
-                value={formData.airportName}
-                onChange={(e) => handleInputChange("airportName", e.target.value)}
+                value={form.airportName}
+                onChange={(e) =>
+                  setForm({ ...form, airportName: e.target.value })
+                }
               />
             </div>
 
@@ -204,9 +204,33 @@ export default function AirportForm() {
                 Airport Code
               </label>
               <ThemedInput
-                placeholder="e.g., BOM, DEL, BLR"
-                value={formData.airportCode}
-                onChange={(e) => handleInputChange("airportCode", e.target.value)}
+                placeholder="Enter airport code"
+                value={form.airportCode}
+                onChange={(e) =>
+                  setForm({ ...form, airportCode: e.target.value })
+                }
+              />
+            </div>
+          </div>
+
+          {/* Other Details */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label
+                className="block text-sm font-medium"
+                style={{
+                  color: theme.colors.text.secondary,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+              >
+                Other Location
+              </label>
+              <ThemedInput
+                placeholder="Enter other location"
+                value={form.otherLocation}
+                onChange={(e) =>
+                  setForm({ ...form, otherLocation: e.target.value })
+                }
               />
             </div>
 
@@ -218,90 +242,168 @@ export default function AirportForm() {
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                City
+                Distance (km)
               </label>
               <ThemedInput
-                placeholder="Enter city name"
-                value={formData.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
+                type="number"
+                placeholder="Enter distance"
+                value={form.distance}
+                onChange={(e) => setForm({ ...form, distance: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Vehicle Pricing Section */}
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 
+          {/* Car Pricing Sections */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Drop Cars */}
+            <div className="space-y-4">
+              <h3
                 className="text-lg font-semibold"
                 style={{
                   color: theme.colors.text.primary,
                   fontFamily: theme.typography.fontFamily.sans.join(", "),
                 }}
               >
-                Vehicle Pricing
+                Available Cars (Drop)
               </h3>
-            </div>
 
-            {formData.vehicles.map((vehicle, index) => (
-              <div 
-                key={index}
-                className="p-4 border rounded-lg"
-                style={{
-                  borderColor: theme.colors.border.primary,
-                  backgroundColor: theme.colors.background.secondary,
-                }}
-              >
-                <div className="mb-4">
-                  <h4 
-                    className="text-md font-medium"
+              <div className="space-y-3">
+                {form.dropCars.map((car, index) => (
+                  <div
+                    key={car.type}
+                    className="p-4 border rounded-lg"
                     style={{
-                      color: theme.colors.text.primary,
-                      fontFamily: theme.typography.fontFamily.sans.join(", "),
+                      borderColor: theme.colors.border.primary,
+                      backgroundColor: theme.colors.background.secondary,
                     }}
                   >
-                    {vehicle.vehicleType}
-                  </h4>
-                </div>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={car.available}
+                          onChange={() =>
+                            handleCarChange(
+                              "dropCars",
+                              index,
+                              "available",
+                              !car.available
+                            )
+                          }
+                          className="rounded"
+                        />
+                        <span
+                          className="font-medium"
+                          style={{
+                            color: theme.colors.text.primary,
+                            fontFamily:
+                              theme.typography.fontFamily.sans.join(", "),
+                          }}
+                        >
+                          {car.type.toUpperCase()}
+                        </span>
+                      </label>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
-                      style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
-                      }}
-                    >
-                      Pickup Price (₹)
-                    </label>
-                    <ThemedInput
+                    <input
                       type="number"
-                      placeholder="Enter pickup price"
-                      value={vehicle.pickupPrice}
-                      onChange={(e) => updateVehicle(index, "pickupPrice", e.target.value)}
+                      placeholder="Price (₹)"
+                      value={car.price.toString()}
+                      onChange={(e) =>
+                        handleCarChange(
+                          "dropCars",
+                          index,
+                          "price",
+                          parseInt(e.target.value) || 0
+                        )
+                      }
+                      disabled={!car.available}
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                      style={{
+                        backgroundColor: theme.colors.background.primary,
+                        borderColor: theme.colors.border.primary,
+                        color: theme.colors.text.primary,
+                      }}
                     />
                   </div>
-
-                  <div className="space-y-2">
-                    <label
-                      className="block text-sm font-medium"
-                      style={{
-                        color: theme.colors.text.secondary,
-                        fontFamily: theme.typography.fontFamily.sans.join(", "),
-                      }}
-                    >
-                      Drop Price (₹)
-                    </label>
-                    <ThemedInput
-                      type="number"
-                      placeholder="Enter drop price"
-                      value={vehicle.dropPrice}
-                      onChange={(e) => updateVehicle(index, "dropPrice", e.target.value)}
-                    />
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Pick Cars */}
+            <div className="space-y-4">
+              <h3
+                className="text-lg font-semibold"
+                style={{
+                  color: theme.colors.text.primary,
+                  fontFamily: theme.typography.fontFamily.sans.join(", "),
+                }}
+              >
+                Available Cars (Pick)
+              </h3>
+
+              <div className="space-y-3">
+                {form.pickCars.map((car, index) => (
+                  <div
+                    key={car.type}
+                    className="p-4 border rounded-lg"
+                    style={{
+                      borderColor: theme.colors.border.primary,
+                      backgroundColor: theme.colors.background.secondary,
+                    }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={car.available}
+                          onChange={() =>
+                            handleCarChange(
+                              "pickCars",
+                              index,
+                              "available",
+                              !car.available
+                            )
+                          }
+                          className="rounded"
+                        />
+                        <span
+                          className="font-medium"
+                          style={{
+                            color: theme.colors.text.primary,
+                            fontFamily:
+                              theme.typography.fontFamily.sans.join(", "),
+                          }}
+                        >
+                          {car.type.toUpperCase()}
+                        </span>
+                      </label>
+                    </div>
+
+                    <input
+                      type="number"
+                      placeholder="Price (₹)"
+                      value={car.price.toString()}
+                      onChange={(e) =>
+                        handleCarChange(
+                          "pickCars",
+                          index,
+                          "price",
+                          parseInt(e.target.value) || 0
+                        )
+                      }
+                      disabled={!car.available}
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                      style={{
+                        backgroundColor: theme.colors.background.primary,
+                        borderColor: theme.colors.border.primary,
+                        color: theme.colors.text.primary,
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Submit Button */}
@@ -326,17 +428,17 @@ export default function AirportForm() {
                 }
               }}
             >
-              {isSubmitting ? "Saving..." : "Save Airport Trip"}
+              {isSubmitting ? "Saving..." : "Save Airport Service"}
             </button>
           </div>
 
           {/* Message */}
           {message && (
-            <div 
+            <div
               className="p-4 rounded-lg text-sm"
               style={{
-                backgroundColor: message.includes("Error") 
-                  ? theme.colors.status.error 
+                backgroundColor: message.includes("Error")
+                  ? theme.colors.status.error
                   : theme.colors.status.success,
                 color: theme.colors.text.primary,
               }}
@@ -348,4 +450,4 @@ export default function AirportForm() {
       </div>
     </div>
   );
-} 
+}
