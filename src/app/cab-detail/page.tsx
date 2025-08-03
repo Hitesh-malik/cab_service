@@ -84,6 +84,7 @@ interface CombinedBookingData extends BookingFormData {
   selectedCabFuelType?: string;
   selectedCabImage?: string;
   estimatedDistance?: string;
+  address?: string;
 }
 
 // Component that uses useSearchParams
@@ -268,13 +269,13 @@ const BookingDetailsContent: React.FC = () => {
   const getRouteDisplay = () => {
     if (!bookingData) return "Loading...";
 
-    const { serviceType, from, to, airport, dropAddress } = bookingData;
+    const { serviceType, from, to, airport, address } = bookingData;
 
     if (serviceType === "AIRPORT") {
       if (bookingData.pickupDropType === "PICKUP") {
-        return `${airport} >> ${dropAddress}`;
+        return `${airport} >> ${address || "Your location"}`;
       } else {
-        return `${dropAddress} >> ${airport}`;
+        return `${address || "Your location"} >> ${airport}`;
       }
     } else if (serviceType === "OUTSTATION") {
       return `${from} >> ${to}`;

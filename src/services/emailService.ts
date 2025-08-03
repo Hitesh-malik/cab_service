@@ -85,23 +85,32 @@ export const prepareEmailData = (
 
   switch (serviceType) {
     case 'AIRPORT':
+      // Determine route based on pickup/drop type
+      let route = '';
+      if (bookingData.pickupDropType === 'PICKUP') {
+        route = `Pickup from ${bookingData.airport}`;
+      } else {
+        route = `Drop to ${bookingData.airport}`;
+      }
+
       return {
         ...baseData,
-        route: `${bookingData.airport} ➡️ ${bookingData.dropAddress}`,
+        route: route,
         cab: {
+          type: bookingData.selectedCabType || 'sedan',
           available: true,
           price: parseInt(bookingData.selectedCabPrice) || 0,
           _id: bookingData.selectedCabId || '',
         },
         traveller: {
           ...baseData.traveller,
-          pickup: formData.pickup || bookingData.pickupAddress || '',
-          drop: formData.drop || bookingData.dropAddress || '',
+          pickup: formData.pickup || bookingData.address || '',
+          drop: formData.drop || bookingData.airport || '',
         },
         date: bookingData.date,
         time: bookingData.time || bookingData.pickupTime,
-        serviceType: 'pick',
-        otherLocation: bookingData.otherLocation || '',
+        serviceType: bookingData.pickupDropType?.toLowerCase() || 'drop',
+        otherLocation: bookingData.address || '',
       };
 
     case 'LOCAL':
