@@ -45,28 +45,6 @@ export default function AdminPage() {
       onLogout={handleLogout}
     >
       <div className="space-y-6">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h2 
-            className="text-2xl font-bold mb-2"
-            style={{
-              color: theme.colors.accent.gold,
-              fontFamily: theme.typography.fontFamily.sans.join(", "),
-            }}
-          >
-            {activeTab.charAt(0) + activeTab.slice(1).toLowerCase()} Management
-          </h2>
-          <p 
-            className="text-gray-400"
-            style={{
-              fontFamily: theme.typography.fontFamily.sans.join(", "),
-            }}
-          >
-            Manage your {activeTab.toLowerCase()} data and configurations
-          </p>
-        </div>
-
-        {/* Dashboard Content */}
         <AdminDashboard activeTab={activeTab} />
       </div>
     </AdminLayout>
