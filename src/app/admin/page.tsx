@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { theme } from "@/styles/theme";
-import { TabGroup } from "@/components/UI/TabGroup";
 import AdminLogin from "./components/AdminLogin";
+import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./components/AdminDashboard";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState("OUTSTATION");
+  const [activeTab, setActiveTab] = useState("USERS");
 
   // Check if user is already authenticated (from localStorage)
   useEffect(() => {
@@ -30,61 +30,45 @@ export default function AdminPage() {
     localStorage.removeItem("adminAuthenticated");
   };
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
   if (!isAuthenticated) {
     return <AdminLogin onLogin={handleLogin} />;
   }
 
   return (
-    <div 
-      className="min-h-screen"
-      style={{
-        background: theme.gradients.primary,
-        color: theme.colors.text.primary,
-      }}
+    <AdminLayout
+      activeTab={activeTab}
+      onTabChange={handleTabChange}
+      onLogout={handleLogout}
     >
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 
-            className="text-3xl font-bold"
+      <div className="space-y-6">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h2 
+            className="text-2xl font-bold mb-2"
             style={{
               color: theme.colors.accent.gold,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
             }}
           >
-            Admin Dashboard
-          </h1>
-          <button
-            onClick={handleLogout}
-            className="px-6 py-2 rounded-lg font-semibold transition-all duration-300"
+            {activeTab.charAt(0) + activeTab.slice(1).toLowerCase()} Management
+          </h2>
+          <p 
+            className="text-gray-400"
             style={{
-              backgroundColor: theme.colors.status.error,
-              color: theme.colors.text.primary,
               fontFamily: theme.typography.fontFamily.sans.join(", "),
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.8";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
           >
-            Logout
-          </button>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="mb-8">
-          <TabGroup
-            options={["OUTSTATION", "LOCAL", "AIRPORT"]}
-            activeOption={activeTab}
-            onOptionChange={setActiveTab}
-          />
+            Manage your {activeTab.toLowerCase()} data and configurations
+          </p>
         </div>
 
         {/* Dashboard Content */}
         <AdminDashboard activeTab={activeTab} />
       </div>
-    </div>
+    </AdminLayout>
   );
 } 

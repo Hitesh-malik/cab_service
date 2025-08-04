@@ -406,65 +406,6 @@ export default function OutstationForm() {
           className="my-6"
           style={{ borderColor: theme.colors.border.primary }}
         />
-
-        {/* Email Section */}
-        <div className="space-y-4">
-          <button
-            type="button"
-            onClick={() => setShowEmailOption((prev) => !prev)}
-            className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
-            style={{
-              backgroundColor: theme.colors.background.secondary,
-              color: theme.colors.text.primary,
-              border: `1px solid ${theme.colors.border.primary}`,
-              fontFamily: theme.typography.fontFamily.sans.join(", "),
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.8";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
-          >
-            Do you want to send this info to the customer that the new route is
-            launched?
-          </button>
-
-          {showEmailOption && (
-            <div
-              className="space-y-4 p-4 border rounded-lg"
-              style={{
-                borderColor: theme.colors.border.primary,
-                backgroundColor: theme.colors.background.secondary,
-              }}
-            >
-              <ThemedInput
-                type="email"
-                placeholder="Enter customer's email"
-                value={customerEmail}
-                onChange={(e) => setCustomerEmail(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={handleSendEmail}
-                className="px-6 py-2 rounded-lg font-medium transition-all duration-300"
-                style={{
-                  backgroundColor: theme.colors.accent.gold,
-                  color: theme.colors.primary.black,
-                  fontFamily: theme.typography.fontFamily.sans.join(", "),
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "0.8";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "1";
-                }}
-              >
-                Send Email
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );
